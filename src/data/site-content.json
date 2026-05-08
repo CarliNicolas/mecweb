@@ -1,0 +1,170 @@
+{
+  "companyInfo": {
+    "phone": "+54 261 555-5555",
+    "email": "info@mecsa.com.ar",
+    "address": "San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
+    "whatsapp": "5492615555555"
+  },
+  "socialMedia": {
+    "facebook": "https://facebook.com",
+    "twitter": "https://twitter.com",
+    "instagram": ""
+  },
+  "heroSlides": [
+    {
+      "title": "Climatización",
+      "titleHighlight": "Industrial",
+      "subtitle": "Sistemas de Climatización y Diseño de proyectos a medida.",
+      "image": "/images/hero2.jpeg"
+    },
+    {
+      "title": "Ventilación",
+      "titleHighlight": "Industrial",
+      "subtitle": "Sistemas de Ventilación y Diseño de proyectos a medida.",
+      "image": "/images/hero1.jpeg"
+    },
+    {
+      "title": "Filtración de",
+      "titleHighlight": "Aire",
+      "subtitle": "Sistemas de Filtración de Aire y Diseño de proyectos a medida.",
+      "image": "/images/hero3.jpeg"
+    },
+    {
+      "title": "Automatización y",
+      "titleHighlight": "Control",
+      "subtitle": "Sistemas de Automatización, Control y Desarrollo de Procesos especiales.",
+      "image": "/images/hero4.jpeg"
+    }
+  ],
+  "companyIntro": {
+    "title1": "Conozca nuestra empresa.",
+    "title2": "Asesoramiento |",
+    "title3": "Climatización según sus necesidades.",
+    "description1": "EMPRENDIMIENTOS MEC S.A. tiene como objetivo diseñar e implementar Sistemas de Climatización Industrial para proveer un ambiente confortable mediante el control simultáneo de la temperatura, la humedad, la limpieza y la distribución del aire en el ambiente, sin omitir el nivel acústico.",
+    "description2": "Esto se logra mediante la provisión de Enfriadores Evaporativos ventiladores/extractores de aire; sistemas de tratamiento de aire que permiten controlar distintos parámetros industriales (temperatura, humedad, cantidad de partículas, nivel sonoro y carga eléctrica entre otros factores) en diferentes espacios de acuerdo a especificaciones predeterminadas.",
+    "image1": "/images/enfriador.jpeg",
+    "image2": "/images/ventilacion.jpeg"
+  },
+  "fabricantes": {
+    "title": "Somos Fabricantes",
+    "description1": "Somos fabricantes en Mendoza (Argentina) de Enfriadores Evaporativos de Alta Eficiencia.",
+    "description2": "Diseñamos el equipo y el sistema, según las características y necesidades del lugar donde serán finalmente instalados.",
+    "description3": "Tomando aire del exterior el sistema no sólo baja la carga térmica del ambiente sino que también genera presión positiva dentro del mismo lo que garantiza que desde el exterior entra aire previamente filtrado pudiendo implementarse normas de polución ambiental en lo que a calidad de aires se refiere. Ofrecemos soluciones sustentables.",
+    "image": "/images/ingenieros.png",
+    "buttonText": "Ver Fotogalería",
+    "buttonLink": "/#galeria"
+  },
+  "products": [
+    {
+      "id": "enfriadores-evaporativos",
+      "title": "Enfriadores Evaporativos",
+      "description": "Consuma hasta un 80% menos de energía eléctrica con nuestro sistema de enfriadores evaporativos.",
+      "icon": "Cloud"
+    },
+    {
+      "id": "calefactores-radiantes",
+      "title": "Calefactores Radiantes",
+      "description": "Nuestros tubos radiantes PIROMEC son aparatos autónomos de combustión a gas natural o G.L.P de gran eficiencia.",
+      "icon": "Flame"
+    },
+    {
+      "id": "ventilacion-industrial",
+      "title": "Ventilación Industrial",
+      "description": "Sistemas de ventilación para usos comerciales, industriales y agrícolas; soluciones para cada necesidad.",
+      "icon": "Wind"
+    },
+    {
+      "id": "filtracion-de-aire",
+      "title": "Filtración de Aire",
+      "description": "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, tratamiento y recolección de polvos, humedad, etc",
+      "icon": "Filter"
+    },
+    {
+      "id": "control-y-automatizacion",
+      "title": "Control y Automatización",
+      "description": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
+      "icon": "Settings"
+    }
+  ],
+  "sectors": {
+    "title": "Rubros Gestionados",
+    "subtitle": "En cuáles áreas te podemos ayudar ?",
+    "items": [
+      {
+        "title": "INDUSTRIAL",
+        "description": "Bodegas, Fábricas, Galpones, Metalúrgicas, Mineras, Petroleras, Siderúrgicas, Frigoríficos, entre otros.",
+        "image": "/images/industrial.jpeg",
+        "link": "/productos/enfriadores-evaporativos"
+      },
+      {
+        "title": "COMERCIAL",
+        "description": "Locales comerciales, Hipermercados Edificios, Hoteles, Restaurantes, Clubes, Hospitales, Camping, entre otros...",
+        "image": "/images/comercial.jpeg",
+        "link": "/productos/ventilacion-industrial"
+      },
+      {
+        "title": "PARTICULAR",
+        "description": "Ofrecemos servicios de climatización integral para pequeños negocios y particulares (Hogar)...",
+        "image": "/images/particular.jpeg",
+        "link": "/contacto"
+      }
+    ]
+  },
+  "climatizacion": {
+    "title": "Que es la Climatización Evaporativa ?",
+    "description1": "Te mostramos cómo funciona y cuáles son los beneficios de la climatización evaporativa. Contamos con los mejores equipos y sistemas para equipar tu empresa y optimizar todos los procesos de climatización.",
+    "description2": "Diseñamos y fabricamos equipos de climatización a la medida de sus necesidades, garantizando un producto de excelente calidad con certificados de garantía y personal altamente calificado. Somos una de las empresas líderes en el mercado de climatización industrial."
+  },
+  "gallery": {
+    "images": [
+      {
+        "src": "/images/gallery1.jpeg",
+        "alt": "Sistemas de refrigeración industrial"
+      },
+      {
+        "src": "/images/gallery2.jpeg",
+        "alt": "Fábrica EMECSA"
+      },
+      {
+        "src": "/images/gallery3.jpeg",
+        "alt": "Filtración de aire"
+      },
+      {
+        "src": "/images/gallery4.jpeg",
+        "alt": "Climatización para particulares"
+      },
+      {
+        "src": "/images/gallery5.jpeg",
+        "alt": "Cámaras de frío"
+      },
+      {
+        "src": "/images/gallery6.jpeg",
+        "alt": "Climatización industrial"
+      },
+      {
+        "src": "/images/gallery7.jpeg",
+        "alt": "Enfriadores evaporativos"
+      },
+      {
+        "src": "/images/gallery8.jpeg",
+        "alt": "Filtración de aire industrial"
+      }
+    ],
+    "buttonProjects": "Ver Proyectos",
+    "buttonNews": "Ver Noticias"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Estamos aquí para ayudarte. Contáctanos para obtener más información sobre nuestros servicios de climatización industrial.",
+    "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3350.8!2d-68.83!3d-32.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzLCsDUzJzI0LjAiUyA2OMKwNDknNDguMCJX!5e0!3m2!1ses!2sar!4v1620000000000!5m2!1ses!2sar"
+  },
+  "footer": {
+    "text": "Emprendimientos MEC S.A ® - San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
+    "designCredit": "Kreativa",
+    "designUrl": "http://www.kreativa.com.ar"
+  },
+  "productsSection": {
+    "title": "Soluciones de Climatización",
+    "subtitle": "Nuestros Servicios"
+  }
+}

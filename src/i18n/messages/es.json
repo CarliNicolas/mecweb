@@ -1,0 +1,111 @@
+{
+  "nav": {
+    "home": "HOME",
+    "company": "LA EMPRESA",
+    "products": "PRODUCTOS",
+    "services": "SERVICIOS",
+    "news": "NOVEDADES",
+    "contact": "CONTACTO",
+    "aboutUs": "Sobre Nosotros",
+    "sectors": "Rubros Gestionados",
+    "methodology": "Método de Servicio",
+    "industrialClimate": "Climatización Industrial",
+    "commercialClimate": "Climatización Comercial",
+    "photoGallery": "Proyectos Fotogalería",
+    "latestNews": "Últimas Noticias"
+  },
+  "hero": {
+    "ventilation": "Ventilación",
+    "climatization": "Climatización",
+    "filtration": "Filtración de",
+    "industrial": "Industrial",
+    "air": "Aire",
+    "ventilationSubtitle": "Sistemas de Ventilación y Diseño de proyectos a medida.",
+    "climatizationSubtitle": "Sistemas de Climatización y Diseño de proyectos a medida.",
+    "filtrationSubtitle": "Sistemas de Filtración de Aire y Diseño de proyectos a medida.",
+    "learnMore": "Saber Más"
+  },
+  "company": {
+    "title1": "Conozca nuestra empresa.",
+    "title2": "Proyectos a medida.",
+    "title3": "Climatización según sus necesidades.",
+    "description1": "EMPRENDIMIENTOS MEC S.A. tiene como objetivo diseñar e implementar Sistemas de Climatización Industrial para proveer un ambiente confortable mediante el control simultáneo de la temperatura, la humedad, la limpieza y la distribución del aire en el ambiente, sin omitir el nivel acústico.",
+    "description2": "Esto se logra mediante la provisión de Enfriadores Evaporativos ventiladores/extractores de aire; sistemas de tratamiento de aire que permiten controlar distintos parámetros industriales (temperatura, humedad, cantidad de partículas, nivel sonoro y carga eléctrica entre otros factores) en diferentes espacios de acuerdo a especificaciones predeterminadas."
+  },
+  "manufacturers": {
+    "title": "Somos Fabricantes",
+    "description1": "Somos fabricantes en Mendoza (Argentina) de Enfriadores Evaporativos de Alta Eficiencia.",
+    "description2": "Diseñamos el equipo y el sistema, según las características y necesidades del lugar donde serán finalmente instalados.",
+    "description3": "Tomando aire del exterior el sistema no sólo baja la carga térmica del ambiente sino que también genera presión positiva dentro del mismo lo que garantiza que desde el exterior entra aire previamente filtrado pudiendo implementarse normas de polución ambiental en lo que a calidad de aires se refiere. Ofrecemos soluciones sustentables.",
+    "viewGallery": "Ver Fotogalería"
+  },
+  "products": {
+    "evaporativeCoolers": "Enfriadores Evaporativos",
+    "evaporativeCoolersDesc": "Consuma hasta un 80% menos de energía eléctrica con nuestro sistema de enfriadores evaporativos.",
+    "radiantHeaters": "Calefactores Radiantes",
+    "radiantHeatersDesc": "Nuestros tubos radiantes PIROMEC son aparatos autónomos de combustión a gas natural o G.L.P de gran eficiencia.",
+    "industrialVentilation": "Ventilación Industrial",
+    "industrialVentilationDesc": "Sistemas de ventilación para usos comerciales, industriales y agrícolas; soluciones para cada necesidad.",
+    "airFiltration": "Filtración de Aire",
+    "airFiltrationDesc": "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, tratamiento y recolección de polvos, humedad, etc",
+    "controlAutomation": "Control y Automatización",
+    "controlAutomationDesc": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
+    "viewInfo": "Ver Info"
+  },
+  "sectors": {
+    "title": "Rubros Gestionados",
+    "subtitle": "En cuáles áreas te podemos ayudar ?",
+    "industrial": "INDUSTRIAL",
+    "industrialDesc": "Bodegas, Fábricas, Galpones, Metalúrgicas, Mineras, Petroleras, Siderúrgicas, Frigoríficos, entre otros.",
+    "commercial": "COMERCIAL",
+    "commercialDesc": "Locales comerciales, Hipermercados Edificios, Hoteles, Restaurantes, Clubes, Hospitales, Camping, entre otros...",
+    "particular": "PARTICULAR",
+    "particularDesc": "Ofrecemos servicios de climatización integral para pequeños negocios y particulares (Hogar)..."
+  },
+  "evaporative": {
+    "title": "Que es la Climatización Evaporativa ?",
+    "description1": "Te mostramos cómo funciona y cuáles son los beneficios de la climatización evaporativa. Contamos con los mejores equipos y sistemas para equipar tu empresa y optimizar todos los procesos de climatización.",
+    "description2": "Diseñamos y fabricamos equipos de climatización a la medida de sus necesidades, garantizando un producto de excelente calidad con certificados de garantía y personal altamente calificado. Somos una de las empresas líderes en el mercado de climatización industrial."
+  },
+  "gallery": {
+    "viewProjects": "Ver Proyectos",
+    "viewNews": "Ver Noticias"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Estamos aquí para ayudarte. Contáctanos para obtener más información sobre nuestros servicios de climatización industrial.",
+    "infoTitle": "Información de Contacto",
+    "address": "Dirección",
+    "phone": "Teléfono",
+    "email": "Email",
+    "formTitle": "Envíanos un mensaje",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "tu@email.com",
+    "phonePlaceholder": "+54 261 ...",
+    "subject": "Asunto",
+    "selectSubject": "Seleccionar...",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntanos sobre tu proyecto...",
+    "send": "Enviar mensaje",
+    "sending": "Enviando...",
+    "success": "Mensaje enviado",
+    "successMessage": "Nos pondremos en contacto contigo pronto.",
+    "other": "Otro"
+  },
+  "footer": {
+    "address": "San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
+    "design": "Diseño"
+  },
+  "whatsapp": {
+    "tooltip": "Contáctenos por WhatsApp"
+  },
+  "common": {
+    "requestQuote": "Solicitar presupuesto",
+    "description": "Descripción",
+    "features": "Características",
+    "gallery": "Galería",
+    "otherProducts": "Otros Productos",
+    "home": "Inicio"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "companyInfo": {
+    "phone": "+54 261 555-5555",
+    "email": "info@mecsa.com.ar",
+    "address": "San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
+    "whatsapp": "5492615555555"
+  },
+  "socialMedia": {
+    "facebook": "https://facebook.com",
+    "twitter": "https://twitter.com"
+  },
+  "heroSlides": [
+    {
+      "title": "Ventilación Industrial",
+      "subtitle": "Sistemas de Ventilación y Diseño de proyectos a medida."
+    },
+    {
+      "title": "Climatización Industrial",
+      "subtitle": "Sistemas de Climatización y Diseño de proyectos a medida."
+    },
+    {
+      "title": "Filtración de Aire",
+      "subtitle": "Sistemas de Filtración de Aire y Diseño de proyectos a medida."
+    }
+  ]
+}

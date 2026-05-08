@@ -1,0 +1,111 @@
+{
+  "nav": {
+    "home": "HOME",
+    "company": "COMPANY",
+    "products": "PRODUCTS",
+    "services": "SERVICES",
+    "news": "NEWS",
+    "contact": "CONTACT",
+    "aboutUs": "About Us",
+    "sectors": "Managed Sectors",
+    "methodology": "Service Method",
+    "industrialClimate": "Industrial Climate Control",
+    "commercialClimate": "Commercial Climate Control",
+    "photoGallery": "Project Gallery",
+    "latestNews": "Latest News"
+  },
+  "hero": {
+    "ventilation": "Industrial",
+    "climatization": "Industrial",
+    "filtration": "Air",
+    "industrial": "Ventilation",
+    "air": "Filtration",
+    "ventilationSubtitle": "Ventilation Systems and Custom Project Design.",
+    "climatizationSubtitle": "Climate Control Systems and Custom Project Design.",
+    "filtrationSubtitle": "Air Filtration Systems and Custom Project Design.",
+    "learnMore": "Learn More"
+  },
+  "company": {
+    "title1": "Get to know our company.",
+    "title2": "Custom projects.",
+    "title3": "Climate control according to your needs.",
+    "description1": "EMPRENDIMIENTOS MEC S.A. aims to design and implement Industrial Climate Control Systems to provide a comfortable environment through the simultaneous control of temperature, humidity, cleanliness, and air distribution, without neglecting acoustic levels.",
+    "description2": "This is achieved through the provision of Evaporative Coolers, fans/air extractors; air treatment systems that allow control of various industrial parameters (temperature, humidity, particle count, noise level, and electrical charge, among other factors) in different spaces according to predetermined specifications."
+  },
+  "manufacturers": {
+    "title": "We Are Manufacturers",
+    "description1": "We are manufacturers in Mendoza (Argentina) of High Efficiency Evaporative Coolers.",
+    "description2": "We design the equipment and system according to the characteristics and needs of the place where they will be finally installed.",
+    "description3": "By taking air from outside, the system not only lowers the thermal load of the environment but also generates positive pressure inside, which guarantees that pre-filtered air enters from outside, enabling the implementation of environmental pollution standards regarding air quality. We offer sustainable solutions.",
+    "viewGallery": "View Gallery"
+  },
+  "products": {
+    "evaporativeCoolers": "Evaporative Coolers",
+    "evaporativeCoolersDesc": "Consume up to 80% less electricity with our evaporative cooling system.",
+    "radiantHeaters": "Radiant Heaters",
+    "radiantHeatersDesc": "Our PIROMEC radiant tubes are autonomous natural gas or LPG combustion units with high efficiency.",
+    "industrialVentilation": "Industrial Ventilation",
+    "industrialVentilationDesc": "Ventilation systems for commercial, industrial, and agricultural uses; solutions for every need.",
+    "airFiltration": "Air Filtration",
+    "airFiltrationDesc": "Absolute filters, gas treatment, laminar flow equipment, dust and humidity treatment and collection, etc.",
+    "controlAutomation": "Control & Automation",
+    "controlAutomationDesc": "We have the best monitoring, automation, and control systems for your company's climate control.",
+    "viewInfo": "View Info"
+  },
+  "sectors": {
+    "title": "Managed Sectors",
+    "subtitle": "In which areas can we help you?",
+    "industrial": "INDUSTRIAL",
+    "industrialDesc": "Wineries, Factories, Warehouses, Metalworking, Mining, Oil, Steel, Refrigeration, among others.",
+    "commercial": "COMMERCIAL",
+    "commercialDesc": "Commercial premises, Hypermarkets, Buildings, Hotels, Restaurants, Clubs, Hospitals, Camping, among others...",
+    "particular": "RESIDENTIAL",
+    "particularDesc": "We offer comprehensive climate control services for small businesses and individuals (Home)..."
+  },
+  "evaporative": {
+    "title": "What is Evaporative Cooling?",
+    "description1": "We show you how it works and what the benefits of evaporative cooling are. We have the best equipment and systems to equip your company and optimize all climate control processes.",
+    "description2": "We design and manufacture climate control equipment tailored to your needs, guaranteeing an excellent quality product with warranty certificates and highly qualified personnel. We are one of the leading companies in the industrial climate control market."
+  },
+  "gallery": {
+    "viewProjects": "View Projects",
+    "viewNews": "View News"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We are here to help. Contact us for more information about our industrial climate control services.",
+    "infoTitle": "Contact Information",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "formTitle": "Send us a message",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "phonePlaceholder": "+54 261 ...",
+    "subject": "Subject",
+    "selectSubject": "Select...",
+    "message": "Message",
+    "messagePlaceholder": "Tell us about your project...",
+    "send": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent",
+    "successMessage": "We will contact you soon.",
+    "other": "Other"
+  },
+  "footer": {
+    "address": "San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
+    "design": "Design"
+  },
+  "whatsapp": {
+    "tooltip": "Contact us on WhatsApp"
+  },
+  "common": {
+    "requestQuote": "Request a quote",
+    "description": "Description",
+    "features": "Features",
+    "gallery": "Gallery",
+    "otherProducts": "Other Products",
+    "home": "Home"
+  }
+}

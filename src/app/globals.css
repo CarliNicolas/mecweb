@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Oxygen:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-titillium: 'Titillium Web', sans-serif;
+  --font-oxygen: 'Oxygen', sans-serif;
+  --mecsa-primary: #ac493f;
+  --mecsa-primary-dark: #8a3b33;
+  --mecsa-bg: #f8f1f0;
+  --mecsa-bg-pink: #c9a9a2;
+  --mecsa-text: #4d4844;
+  --mecsa-text-light: #6b6560;
+  --mecsa-gold: #a78b55;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-[var(--mecsa-bg)] text-[var(--mecsa-text)];
+    font-family: var(--font-oxygen);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-titillium);
+  }
+}
+
+@layer components {
+  .mecsa-btn {
+    @apply px-8 py-3 bg-[var(--mecsa-primary)] text-white font-semibold tracking-wider uppercase text-sm rounded-sm;
+    @apply hover:bg-[var(--mecsa-primary-dark)] transition-colors duration-300;
+  }
+
+  .mecsa-btn-outline {
+    @apply px-8 py-3 border-2 border-[var(--mecsa-primary)] text-[var(--mecsa-primary)] font-semibold tracking-wider uppercase text-sm rounded-sm;
+    @apply hover:bg-[var(--mecsa-primary)] hover:text-white transition-colors duration-300;
+  }
+
+  .mecsa-heading {
+    @apply text-[var(--mecsa-primary)] font-light;
+    font-family: var(--font-titillium);
+  }
+
+  .mecsa-heading-italic {
+    @apply text-[var(--mecsa-primary)] font-light italic;
+    font-family: var(--font-titillium);
+  }
+
+  .mecsa-nav-item {
+    @apply flex items-center gap-1.5 text-[var(--mecsa-text)] uppercase text-sm tracking-wider font-medium;
+    @apply hover:text-[var(--mecsa-primary)] transition-colors duration-200;
+  }
+
+  .mecsa-nav-bullet {
+    @apply w-2 h-2 bg-[var(--mecsa-primary)];
+  }
+
+  .mecsa-section-title {
+    @apply text-[var(--mecsa-primary)] text-3xl md:text-4xl font-light;
+    font-family: var(--font-titillium);
+  }
+
+  .mecsa-icon-circle {
+    @apply w-24 h-24 rounded-full border-2 border-gray-200 flex items-center justify-center text-gray-400;
+    @apply hover:border-[var(--mecsa-primary)] hover:text-[var(--mecsa-primary)] transition-colors duration-300;
+  }
+}
+
+/* Carousel animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.8s ease-out forwards;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mecsa-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mecsa-primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mecsa-primary-dark);
+}
+
+/* Skeleton shimmer */
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
