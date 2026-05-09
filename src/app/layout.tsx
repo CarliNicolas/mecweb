@@ -4,6 +4,7 @@ import "./globals.css";
 import { SiteContentProvider } from "@/context/SiteContentContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import AvatarChat from "@/components/AvatarChat";
 
 const titilliumWeb = Titillium_Web({
   variable: "--font-titillium",
@@ -60,6 +61,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <SiteContentProvider>
             {children}
+            <AvatarChat />
           </SiteContentProvider>
         </NextIntlClientProvider>
       </body>

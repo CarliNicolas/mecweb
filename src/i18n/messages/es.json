@@ -131,6 +131,17 @@
     "tooltip": "Contáctenos por WhatsApp",
     "message": "Hola! Me gustaría obtener más información sobre sus servicios de climatización."
   },
+  "chat": {
+    "tooltip": "Consultar con IA",
+    "title": "Asistente MECSA",
+    "subtitle": "¿En qué puedo ayudarte hoy?",
+    "placeholder": "Escribí tu consulta...",
+    "send": "Enviar",
+    "thinking": "Pensando...",
+    "welcome": "Hola! Soy el asistente virtual de MECSA. Puedo ayudarte con información sobre nuestros productos de climatización industrial, rubros atendidos y más. ¿En qué puedo ayudarte?",
+    "error": "Hubo un error al conectar. Intentá de nuevo.",
+    "poweredBy": "Tecnología IA"
+  },
   "common": {
     "requestQuote": "Solicitar presupuesto",
     "description": "Descripción",

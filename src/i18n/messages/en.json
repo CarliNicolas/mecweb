@@ -131,6 +131,17 @@
     "tooltip": "Contact us on WhatsApp",
     "message": "Hello! I would like to get more information about your industrial climate control services."
   },
+  "chat": {
+    "tooltip": "Ask our AI assistant",
+    "title": "MECSA Assistant",
+    "subtitle": "How can I help you today?",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "welcome": "Hi! I'm MECSA's virtual assistant. I can help you with information about our industrial climate control products, sectors we serve, and more. How can I help you?",
+    "error": "Connection error. Please try again.",
+    "poweredBy": "AI powered"
+  },
   "common": {
     "requestQuote": "Request a quote",
     "description": "Description",
