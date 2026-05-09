@@ -34,6 +34,12 @@
       "titleHighlight": "Control",
       "subtitle": "Sistemas de Automatización, Control y Desarrollo de Procesos especiales.",
       "image": "/images/hero4.jpeg"
+    },
+    {
+      "title": "",
+      "titleHighlight": "",
+      "subtitle": "",
+      "image": ""
     }
   ],
   "companyIntro": {
@@ -84,6 +90,12 @@
       "title": "Control y Automatización",
       "description": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
       "icon": "Settings"
+    },
+    {
+      "id": "producto-1778279057409",
+      "title": "pelota",
+      "description": "",
+      "icon": "Cloud"
     }
   ],
   "sectors": {
@@ -136,10 +148,6 @@
       {
         "src": "/images/gallery5.jpeg",
         "alt": "Cámaras de frío"
-      },
-      {
-        "src": "/images/gallery6.jpeg",
-        "alt": "Climatización industrial"
       },
       {
         "src": "/images/gallery7.jpeg",

@@ -6,14 +6,6 @@ import NoticiasClient from "./NoticiasClient";
 
 async function getNews() {
   try {
-    const { getStore } = await import("@netlify/blobs");
-    const store = getStore("site-data");
-    const news = await store.get("news", { type: "json" });
-    if (news) return news as NewsArticle[];
-  } catch {
-    // Blobs not available, fall through to static data
-  }
-  try {
     const { newsArticles } = await import("@/data/news");
     return newsArticles;
   } catch {

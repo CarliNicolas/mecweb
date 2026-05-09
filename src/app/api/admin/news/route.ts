@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getStore } from "@netlify/blobs";
 import fs from "fs/promises";
 import path from "path";
 
 const NEWS_FILE = path.join(process.cwd(), "src/data/news-admin.json");
-const BLOB_KEY = "news";
-const BLOB_STORE = "site-data";
 
 interface NewsArticle {
   slug: string;
@@ -21,13 +18,6 @@ interface NewsArticle {
 
 async function getNewsData(): Promise<NewsArticle[]> {
   try {
-    const store = getStore(BLOB_STORE);
-    const news = await store.get(BLOB_KEY, { type: "json" });
-    if (news) return news as NewsArticle[];
-  } catch {
-    // Blobs not available, fall through to file
-  }
-  try {
     const data = await fs.readFile(NEWS_FILE, "utf-8");
     return JSON.parse(data);
   } catch {
@@ -37,13 +27,6 @@ async function getNewsData(): Promise<NewsArticle[]> {
 }
 
 async function saveNewsData(news: NewsArticle[]) {
-  try {
-    const store = getStore(BLOB_STORE);
-    await store.setJSON(BLOB_KEY, news);
-    return;
-  } catch {
-    // Blobs not available, fall back to filesystem
-  }
   const dir = path.dirname(NEWS_FILE);
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(NEWS_FILE, JSON.stringify(news, null, 2));
