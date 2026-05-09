@@ -45,7 +45,15 @@ export async function POST(req: Request) {
     });
 
     // Convert to Gemini format: "assistant" → "model"
-    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
+    // Gemini requires history to start with "user", so drop any leading assistant messages
+    const allButLast = messages.slice(0, -1).filter(
+      (m: { role: string; content: string }) => m.content.trim() !== ""
+    );
+    const firstUserIdx = allButLast.findIndex(
+      (m: { role: string; content: string }) => m.role === "user"
+    );
+    const validHistory = firstUserIdx >= 0 ? allButLast.slice(firstUserIdx) : [];
+    const history = validHistory.map((m: { role: string; content: string }) => ({
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }],
     }));
