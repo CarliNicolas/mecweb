@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getStore } from "@netlify/blobs";
 import fs from "fs/promises";
 import path from "path";
 
@@ -31,10 +32,8 @@ const DEFAULT_CONTENT = {
 
 export async function GET() {
   try {
-    // Try Netlify Blobs first when running on Netlify
     if (process.env.NETLIFY) {
       try {
-        const { getStore } = await import("@netlify/blobs");
         const store = getStore(BLOB_STORE);
         const content = await store.get(BLOB_KEY, { type: "json" });
         if (content) return NextResponse.json(content);

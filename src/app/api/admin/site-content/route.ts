@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { getStore } from "@netlify/blobs";
 import fs from "fs/promises";
 import path from "path";
 
@@ -8,10 +9,8 @@ const BLOB_KEY = "site-content";
 const BLOB_STORE = "site-data";
 
 async function getSiteContent() {
-  // Try Netlify Blobs first when running on Netlify
   if (process.env.NETLIFY) {
     try {
-      const { getStore } = await import("@netlify/blobs");
       const store = getStore(BLOB_STORE);
       const content = await store.get(BLOB_KEY, { type: "json" });
       if (content) return content;
@@ -29,7 +28,6 @@ async function getSiteContent() {
 
 async function saveSiteContent(content: Record<string, unknown>) {
   if (process.env.NETLIFY) {
-    const { getStore } = await import("@netlify/blobs");
     const store = getStore(BLOB_STORE);
     await store.setJSON(BLOB_KEY, content);
     return;
