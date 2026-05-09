@@ -59,7 +59,8 @@ export async function POST(req: Request) {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   } catch (err) {
-    console.error("Chat API error:", err instanceof Error ? err.message : err);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Chat API error:", msg);
+    return NextResponse.json({ error: msg, keyLen: process.env.GEMINI_API_KEY?.length }, { status: 500 });
   }
 }
