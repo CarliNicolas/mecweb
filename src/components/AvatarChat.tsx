@@ -15,7 +15,7 @@ export default function AvatarChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState<string | false>(false);
   const [initialized, setInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -54,7 +54,8 @@ export default function AvatarChat() {
         body: JSON.stringify({ messages: newMessages }),
       });
 
-      if (!res.ok || !res.body) throw new Error("Network error");
+      if (res.status === 503) throw new Error("not_configured");
+      if (!res.ok || !res.body) throw new Error("network_error");
 
       const reader = res.body.getReader();
       const dec = new TextDecoder();
@@ -70,8 +71,8 @@ export default function AvatarChat() {
           return updated;
         });
       }
-    } catch {
-      setHasError(true);
+    } catch (err) {
+      setHasError(err instanceof Error ? err.message : "network_error");
       setMessages((prev) => prev.slice(0, -1));
     } finally {
       setIsLoading(false);
@@ -144,7 +145,11 @@ export default function AvatarChat() {
           ))}
 
           {hasError && (
-            <p className="text-center text-xs text-red-500">{t("error")}</p>
+            <p className="text-center text-xs text-red-500">
+              {hasError === "not_configured"
+                ? "⚙️ ANTHROPIC_API_KEY no configurada en Vercel"
+                : t("error")}
+            </p>
           )}
           <div ref={messagesEndRef} />
         </div>
