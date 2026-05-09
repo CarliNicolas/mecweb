@@ -3,53 +3,49 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-const navItems = [
-  { name: "HOME", href: "/" },
-  {
-    name: "LA EMPRESA",
-    href: "/#empresa",
-    dropdown: [
-      { name: "Sobre Nosotros", href: "/#empresa" },
-      { name: "Rubros Gestionados", href: "/#rubros" },
-      { name: "Método de Servicio", href: "/contacto" },
-    ],
-  },
-  { name: "PRODUCTOS", href: "/#productos" },
-  {
-    name: "SERVICIOS",
-    href: "/#productos",
-    dropdown: [
-      { name: "Climatización Industrial", href: "/productos/enfriadores-evaporativos" },
-      { name: "Climatización Comercial", href: "/productos/ventilacion-industrial" },
-    ],
-  },
-  {
-    name: "NOVEDADES",
-    href: "/noticias",
-    dropdown: [
-      { name: "Proyectos Fotogalería", href: "/#galeria" },
-      { name: "Últimas Noticias", href: "/noticias" },
-    ],
-  },
-  { name: "CONTACTO", href: "/contacto" },
-];
-
 export default function Header() {
+  const t = useTranslations("nav");
+  const currentLocale = useLocale();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [currentLocale, setCurrentLocale] = useState("es");
 
-  useEffect(() => {
-    const localeCookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("locale="))
-      ?.split("=")[1];
-    if (localeCookie) setCurrentLocale(localeCookie);
-  }, []);
+  const navItems = [
+    { key: "home", name: t("home"), href: "/" },
+    {
+      key: "company",
+      name: t("company"),
+      href: "/#empresa",
+      dropdown: [
+        { name: t("aboutUs"), href: "/#empresa" },
+        { name: t("sectors"), href: "/#rubros" },
+        { name: t("methodology"), href: "/contacto" },
+      ],
+    },
+    { key: "products", name: t("products"), href: "/#productos" },
+    {
+      key: "services",
+      name: t("services"),
+      href: "/#productos",
+      dropdown: [
+        { name: t("industrialClimate"), href: "/productos/enfriadores-evaporativos" },
+        { name: t("commercialClimate"), href: "/productos/ventilacion-industrial" },
+      ],
+    },
+    {
+      key: "news",
+      name: t("news"),
+      href: "/noticias",
+      dropdown: [
+        { name: t("photoGallery"), href: "/#galeria" },
+        { name: t("latestNews"), href: "/noticias" },
+      ],
+    },
+    { key: "contact", name: t("contact"), href: "/contacto" },
+  ];
 
-  // Close mobile menu on resize to desktop
   useEffect(() => {
     const handleResize = () => { if (window.innerWidth >= 1024) setMobileMenuOpen(false); };
     window.addEventListener("resize", handleResize);
@@ -71,9 +67,9 @@ export default function Header() {
           <nav className="hidden lg:flex items-center space-x-6">
             {navItems.map((item) => (
               <div
-                key={item.name}
+                key={item.key}
                 className="relative group"
-                onMouseEnter={() => item.dropdown && setOpenDropdown(item.name)}
+                onMouseEnter={() => item.dropdown && setOpenDropdown(item.key)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <Link href={item.href} className="mecsa-nav-item">
@@ -82,7 +78,7 @@ export default function Header() {
                   {item.dropdown && <ChevronDown className="w-3 h-3 ml-0.5" />}
                 </Link>
 
-                {item.dropdown && openDropdown === item.name && (
+                {item.dropdown && openDropdown === item.key && (
                   <div className="absolute top-full left-0 pt-2 z-50">
                     <div className="bg-white shadow-lg rounded-md py-2 min-w-[200px] border border-gray-100">
                       {item.dropdown.map((subItem) => (
@@ -121,7 +117,7 @@ export default function Header() {
           <div className="lg:hidden border-t border-gray-100 pb-4">
             <nav className="flex flex-col pt-2">
               {navItems.map((item) => (
-                <div key={item.name}>
+                <div key={item.key}>
                   <Link
                     href={item.href}
                     className="flex items-center gap-2 px-2 py-3 text-sm font-medium text-[var(--mecsa-text)] hover:text-[var(--mecsa-primary)] hover:bg-gray-50 rounded-lg transition-colors"

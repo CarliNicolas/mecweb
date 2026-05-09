@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FadeIn, StaggerChildren, StaggerItem } from "@/components/ScrollAnimations";
+import { useTranslations } from "next-intl";
 import {
   Calendar,
   User,
@@ -35,6 +36,8 @@ export default function NewsArticleClient({
   article,
   relatedArticles,
 }: NewsArticleClientProps) {
+  const t = useTranslations("news");
+  const tCommon = useTranslations("common");
   const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
   const handleShare = (platform: string) => {
@@ -71,7 +74,7 @@ export default function NewsArticleClient({
                 </Link>
                 <ChevronRight className="w-4 h-4" />
                 <Link href="/noticias" className="hover:text-white transition-colors">
-                  Noticias
+                  {t("title")}
                 </Link>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-white truncate max-w-[200px]">{article.title}</span>
@@ -207,7 +210,7 @@ export default function NewsArticleClient({
                   className="flex items-center gap-2 text-[var(--mecsa-primary)] hover:gap-3 transition-all font-medium"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  Volver a noticias
+                  {t("back")}
                 </Link>
               </aside>
             </FadeIn>

@@ -2,6 +2,7 @@
 
 import { Facebook, Twitter, Instagram } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations } from "next-intl";
 
 function isRealSocialUrl(url: string): boolean {
   if (!url) return false;
@@ -15,6 +16,7 @@ function isRealSocialUrl(url: string): boolean {
 
 export default function Footer() {
   const { content } = useSiteContent();
+  const t = useTranslations("footer");
   const social = content.socialMedia as { facebook: string; twitter: string; instagram?: string };
   const footer = content.footer;
   const info = content.companyInfo;
@@ -50,7 +52,7 @@ export default function Footer() {
             {footer.text || `Emprendimientos MEC S.A ® - ${info.address}`}
             {footer.designCredit && (
               <>
-                {" "}- Diseño ©:{" "}
+                {" "}- {t("design")} ©:{" "}
                 <a
                   href={footer.designUrl || "#"}
                   target="_blank"

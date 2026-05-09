@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Calendar, User, ArrowRight, Search, Filter } from "lucide-react";
 import { StaggerChildren, StaggerItem } from "@/components/ScrollAnimations";
+import { useTranslations, useLocale } from "next-intl";
 
 interface NewsArticle {
   slug: string;
@@ -16,24 +17,37 @@ interface NewsArticle {
   author: string;
 }
 
-const monthNames = [
-  "enero", "febrero", "marzo", "abril", "mayo", "junio",
-  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
-];
+const monthNames: Record<string, string[]> = {
+  es: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  pt: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
+};
 
-function formatDate(dateString: string): string {
+function formatDate(dateString: string, locale: string): string {
   const [year, month, day] = dateString.split("-");
-  return `${parseInt(day, 10)} de ${monthNames[parseInt(month, 10) - 1]} de ${year}`;
+  const months = monthNames[locale] ?? monthNames.es;
+  if (locale === "en") return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`;
+  return `${parseInt(day, 10)} de ${months[parseInt(month, 10) - 1]} de ${year}`;
 }
 
-const CATEGORIES = ["Todos", "Proyectos", "Empresa", "Eventos", "Técnico", "Formación"];
+const CATEGORY_KEYS = [
+  { key: "allCategories", value: "Todos" },
+  { key: "categories.projects", value: "Proyectos" },
+  { key: "categories.company", value: "Empresa" },
+  { key: "categories.events", value: "Eventos" },
+  { key: "categories.technical", value: "Técnico" },
+  { key: "categories.training", value: "Formación" },
+] as const;
 
 export default function NoticiasClient({ initialArticles }: { initialArticles: NewsArticle[] }) {
-  const [selectedCategory, setSelectedCategory] = useState("Todos");
+  const t = useTranslations("news");
+  const locale = useLocale();
+
+  const [selectedValue, setSelectedValue] = useState("Todos");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredNews = initialArticles.filter((article) => {
-    const matchesCategory = selectedCategory === "Todos" || article.category === selectedCategory;
+    const matchesCategory = selectedValue === "Todos" || article.category === selectedValue;
     const matchesSearch =
       article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
@@ -50,25 +64,25 @@ export default function NoticiasClient({ initialArticles }: { initialArticles: N
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Buscar noticias..."
+                placeholder={t("searchPlaceholder")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent outline-none transition-all text-sm"
               />
             </div>
             <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((category) => (
+              {CATEGORY_KEYS.map(({ key, value }) => (
                 <button
-                  key={category}
+                  key={value}
                   type="button"
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => setSelectedValue(value)}
                   className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
-                    selectedCategory === category
+                    selectedValue === value
                       ? "bg-[var(--mecsa-primary)] text-white"
                       : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                   }`}
                 >
-                  {category}
+                  {t(key as Parameters<typeof t>[0])}
                 </button>
               ))}
             </div>
@@ -83,7 +97,7 @@ export default function NoticiasClient({ initialArticles }: { initialArticles: N
             <div className="text-center py-12">
               <Filter className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl text-gray-500">
-                {initialArticles.length === 0 ? "No hay noticias publicadas" : "No se encontraron noticias"}
+                {initialArticles.length === 0 ? t("noPublished") : t("noResults")}
               </h3>
             </div>
           ) : (
@@ -110,7 +124,7 @@ export default function NoticiasClient({ initialArticles }: { initialArticles: N
                       <div className="flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[var(--mecsa-text-light)] mb-3">
                         <div className="flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                          <span>{formatDate(article.date)}</span>
+                          <span>{formatDate(article.date, locale)}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -122,7 +136,7 @@ export default function NoticiasClient({ initialArticles }: { initialArticles: N
                       </h2>
                       <p className="text-[var(--mecsa-text-light)] text-sm line-clamp-3 mb-4">{article.excerpt}</p>
                       <div className="flex items-center gap-2 text-[var(--mecsa-primary)] text-sm font-medium group-hover:gap-3 transition-all">
-                        <span>Leer artículo completo</span>
+                        <span>{t("readMore")}</span>
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>

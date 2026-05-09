@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Titillium_Web, Oxygen } from "next/font/google";
 import "./globals.css";
 import { SiteContentProvider } from "@/context/SiteContentContext";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 
 const titilliumWeb = Titillium_Web({
   variable: "--font-titillium",
@@ -44,17 +46,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="es">
+    <html lang={locale}>
       <body className={`${titilliumWeb.variable} ${oxygen.variable} antialiased`}>
-        <SiteContentProvider>
-          {children}
-        </SiteContentProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SiteContentProvider>
+            {children}
+          </SiteContentProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

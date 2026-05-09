@@ -71,6 +71,23 @@
     "viewProjects": "View Projects",
     "viewNews": "View News"
   },
+  "news": {
+    "title": "News & Updates",
+    "subtitle": "Stay up to date with the latest news, projects and events from MECSA",
+    "allCategories": "All",
+    "searchPlaceholder": "Search news...",
+    "noPublished": "No news published",
+    "noResults": "No news found",
+    "readMore": "Read full article",
+    "back": "Back to news",
+    "categories": {
+      "projects": "Projects",
+      "company": "Company",
+      "events": "Events",
+      "technical": "Technical",
+      "training": "Training"
+    }
+  },
   "contact": {
     "title": "Contact",
     "subtitle": "We are here to help. Contact us for more information about our industrial climate control services.",
@@ -98,7 +115,8 @@
     "design": "Design"
   },
   "whatsapp": {
-    "tooltip": "Contact us on WhatsApp"
+    "tooltip": "Contact us on WhatsApp",
+    "message": "Hello! I would like to get more information about your industrial climate control services."
   },
   "common": {
     "requestQuote": "Request a quote",

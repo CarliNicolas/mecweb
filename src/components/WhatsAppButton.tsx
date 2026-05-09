@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { MessageCircle, X } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations } from "next-intl";
 
 export default function WhatsAppButton() {
   const { content } = useSiteContent();
+  const t = useTranslations("whatsapp");
   const [isHovered, setIsHovered] = useState(false);
   const phoneNumber = content.companyInfo.whatsapp || "5492615555555";
-  const message = "Hola! Me gustaría obtener más información sobre sus servicios de climatización.";
+  const message = t("message");
 
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
@@ -21,7 +23,7 @@ export default function WhatsAppButton() {
         }`}
       >
         <div className="bg-white rounded-lg shadow-lg p-3 text-sm text-gray-700 whitespace-nowrap">
-          Contáctenos por WhatsApp
+          {t("tooltip")}
           <div className="absolute bottom-0 right-6 translate-y-1/2 rotate-45 w-2 h-2 bg-white" />
         </div>
       </div>

@@ -71,6 +71,23 @@
     "viewProjects": "Ver Proyectos",
     "viewNews": "Ver Noticias"
   },
+  "news": {
+    "title": "Noticias y Novedades",
+    "subtitle": "Mantente al día con las últimas noticias, proyectos y eventos de MECSA",
+    "allCategories": "Todos",
+    "searchPlaceholder": "Buscar noticias...",
+    "noPublished": "No hay noticias publicadas",
+    "noResults": "No se encontraron noticias",
+    "readMore": "Leer artículo completo",
+    "back": "Volver a noticias",
+    "categories": {
+      "projects": "Proyectos",
+      "company": "Empresa",
+      "events": "Eventos",
+      "technical": "Técnico",
+      "training": "Formación"
+    }
+  },
   "contact": {
     "title": "Contacto",
     "subtitle": "Estamos aquí para ayudarte. Contáctanos para obtener más información sobre nuestros servicios de climatización industrial.",
@@ -98,7 +115,8 @@
     "design": "Diseño"
   },
   "whatsapp": {
-    "tooltip": "Contáctenos por WhatsApp"
+    "tooltip": "Contáctenos por WhatsApp",
+    "message": "Hola! Me gustaría obtener más información sobre sus servicios de climatización."
   },
   "common": {
     "requestQuote": "Solicitar presupuesto",

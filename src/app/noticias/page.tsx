@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { FadeIn } from "@/components/ScrollAnimations";
 import NoticiasClient from "./NoticiasClient";
+import { getTranslations } from "next-intl/server";
 
 async function getNews() {
   try {
@@ -26,6 +27,7 @@ interface NewsArticle {
 
 export default async function NoticiasPage() {
   const articles = await getNews();
+  const t = await getTranslations("news");
 
   return (
     <main className="min-h-screen">
@@ -35,10 +37,10 @@ export default async function NoticiasPage() {
           <div className="max-w-7xl mx-auto text-center">
             <FadeIn>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-light text-white mb-3 sm:mb-4">
-                Noticias y Novedades
+                {t("title")}
               </h1>
               <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
-                Mantente al día con las últimas noticias, proyectos y eventos de MECSA
+                {t("subtitle")}
               </p>
             </FadeIn>
           </div>

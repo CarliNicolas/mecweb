@@ -7,9 +7,11 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { FadeIn } from "@/components/ScrollAnimations";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations } from "next-intl";
 
 export default function ContactoPage() {
   const { content } = useSiteContent();
+  const t = useTranslations("contact");
   const info = content.companyInfo;
   const contact = content.contact as { title?: string; subtitle?: string; mapUrl?: string };
 
@@ -65,10 +67,10 @@ export default function ContactoPage() {
           <div className="max-w-7xl mx-auto text-center">
             <FadeIn>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-light text-white mb-3 sm:mb-4">
-                {contact.title || "Contacto"}
+                {contact.title || t("title")}
               </h1>
               <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
-                {contact.subtitle || "Estamos aquí para ayudarte. Contáctanos para obtener más información sobre nuestros servicios de climatización industrial."}
+                {contact.subtitle || t("subtitle")}
               </p>
             </FadeIn>
           </div>
@@ -82,7 +84,7 @@ export default function ContactoPage() {
               {/* Contact Information */}
               <FadeIn direction="left">
                 <div>
-                  <h2 className="mecsa-section-title mb-6 sm:mb-8">Información de Contacto</h2>
+                  <h2 className="mecsa-section-title mb-6 sm:mb-8">{t("infoTitle")}</h2>
 
                   <div className="space-y-5 sm:space-y-6">
                     <div className="flex items-start gap-4">
@@ -90,7 +92,7 @@ export default function ContactoPage() {
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">Dirección</h3>
+                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">{t("address")}</h3>
                         <p className="text-[var(--mecsa-text-light)]">{info.address || "Godoy Cruz 562, San José, Guaymallén, Mendoza"}</p>
                       </div>
                     </div>
@@ -100,7 +102,7 @@ export default function ContactoPage() {
                         <Phone className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">Teléfono</h3>
+                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">{t("phone")}</h3>
                         <a href={`tel:${info.phone}`} className="text-[var(--mecsa-text-light)] hover:text-[var(--mecsa-primary)] transition-colors">
                           {info.phone || "+54 261 517-3763"}
                         </a>
@@ -112,7 +114,7 @@ export default function ContactoPage() {
                         <Mail className="w-5 h-5 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">Email</h3>
+                        <h3 className="font-semibold text-[var(--mecsa-text)] mb-1">{t("email")}</h3>
                         <a href={`mailto:${info.email}`} className="text-[var(--mecsa-text-light)] hover:text-[var(--mecsa-primary)] transition-colors break-all">
                           {info.email || "info@mecsa.com.ar"}
                         </a>
@@ -138,66 +140,66 @@ export default function ContactoPage() {
               {/* Contact Form */}
               <FadeIn direction="right" delay={0.2}>
                 <div className="bg-white rounded-lg shadow-lg p-6 sm:p-8">
-                  <h2 className="mecsa-section-title mb-5 sm:mb-6">Envíanos un mensaje</h2>
+                  <h2 className="mecsa-section-title mb-5 sm:mb-6">{t("formTitle")}</h2>
 
                   {isSubmitted ? (
                     <div className="text-center py-12">
                       <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-[var(--mecsa-text)] mb-2">Mensaje enviado</h3>
-                      <p className="text-[var(--mecsa-text-light)]">Nos pondremos en contacto contigo pronto.</p>
+                      <h3 className="text-xl font-semibold text-[var(--mecsa-text)] mb-2">{t("success")}</h3>
+                      <p className="text-[var(--mecsa-text-light)]">{t("successMessage")}</p>
                     </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="nombre" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">Nombre *</label>
+                          <label htmlFor="nombre" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">{t("name")} *</label>
                           <input type="text" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} required
                             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent transition-all outline-none text-sm"
-                            placeholder="Tu nombre" />
+                            placeholder={t("namePlaceholder")} />
                         </div>
                         <div>
-                          <label htmlFor="email" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">Email *</label>
+                          <label htmlFor="email" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">{t("email")} *</label>
                           <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required
                             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent transition-all outline-none text-sm"
-                            placeholder="tu@email.com" />
+                            placeholder={t("emailPlaceholder")} />
                         </div>
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
-                          <label htmlFor="telefono" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">Teléfono</label>
+                          <label htmlFor="telefono" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">{t("phone")}</label>
                           <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange}
                             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent transition-all outline-none text-sm"
-                            placeholder="+54 261 ..." />
+                            placeholder={t("phonePlaceholder")} />
                         </div>
                         <div>
-                          <label htmlFor="asunto" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">Asunto *</label>
+                          <label htmlFor="asunto" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">{t("subject")} *</label>
                           <select id="asunto" name="asunto" value={formData.asunto} onChange={handleChange} required
                             className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent transition-all outline-none text-sm">
-                            <option value="">Seleccionar...</option>
+                            <option value="">{t("selectSubject")}</option>
                             <option value="enfriadores">Enfriadores Evaporativos</option>
                             <option value="calefactores">Calefactores Radiantes</option>
                             <option value="ventilacion">Ventilación Industrial</option>
                             <option value="filtracion">Filtración de Aire</option>
                             <option value="control">Control y Automatización</option>
-                            <option value="otro">Otro</option>
+                            <option value="otro">{t("other")}</option>
                           </select>
                         </div>
                       </div>
 
                       <div>
-                        <label htmlFor="mensaje" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">Mensaje *</label>
+                        <label htmlFor="mensaje" className="block text-sm font-medium text-[var(--mecsa-text)] mb-2">{t("message")} *</label>
                         <textarea id="mensaje" name="mensaje" value={formData.mensaje} onChange={handleChange} required rows={5}
                           className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[var(--mecsa-primary)] focus:border-transparent transition-all outline-none resize-none text-sm"
-                          placeholder="Cuéntanos sobre tu proyecto..." />
+                          placeholder={t("messagePlaceholder")} />
                       </div>
 
                       <button type="submit" disabled={isSubmitting}
                         className="mecsa-btn w-full flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                         {isSubmitting ? (
-                          <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />Enviando...</>
+                          <><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />{t("sending")}</>
                         ) : (
-                          <><Send className="w-4 h-4" />Enviar mensaje</>
+                          <><Send className="w-4 h-4" />{t("send")}</>
                         )}
                       </button>
                     </form>
