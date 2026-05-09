@@ -9,14 +9,12 @@ const BLOB_KEY = "site-content";
 const BLOB_STORE = "site-data";
 
 async function getSiteContent() {
-  if (process.env.NETLIFY) {
-    try {
-      const store = getStore(BLOB_STORE);
-      const content = await store.get(BLOB_KEY, { type: "json" });
-      if (content) return content;
-    } catch {
-      // fall through to file
-    }
+  try {
+    const store = getStore(BLOB_STORE);
+    const content = await store.get(BLOB_KEY, { type: "json" });
+    if (content) return content;
+  } catch {
+    // Blobs not available (local dev without netlify dev), fall through to file
   }
   try {
     const data = await fs.readFile(CONTENT_FILE, "utf-8");
@@ -27,10 +25,12 @@ async function getSiteContent() {
 }
 
 async function saveSiteContent(content: Record<string, unknown>) {
-  if (process.env.NETLIFY) {
+  try {
     const store = getStore(BLOB_STORE);
     await store.setJSON(BLOB_KEY, content);
     return;
+  } catch {
+    // Blobs not available, fall back to filesystem (local dev)
   }
   const dir = path.dirname(CONTENT_FILE);
   await fs.mkdir(dir, { recursive: true });

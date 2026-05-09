@@ -9,14 +9,14 @@ const BLOB_STORE = "site-data";
 
 const DEFAULT_CONTENT = {
   companyInfo: {
-    phone: "+54 261 555-5555",
+    phone: "+54 261 517-3763",
     email: "info@mecsa.com.ar",
-    address: "San Lorenzo 1052 (5519) San José, Guaymallén, Mendoza",
-    whatsapp: "5492615555555",
+    address: "Godoy Cruz 562, San José, Guaymallén, Mendoza",
+    whatsapp: "5492615173763",
   },
   socialMedia: {
-    facebook: "https://facebook.com",
-    twitter: "https://twitter.com",
+    facebook: "https://www.facebook.com/share/1AXfsJCuV6/?mibextid=wwXIfr",
+    twitter: "",
     instagram: "",
   },
   heroSlides: [],
@@ -32,15 +32,13 @@ const DEFAULT_CONTENT = {
 
 export async function GET() {
   try {
-    if (process.env.NETLIFY) {
-      try {
-        const store = getStore(BLOB_STORE);
-        const content = await store.get(BLOB_KEY, { type: "json" });
-        if (content) return NextResponse.json(content);
-      } catch {
-        // fall through to file
-      }
-    }
+    const store = getStore(BLOB_STORE);
+    const content = await store.get(BLOB_KEY, { type: "json" });
+    if (content) return NextResponse.json(content);
+  } catch {
+    // Blobs not available, fall through to file
+  }
+  try {
     const data = await fs.readFile(CONTENT_FILE, "utf-8");
     return NextResponse.json(JSON.parse(data));
   } catch {
