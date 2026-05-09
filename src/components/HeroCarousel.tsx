@@ -47,7 +47,7 @@ export default function HeroCarousel() {
   };
 
   return (
-    <section className="relative h-[600px] md:h-[700px] overflow-hidden">
+    <section className="relative h-[480px] sm:h-[580px] md:h-[700px] overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={`slide-${index}`}
@@ -91,13 +91,13 @@ export default function HeroCarousel() {
                 }`}
                 style={{ transitionDelay: index === currentSlide ? "300ms" : "0ms" }}
               >
-                <h1 className="text-4xl md:text-5xl lg:text-6xl text-white mb-4">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-3 sm:mb-4">
                   <span className="font-light">{slide.title}</span>{" "}
                   <span className="font-light italic text-[var(--mecsa-primary)]">
                     {slide.titleHighlight}
                   </span>
                 </h1>
-                <p className="text-lg md:text-xl text-white/90 mb-8">{slide.subtitle}</p>
+                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">{slide.subtitle}</p>
                 <Link href="#empresa" className="mecsa-btn inline-block">
                   Saber Más
                 </Link>

@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { getStore } from "@netlify/blobs";
 import fs from "fs/promises";
 import path from "path";
 
 const NEWS_FILE = path.join(process.cwd(), "src/data/news-admin.json");
+const BLOB_KEY = "news";
+const BLOB_STORE = "site-data";
 
 interface NewsArticle {
   slug: string;
@@ -17,17 +20,30 @@ interface NewsArticle {
 }
 
 async function getNewsData(): Promise<NewsArticle[]> {
+  if (process.env.NETLIFY) {
+    try {
+      const store = getStore(BLOB_STORE);
+      const news = await store.get(BLOB_KEY, { type: "json" });
+      if (news) return news as NewsArticle[];
+    } catch {
+      // fall through
+    }
+  }
   try {
     const data = await fs.readFile(NEWS_FILE, "utf-8");
     return JSON.parse(data);
   } catch {
     const { newsArticles } = await import("@/data/news");
-    await saveNewsData(newsArticles);
     return newsArticles;
   }
 }
 
 async function saveNewsData(news: NewsArticle[]) {
+  if (process.env.NETLIFY) {
+    const store = getStore(BLOB_STORE);
+    await store.setJSON(BLOB_KEY, news);
+    return;
+  }
   const dir = path.dirname(NEWS_FILE);
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(NEWS_FILE, JSON.stringify(news, null, 2));
@@ -54,7 +70,7 @@ export async function POST(request: NextRequest) {
       article.slug = article.title
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[̀-ͯ]/g, "")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
     }
