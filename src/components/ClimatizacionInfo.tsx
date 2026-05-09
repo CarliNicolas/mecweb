@@ -8,9 +8,9 @@ export default function ClimatizacionInfo() {
   const clim = content.climatizacion;
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#c9a9a2]">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#c9a9a2]">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* YouTube Video */}
           <FadeIn direction="left">
             <div className="relative aspect-video rounded-lg overflow-hidden shadow-2xl">
@@ -27,7 +27,7 @@ export default function ClimatizacionInfo() {
           {/* Text Content */}
           <FadeIn direction="right" delay={0.2}>
             <div>
-              <h2 className="text-3xl md:text-4xl font-light text-white mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-5 sm:mb-6">
                 {clim.title || "Que es la Climatización Evaporativa ?"}
               </h2>
 

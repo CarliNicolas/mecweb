@@ -21,7 +21,7 @@ export default function SectorsGrid() {
   const sectors = sectorsData.items.length > 0 ? sectorsData.items : defaultSectors;
 
   return (
-    <section id="rubros" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="rubros" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center mb-16">
@@ -29,7 +29,7 @@ export default function SectorsGrid() {
             <p className="text-[var(--mecsa-text-light)]">{sectorsData.subtitle || "En cuáles áreas te podemos ayudar ?"}</p>
           </div>
         </FadeIn>
-        <StaggerChildren className="grid md:grid-cols-3 gap-8" staggerDelay={0.15}>
+        <StaggerChildren className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8" staggerDelay={0.15}>
           {sectors.map((sector) => (
             <StaggerItem key={sector.title}>
               <Link href={sector.link}
