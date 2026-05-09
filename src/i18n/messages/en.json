@@ -23,7 +23,10 @@
     "ventilationSubtitle": "Ventilation Systems and Custom Project Design.",
     "climatizationSubtitle": "Climate Control Systems and Custom Project Design.",
     "filtrationSubtitle": "Air Filtration Systems and Custom Project Design.",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "goToSlide": "Go to slide"
   },
   "company": {
     "title1": "Get to know our company.",
@@ -50,7 +53,10 @@
     "airFiltrationDesc": "Absolute filters, gas treatment, laminar flow equipment, dust and humidity treatment and collection, etc.",
     "controlAutomation": "Control & Automation",
     "controlAutomationDesc": "We have the best monitoring, automation, and control systems for your company's climate control.",
-    "viewInfo": "View Info"
+    "viewInfo": "View Info",
+    "ourServices": "Our Services",
+    "solutionsTitle": "Climate Control Solutions",
+    "viewMore": "View more"
   },
   "sectors": {
     "title": "Managed Sectors",
@@ -69,7 +75,10 @@
   },
   "gallery": {
     "viewProjects": "View Projects",
-    "viewNews": "View News"
+    "viewNews": "View News",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next"
   },
   "news": {
     "title": "News & Updates",
@@ -80,6 +89,10 @@
     "noResults": "No news found",
     "readMore": "Read full article",
     "back": "Back to news",
+    "latestNews": "Latest News",
+    "latestNewsSubtitle": "Stay informed about our projects, news and events",
+    "readMoreShort": "Read more",
+    "viewAll": "View all news",
     "categories": {
       "projects": "Projects",
       "company": "Company",
@@ -124,6 +137,8 @@
     "features": "Features",
     "gallery": "Gallery",
     "otherProducts": "Other Products",
-    "home": "Home"
+    "home": "Home",
+    "products": "Products",
+    "close": "Close"
   }
 }

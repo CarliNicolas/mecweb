@@ -5,20 +5,29 @@ import Link from "next/link";
 import { Calendar, ArrowRight, ChevronRight } from "lucide-react";
 import { FadeIn, StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { NewsCardSkeleton } from "./Skeleton";
+import { useTranslations, useLocale } from "next-intl";
 
 interface NewsArticle {
   slug: string; title: string; excerpt: string;
   image: string; date: string; category: string; author: string;
 }
 
-const monthNames = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const monthNames: Record<string, string[]> = {
+  es: ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],
+  en: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  pt: ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],
+};
 
-function formatDate(dateString: string): string {
+function formatDate(dateString: string, locale: string): string {
   const [year, month, day] = dateString.split("-");
-  return `${parseInt(day, 10)} de ${monthNames[parseInt(month, 10) - 1]} de ${year}`;
+  const months = monthNames[locale] ?? monthNames.es;
+  if (locale === "en") return `${months[parseInt(month, 10) - 1]} ${parseInt(day, 10)}, ${year}`;
+  return `${parseInt(day, 10)} de ${months[parseInt(month, 10) - 1]} de ${year}`;
 }
 
 export default function NewsPreview() {
+  const t = useTranslations("news");
+  const locale = useLocale();
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,9 +45,9 @@ export default function NewsPreview() {
       <div className="max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center mb-12">
-            <h2 className="mecsa-section-title mb-4">Últimas Noticias</h2>
+            <h2 className="mecsa-section-title mb-4">{t("latestNews")}</h2>
             <p className="text-[var(--mecsa-text-light)] max-w-2xl mx-auto">
-              Mantente informado sobre nuestros proyectos, novedades y eventos
+              {t("latestNewsSubtitle")}
             </p>
           </div>
         </FadeIn>
@@ -65,14 +74,14 @@ export default function NewsPreview() {
                   <div className="p-6">
                     <div className="flex items-center gap-2 text-sm text-[var(--mecsa-text-light)] mb-3">
                       <Calendar className="w-4 h-4" />
-                      <span>{formatDate(article.date)}</span>
+                      <span>{formatDate(article.date, locale)}</span>
                     </div>
                     <h3 className="text-lg font-semibold text-[var(--mecsa-text)] mb-3 group-hover:text-[var(--mecsa-primary)] transition-colors line-clamp-2">
                       {article.title}
                     </h3>
                     <p className="text-sm text-[var(--mecsa-text-light)] line-clamp-3 mb-4">{article.excerpt}</p>
                     <div className="flex items-center gap-2 text-[var(--mecsa-primary)] font-medium text-sm group-hover:gap-3 transition-all">
-                      <span>Leer más</span>
+                      <span>{t("readMoreShort")}</span>
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </div>
@@ -85,7 +94,7 @@ export default function NewsPreview() {
         <FadeIn delay={0.4}>
           <div className="text-center mt-12">
             <Link href="/noticias" className="mecsa-btn inline-flex items-center gap-2 group">
-              <span>Ver todas las noticias</span>
+              <span>{t("viewAll")}</span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

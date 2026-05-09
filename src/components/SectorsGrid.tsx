@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FadeIn, StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations, useLocale } from "next-intl";
 
 const defaultSectors = [
   { title: "INDUSTRIAL", description: "Bodegas, Fábricas, Galpones, Metalúrgicas, Mineras, Petroleras, Siderúrgicas, Frigoríficos, entre otros.", image: "/images/industrial.jpeg", link: "/productos/enfriadores-evaporativos" },
@@ -18,15 +19,35 @@ function isExternal(url: string) {
 export default function SectorsGrid() {
   const { content } = useSiteContent();
   const sectorsData = content.sectors;
-  const sectors = sectorsData.items.length > 0 ? sectorsData.items : defaultSectors;
+  const t = useTranslations("sectors");
+  const locale = useLocale();
+  const isEs = locale === "es";
+
+  const sectionTitle = isEs ? (sectorsData.title || t("title")) : t("title");
+  const sectionSubtitle = isEs ? (sectorsData.subtitle || t("subtitle")) : t("subtitle");
+
+  const sectorLabels = [
+    { title: t("industrial"), description: t("industrialDesc") },
+    { title: t("commercial"), description: t("commercialDesc") },
+    { title: t("particular"), description: t("particularDesc") },
+  ];
+
+  const baseItems = sectorsData.items.length > 0 ? sectorsData.items : defaultSectors;
+  const sectors = isEs
+    ? baseItems
+    : baseItems.map((item, i) => ({
+        ...item,
+        title: sectorLabels[i]?.title ?? item.title,
+        description: sectorLabels[i]?.description ?? item.description,
+      }));
 
   return (
     <section id="rubros" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center mb-16">
-            <h2 className="mecsa-section-title mb-4">{sectorsData.title || "Rubros Gestionados"}</h2>
-            <p className="text-[var(--mecsa-text-light)]">{sectorsData.subtitle || "En cuáles áreas te podemos ayudar ?"}</p>
+            <h2 className="mecsa-section-title mb-4">{sectionTitle}</h2>
+            <p className="text-[var(--mecsa-text-light)]">{sectionSubtitle}</p>
           </div>
         </FadeIn>
         <StaggerChildren className="grid sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8" staggerDelay={0.15}>

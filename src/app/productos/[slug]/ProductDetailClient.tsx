@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { FadeIn, StaggerChildren, StaggerItem } from "@/components/ScrollAnimations";
 import { Check, ChevronRight, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Product {
   title: string;
@@ -26,6 +27,7 @@ export default function ProductDetailClient({
   slug,
   allProducts,
 }: ProductDetailClientProps) {
+  const t = useTranslations("common");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -50,11 +52,11 @@ export default function ProductDetailClient({
             <FadeIn>
               <nav className="text-white/70 text-sm mb-4 flex items-center gap-2">
                 <Link href="/" className="hover:text-white transition-colors">
-                  Inicio
+                  {t("home")}
                 </Link>
                 <ChevronRight className="w-4 h-4" />
                 <Link href="/#productos" className="hover:text-white transition-colors">
-                  Productos
+                  {t("products")}
                 </Link>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-white">{product.title}</span>
@@ -72,10 +74,9 @@ export default function ProductDetailClient({
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12">
-            {/* Description */}
             <FadeIn direction="left">
               <div>
-                <h2 className="mecsa-section-title mb-6">Descripción</h2>
+                <h2 className="mecsa-section-title mb-6">{t("description")}</h2>
                 <p className="text-[var(--mecsa-text-light)] mb-6 leading-relaxed">
                   {product.description}
                 </p>
@@ -92,10 +93,9 @@ export default function ProductDetailClient({
               </div>
             </FadeIn>
 
-            {/* Features */}
             <FadeIn direction="right" delay={0.2}>
               <div>
-                <h2 className="mecsa-section-title mb-6">Características</h2>
+                <h2 className="mecsa-section-title mb-6">{t("features")}</h2>
                 <StaggerChildren staggerDelay={0.1}>
                   <ul className="space-y-4">
                     {product.features.map((feature, index) => (
@@ -113,7 +113,7 @@ export default function ProductDetailClient({
 
                 <div className="mt-8">
                   <Link href="/contacto" className="mecsa-btn inline-block">
-                    Solicitar presupuesto
+                    {t("requestQuote")}
                   </Link>
                 </div>
               </div>
@@ -126,7 +126,7 @@ export default function ProductDetailClient({
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <FadeIn>
-            <h2 className="mecsa-section-title text-center mb-12">Galería</h2>
+            <h2 className="mecsa-section-title text-center mb-12">{t("gallery")}</h2>
           </FadeIn>
           <StaggerChildren className="grid md:grid-cols-3 gap-6" staggerDelay={0.15}>
             {product.gallery.map((image, index) => (
@@ -141,7 +141,7 @@ export default function ProductDetailClient({
                 >
                   <img
                     src={image}
-                    alt={`${product.title} - Imagen ${index + 1}`}
+                    alt={`${product.title} - ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
@@ -156,7 +156,7 @@ export default function ProductDetailClient({
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <FadeIn>
-            <h2 className="mecsa-section-title text-center mb-12">Otros Productos</h2>
+            <h2 className="mecsa-section-title text-center mb-12">{t("otherProducts")}</h2>
           </FadeIn>
           <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.1}>
             {otherProducts.map(([productSlug, otherProduct]) => (
@@ -187,14 +187,13 @@ export default function ProductDetailClient({
         </div>
       </section>
 
-      {/* Lightbox Modal */}
       {lightboxOpen && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
           <button
             type="button"
             onClick={() => setLightboxOpen(false)}
             className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-            aria-label="Close lightbox"
+            aria-label={t("close")}
           >
             <X className="w-8 h-8" />
           </button>
@@ -202,7 +201,7 @@ export default function ProductDetailClient({
           <div className="relative max-w-4xl max-h-[80vh] w-full flex items-center justify-center">
             <img
               src={product.gallery[currentImage]}
-              alt={`${product.title} - Imagen ${currentImage + 1}`}
+              alt={`${product.title} - ${currentImage + 1}`}
               className="max-w-full max-h-[80vh] object-contain"
             />
           </div>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations, useLocale } from "next-intl";
 
 function isExternal(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -11,6 +12,15 @@ function isExternal(url: string) {
 export default function CompanyIntro() {
   const { content } = useSiteContent();
   const intro = content.companyIntro;
+  const t = useTranslations("company");
+  const locale = useLocale();
+  const isEs = locale === "es";
+
+  const title1 = isEs ? (intro.title1 || t("title1")) : t("title1");
+  const title2 = isEs ? (intro.title2 || t("title2")) : t("title2");
+  const title3 = isEs ? (intro.title3 || t("title3")) : t("title3");
+  const description1 = isEs ? (intro.description1 || t("description1")) : t("description1");
+  const description2 = isEs ? (intro.description2 || t("description2")) : t("description2");
 
   return (
     <section id="empresa" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
@@ -19,24 +29,23 @@ export default function CompanyIntro() {
           <FadeIn direction="left">
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl mb-5 sm:mb-6">
-                <span className="mecsa-heading-italic">{intro.title1 || "Conozca nuestra empresa."}</span>
+                <span className="mecsa-heading-italic">{title1}</span>
                 <br />
-                <span className="text-[var(--mecsa-primary)] font-semibold">{intro.title2 || "Asesoramiento |"}</span>
+                <span className="text-[var(--mecsa-primary)] font-semibold">{title2}</span>
                 <br />
-                <span className="mecsa-heading">{intro.title3 || "Climatización según sus necesidades."}</span>
+                <span className="mecsa-heading">{title3}</span>
               </h2>
               <p className="text-[var(--mecsa-text-light)] mb-5 leading-relaxed text-sm sm:text-base">
-                {intro.description1 || "EMPRENDIMIENTOS MEC S.A. tiene como objetivo diseñar e implementar Sistemas de Climatización Industrial para proveer un ambiente confortable mediante el control simultáneo de la temperatura, la humedad, la limpieza y la distribución del aire en el ambiente, sin omitir el nivel acústico."}
+                {description1}
               </p>
               <p className="text-[var(--mecsa-text-light)] leading-relaxed text-sm sm:text-base">
-                {intro.description2 || "Esto se logra mediante la provisión de Enfriadores Evaporativos ventiladores/extractores de aire; sistemas de tratamiento de aire que permiten controlar distintos parámetros industriales en diferentes espacios de acuerdo a especificaciones predeterminadas."}
+                {description2}
               </p>
             </div>
           </FadeIn>
 
           <FadeIn direction="right" delay={0.2}>
             <div className="relative flex justify-center items-center">
-              {/* Decorative circle — hidden on small screens to avoid overflow */}
               <svg className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] -right-4 top-1/2 -translate-y-1/2 hidden sm:block" viewBox="0 0 400 400" fill="none">
                 <circle cx="200" cy="200" r="180" stroke="#ae473d" strokeWidth="4" strokeDasharray="8 8" fill="none" opacity="0.6" />
                 <path d="M 380 200 A 180 180 0 0 1 200 380" stroke="#ae473d" strokeWidth="6" fill="none" strokeLinecap="round" />

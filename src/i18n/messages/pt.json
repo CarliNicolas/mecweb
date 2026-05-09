@@ -23,7 +23,10 @@
     "ventilationSubtitle": "Sistemas de Ventilação e Design de projetos personalizados.",
     "climatizationSubtitle": "Sistemas de Climatização e Design de projetos personalizados.",
     "filtrationSubtitle": "Sistemas de Filtração de Ar e Design de projetos personalizados.",
-    "learnMore": "Saiba Mais"
+    "learnMore": "Saiba Mais",
+    "prevSlide": "Slide anterior",
+    "nextSlide": "Próximo slide",
+    "goToSlide": "Ir ao slide"
   },
   "company": {
     "title1": "Conheça nossa empresa.",
@@ -50,7 +53,10 @@
     "airFiltrationDesc": "Filtros absolutos, tratamento de gases, equipamentos de fluxo laminar, tratamento e coleta de poeiras, umidade, etc.",
     "controlAutomation": "Controle e Automação",
     "controlAutomationDesc": "Dispomos dos melhores controles de monitoramento, automação e controle para a climatização da sua empresa.",
-    "viewInfo": "Ver Informações"
+    "viewInfo": "Ver Informações",
+    "ourServices": "Nossos Serviços",
+    "solutionsTitle": "Soluções de Climatização",
+    "viewMore": "Ver mais"
   },
   "sectors": {
     "title": "Setores Atendidos",
@@ -69,7 +75,10 @@
   },
   "gallery": {
     "viewProjects": "Ver Projetos",
-    "viewNews": "Ver Notícias"
+    "viewNews": "Ver Notícias",
+    "close": "Fechar",
+    "prev": "Anterior",
+    "next": "Próxima"
   },
   "news": {
     "title": "Notícias e Novidades",
@@ -80,6 +89,10 @@
     "noResults": "Nenhuma notícia encontrada",
     "readMore": "Ler artigo completo",
     "back": "Voltar às notícias",
+    "latestNews": "Últimas Notícias",
+    "latestNewsSubtitle": "Fique informado sobre nossos projetos, novidades e eventos",
+    "readMoreShort": "Ler mais",
+    "viewAll": "Ver todas as notícias",
     "categories": {
       "projects": "Projetos",
       "company": "Empresa",
@@ -124,6 +137,8 @@
     "features": "Características",
     "gallery": "Galeria",
     "otherProducts": "Outros Produtos",
-    "home": "Início"
+    "home": "Início",
+    "products": "Produtos",
+    "close": "Fechar"
   }
 }

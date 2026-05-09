@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { useTranslations } from "next-intl";
 
 const defaultGalleryImages = [
   { src: "/images/gallery1.jpeg", alt: "Sistema de refrigeración industrial" },
@@ -24,6 +25,7 @@ function isExternal(url: string) {
 export default function PhotoGallery() {
   const { content } = useSiteContent();
   const gallery = content.gallery;
+  const t = useTranslations("gallery");
   const galleryImages = gallery.images.length > 0 ? gallery.images : defaultGalleryImages;
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -59,27 +61,26 @@ export default function PhotoGallery() {
 
         <div className="flex justify-center gap-4 mt-12">
           <Link href="/productos/enfriadores-evaporativos" className="mecsa-btn inline-block">
-            {gallery.buttonProjects || "Ver Proyectos"}
+            {gallery.buttonProjects || t("viewProjects")}
           </Link>
           <Link href="/noticias" className="mecsa-btn-outline inline-block">
-            {gallery.buttonNews || "Ver Noticias"}
+            {gallery.buttonNews || t("viewNews")}
           </Link>
         </div>
       </div>
 
-      {/* Lightbox */}
       {lightboxOpen && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={closeLightbox}>
-          <button type="button" onClick={closeLightbox} aria-label="Cerrar"
+          <button type="button" onClick={closeLightbox} aria-label={t("close")}
             className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
             <X className="w-8 h-8" />
           </button>
-          <button type="button" onClick={(e) => { e.stopPropagation(); prevImage(); }} aria-label="Anterior"
+          <button type="button" onClick={(e) => { e.stopPropagation(); prevImage(); }} aria-label={t("prev")}
             className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10">
             <ChevronLeft className="w-10 h-10" />
           </button>
-          <button type="button" onClick={(e) => { e.stopPropagation(); nextImage(); }} aria-label="Siguiente"
+          <button type="button" onClick={(e) => { e.stopPropagation(); nextImage(); }} aria-label={t("next")}
             className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10">
             <ChevronRight className="w-10 h-10" />
           </button>

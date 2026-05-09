@@ -23,7 +23,10 @@
     "ventilationSubtitle": "Sistemas de Ventilación y Diseño de proyectos a medida.",
     "climatizationSubtitle": "Sistemas de Climatización y Diseño de proyectos a medida.",
     "filtrationSubtitle": "Sistemas de Filtración de Aire y Diseño de proyectos a medida.",
-    "learnMore": "Saber Más"
+    "learnMore": "Saber Más",
+    "prevSlide": "Slide anterior",
+    "nextSlide": "Siguiente slide",
+    "goToSlide": "Ir al slide"
   },
   "company": {
     "title1": "Conozca nuestra empresa.",
@@ -50,7 +53,10 @@
     "airFiltrationDesc": "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, tratamiento y recolección de polvos, humedad, etc",
     "controlAutomation": "Control y Automatización",
     "controlAutomationDesc": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
-    "viewInfo": "Ver Info"
+    "viewInfo": "Ver Info",
+    "ourServices": "Nuestros Servicios",
+    "solutionsTitle": "Soluciones de Climatización",
+    "viewMore": "Ver más"
   },
   "sectors": {
     "title": "Rubros Gestionados",
@@ -69,7 +75,10 @@
   },
   "gallery": {
     "viewProjects": "Ver Proyectos",
-    "viewNews": "Ver Noticias"
+    "viewNews": "Ver Noticias",
+    "close": "Cerrar",
+    "prev": "Anterior",
+    "next": "Siguiente"
   },
   "news": {
     "title": "Noticias y Novedades",
@@ -80,6 +89,10 @@
     "noResults": "No se encontraron noticias",
     "readMore": "Leer artículo completo",
     "back": "Volver a noticias",
+    "latestNews": "Últimas Noticias",
+    "latestNewsSubtitle": "Mantente informado sobre nuestros proyectos, novedades y eventos",
+    "readMoreShort": "Leer más",
+    "viewAll": "Ver todas las noticias",
     "categories": {
       "projects": "Proyectos",
       "company": "Empresa",
@@ -124,6 +137,8 @@
     "features": "Características",
     "gallery": "Galería",
     "otherProducts": "Otros Productos",
-    "home": "Inicio"
+    "home": "Inicio",
+    "products": "Productos",
+    "close": "Cerrar"
   }
 }
