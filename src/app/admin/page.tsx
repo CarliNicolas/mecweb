@@ -1,12 +1,55 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   LayoutDashboard, FileText, LogOut, Save, Phone, Mail, MapPin,
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
   Newspaper, Plus, Edit, Trash2, X, Calendar, User, Home, Building2,
   Package, Grid3X3, Thermometer, Images, PhoneCall, Eye, Clock, ChevronDown,
+  Upload,
 } from "lucide-react";
+
+// ─── Image Upload Input ─────────────────────────────────────────────────────
+
+function ImageInput({ value, onChange, placeholder, className }: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+}) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (res.ok) onChange(data.url);
+      else alert(data.error || "Error al subir");
+    } catch { alert("Error de conexión"); }
+    setUploading(false);
+    e.target.value = "";
+  };
+
+  return (
+    <div className="flex gap-2">
+      <input type="text" value={value} placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)} className={className} />
+      <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      <button type="button" onClick={() => fileRef.current?.click()} disabled={uploading}
+        title="Subir imagen desde tu dispositivo"
+        className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 rounded-lg text-xs font-medium text-gray-600 flex-shrink-0 transition-colors">
+        <Upload className="w-3.5 h-3.5" />
+        {uploading ? "Subiendo…" : "Subir"}
+      </button>
+    </div>
+  );
+}
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -442,9 +485,9 @@ export default function AdminPage() {
                         onChange={(e) => updateHeroSlide(i, "subtitle", e.target.value)} />
                     </div>
                     <div className={`${FC} md:col-span-2`}>
-                      <label className={LC}>URL de imagen</label>
-                      <input type="text" value={slide.image} placeholder="/images/hero1.jpeg" className={IC}
-                        onChange={(e) => updateHeroSlide(i, "image", e.target.value)} />
+                      <label className={LC}>Imagen</label>
+                      <ImageInput value={slide.image} placeholder="/images/hero1.jpeg" className={IC}
+                        onChange={(v) => updateHeroSlide(i, "image", v)} />
                       {slide.image && <img src={slide.image} alt="" className="mt-2 h-28 w-full object-cover rounded-lg" />}
                     </div>
                   </div>
@@ -477,9 +520,9 @@ export default function AdminPage() {
                 <div className="grid md:grid-cols-2 gap-4">
                   {(["image1", "image2"] as const).map((key, idx) => (
                     <div key={key} className={FC}>
-                      <label className={LC}>Imagen {idx + 1} (URL)</label>
-                      <input type="text" value={content.companyIntro[key]} placeholder="/images/enfriador.jpeg" className={IC}
-                        onChange={(e) => setContent((prev) => ({ ...prev, companyIntro: { ...prev.companyIntro, [key]: e.target.value } }))} />
+                      <label className={LC}>Imagen {idx + 1}</label>
+                      <ImageInput value={content.companyIntro[key]} placeholder="/images/enfriador.jpeg" className={IC}
+                        onChange={(v) => setContent((prev) => ({ ...prev, companyIntro: { ...prev.companyIntro, [key]: v } }))} />
                       {content.companyIntro[key] && <img src={content.companyIntro[key]} alt="" className="mt-2 h-20 w-full object-cover rounded" />}
                     </div>
                   ))}
@@ -504,9 +547,9 @@ export default function AdminPage() {
                   </div>
                 ))}
                 <div className={FC}>
-                  <label className={LC}>Imagen (URL)</label>
-                  <input type="text" value={content.fabricantes.image} placeholder="/images/ingenieros.png" className={IC}
-                    onChange={(e) => setContent((prev) => ({ ...prev, fabricantes: { ...prev.fabricantes, image: e.target.value } }))} />
+                  <label className={LC}>Imagen</label>
+                  <ImageInput value={content.fabricantes.image} placeholder="/images/ingenieros.png" className={IC}
+                    onChange={(v) => setContent((prev) => ({ ...prev, fabricantes: { ...prev.fabricantes, image: v } }))} />
                   {content.fabricantes.image && <img src={content.fabricantes.image} alt="" className="mt-2 h-24 object-contain rounded" />}
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -633,8 +676,8 @@ export default function AdminPage() {
                       <textarea value={sector.description} rows={2} className={IC} onChange={(e) => updateSector(i, "description", e.target.value)} />
                     </div>
                     <div className={`${FC} md:col-span-2`}>
-                      <label className={LC}>Imagen (URL)</label>
-                      <input type="text" value={sector.image} placeholder="/images/industrial.jpeg" className={IC} onChange={(e) => updateSector(i, "image", e.target.value)} />
+                      <label className={LC}>Imagen</label>
+                      <ImageInput value={sector.image} placeholder="/images/industrial.jpeg" className={IC} onChange={(v) => updateSector(i, "image", v)} />
                       {sector.image && <img src={sector.image} alt="" className="mt-2 h-20 w-full object-cover rounded" />}
                     </div>
                   </div>
@@ -693,8 +736,8 @@ export default function AdminPage() {
                       <span className="text-sm font-medium text-gray-600">Imagen {i + 1}</span>
                       <button type="button" onClick={() => removeGalleryImage(i)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                     </div>
-                    <input type="text" placeholder="URL de imagen" value={img.src} className={IC + " mb-2"}
-                      onChange={(e) => updateGalleryImage(i, "src", e.target.value)} />
+                    <ImageInput value={img.src} placeholder="URL de imagen" className={IC + " mb-2"}
+                      onChange={(v) => updateGalleryImage(i, "src", v)} />
                     <input type="text" placeholder="Texto alternativo (SEO)" value={img.alt} className={IC}
                       onChange={(e) => updateGalleryImage(i, "alt", e.target.value)} />
                     {img.src && <img src={img.src} alt={img.alt} className="mt-3 h-20 w-full object-cover rounded" />}
@@ -869,8 +912,9 @@ export default function AdminPage() {
                 <input type="text" value={articleForm.author} className={IC} onChange={(e) => setArticleForm((p) => ({ ...p, author: e.target.value }))} />
               </div>
               <div className={FC}>
-                <label className={LC}>URL de imagen de portada</label>
-                <input type="text" value={articleForm.image} placeholder="/images/gallery1.jpeg" className={IC} onChange={(e) => setArticleForm((p) => ({ ...p, image: e.target.value }))} />
+                <label className={LC}>Imagen de portada</label>
+                <ImageInput value={articleForm.image} placeholder="/images/gallery1.jpeg" className={IC}
+                  onChange={(v) => setArticleForm((p) => ({ ...p, image: v }))} />
                 {articleForm.image && <img src={articleForm.image} alt="" className="mt-2 h-24 w-full object-cover rounded-lg" />}
               </div>
               <div className={FC}>

@@ -16,6 +16,11 @@ const oxygen = Oxygen({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/images/logo.gif",
+    shortcut: "/images/logo.gif",
+    apple: "/images/logo.gif",
+  },
   title: {
     default: "Emprendimientos MEC S.A. | Climatización Industrial Mendoza",
     template: "%s | Emprendimientos MEC S.A.",
