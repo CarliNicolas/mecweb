@@ -40,32 +40,17 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    const stream = client.messages.stream({
+    const message = await client.messages.create({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       messages,
     });
 
-    const readable = new ReadableStream({
-      async start(controller) {
-        const enc = new TextEncoder();
-        try {
-          for await (const chunk of stream) {
-            if (
-              chunk.type === "content_block_delta" &&
-              chunk.delta.type === "text_delta"
-            ) {
-              controller.enqueue(enc.encode(chunk.delta.text));
-            }
-          }
-        } finally {
-          controller.close();
-        }
-      },
-    });
+    const text =
+      message.content[0]?.type === "text" ? message.content[0].text : "";
 
-    return new Response(readable, {
+    return new Response(text, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   } catch (err) {
