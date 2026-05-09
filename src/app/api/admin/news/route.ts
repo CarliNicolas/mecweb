@@ -17,6 +17,17 @@ interface NewsArticle {
 }
 
 async function getNewsData(): Promise<NewsArticle[]> {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { list } = await import("@vercel/blob");
+      const { blobs } = await list({ prefix: "news.json" });
+      const blob = blobs[0];
+      if (blob) {
+        const res = await fetch(blob.url);
+        if (res.ok) return await res.json();
+      }
+    } catch { /* fall through */ }
+  }
   try {
     const data = await fs.readFile(NEWS_FILE, "utf-8");
     return JSON.parse(data);
@@ -27,6 +38,16 @@ async function getNewsData(): Promise<NewsArticle[]> {
 }
 
 async function saveNewsData(news: NewsArticle[]) {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put, list, del } = await import("@vercel/blob");
+    const { blobs } = await list({ prefix: "news.json" });
+    for (const blob of blobs) await del(blob.url);
+    await put("news.json", JSON.stringify(news), {
+      access: "public",
+      contentType: "application/json",
+    });
+    return;
+  }
   const dir = path.dirname(NEWS_FILE);
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(NEWS_FILE, JSON.stringify(news, null, 2));
@@ -36,8 +57,7 @@ export async function GET() {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 });
   }
-  const news = await getNewsData();
-  return NextResponse.json(news);
+  return NextResponse.json(await getNewsData());
 }
 
 export async function POST(request: NextRequest) {
