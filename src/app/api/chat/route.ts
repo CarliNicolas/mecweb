@@ -61,6 +61,6 @@ export async function POST(req: Request) {
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     console.error("Chat API error:", msg);
-    return NextResponse.json({ error: msg, keyLen: process.env.GEMINI_API_KEY?.length }, { status: 500 });
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
