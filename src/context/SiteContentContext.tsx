@@ -29,6 +29,17 @@ interface GalleryImage {
   alt: string;
 }
 
+export interface NavDropdownItem {
+  name: string;
+  href: string;
+}
+
+export interface NavItem {
+  name: string;
+  href: string;
+  dropdown: NavDropdownItem[];
+}
+
 export interface SiteContent {
   companyInfo: {
     phone: string;
@@ -90,6 +101,7 @@ export interface SiteContent {
     designCredit: string;
     designUrl: string;
   };
+  navigation: NavItem[];
 }
 
 const defaultContent: SiteContent = {
@@ -172,6 +184,24 @@ const defaultContent: SiteContent = {
     designCredit: "",
     designUrl: "",
   },
+  navigation: [
+    { name: "HOME", href: "/", dropdown: [] },
+    { name: "LA EMPRESA", href: "/#empresa", dropdown: [
+      { name: "Sobre Nosotros", href: "/#empresa" },
+      { name: "Rubros Gestionados", href: "/#rubros" },
+      { name: "Método de Servicio", href: "/contacto" },
+    ]},
+    { name: "PRODUCTOS", href: "/#productos", dropdown: [] },
+    { name: "SERVICIOS", href: "/#productos", dropdown: [
+      { name: "Climatización Industrial", href: "/productos/enfriadores-evaporativos" },
+      { name: "Climatización Comercial", href: "/productos/ventilacion-industrial" },
+    ]},
+    { name: "NOVEDADES", href: "/noticias", dropdown: [
+      { name: "Proyectos Fotogalería", href: "/#galeria" },
+      { name: "Últimas Noticias", href: "/noticias" },
+    ]},
+    { name: "CONTACTO", href: "/contacto", dropdown: [] },
+  ],
 };
 
 interface SiteContentContextType {

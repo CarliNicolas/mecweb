@@ -4,42 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import LanguageSwitcher from "./LanguageSwitcher";
-
-const navItems = [
-  { name: "HOME", href: "/" },
-  {
-    name: "LA EMPRESA",
-    href: "/#empresa",
-    dropdown: [
-      { name: "Sobre Nosotros", href: "/#empresa" },
-      { name: "Rubros Gestionados", href: "/#rubros" },
-      { name: "Método de Servicio", href: "/contacto" },
-    ],
-  },
-  { name: "PRODUCTOS", href: "/#productos" },
-  {
-    name: "SERVICIOS",
-    href: "/#productos",
-    dropdown: [
-      { name: "Climatización Industrial", href: "/productos/enfriadores-evaporativos" },
-      { name: "Climatización Comercial", href: "/productos/ventilacion-industrial" },
-    ],
-  },
-  {
-    name: "NOVEDADES",
-    href: "/noticias",
-    dropdown: [
-      { name: "Proyectos Fotogalería", href: "/#galeria" },
-      { name: "Últimas Noticias", href: "/noticias" },
-    ],
-  },
-  { name: "CONTACTO", href: "/contacto" },
-];
+import { useSiteContent } from "@/context/SiteContentContext";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [currentLocale, setCurrentLocale] = useState("es");
+  const { content } = useSiteContent();
+  const navItems = content.navigation ?? [];
 
   useEffect(() => {
     // Get locale from cookie
@@ -71,17 +43,17 @@ export default function Header() {
               <div
                 key={item.name}
                 className="relative group"
-                onMouseEnter={() => item.dropdown && setOpenDropdown(item.name)}
+                onMouseEnter={() => item.dropdown?.length > 0 && setOpenDropdown(item.name)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
                 <Link href={item.href} className="mecsa-nav-item">
                   <span className="mecsa-nav-bullet" />
                   <span>{item.name}</span>
-                  {item.dropdown && <ChevronDown className="w-3 h-3 ml-0.5" />}
+                  {item.dropdown?.length > 0 && <ChevronDown className="w-3 h-3 ml-0.5" />}
                 </Link>
 
                 {/* Dropdown */}
-                {item.dropdown && openDropdown === item.name && (
+                {item.dropdown?.length > 0 && openDropdown === item.name && (
                   <div className="absolute top-full left-0 pt-2 z-50">
                     <div className="bg-white shadow-lg rounded-md py-2 min-w-[200px] border border-gray-100">
                       {item.dropdown.map((subItem) => (
@@ -130,7 +102,7 @@ export default function Header() {
                     <span className="mecsa-nav-bullet" />
                     <span>{item.name}</span>
                   </Link>
-                  {item.dropdown && (
+                  {item.dropdown?.length > 0 && (
                     <div className="pl-6 space-y-1">
                       {item.dropdown.map((subItem) => (
                         <Link

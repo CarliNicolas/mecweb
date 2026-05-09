@@ -6,6 +6,7 @@ import {
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
   Newspaper, Plus, Edit, Trash2, X, Calendar, User, Home, Building2,
   Package, Grid3X3, Thermometer, Images, PhoneCall, Eye, Clock, ChevronDown,
+  Navigation,
 } from "lucide-react";
 
 // ─── Types ─────────────────────────────────────────────────────────────────
@@ -14,6 +15,8 @@ interface HeroSlide { title: string; titleHighlight: string; subtitle: string; i
 interface Product { id: string; title: string; description: string; icon: string; }
 interface SectorItem { title: string; description: string; image: string; link: string; }
 interface GalleryImage { src: string; alt: string; }
+interface NavDropdownItem { name: string; href: string; }
+interface NavItem { name: string; href: string; dropdown: NavDropdownItem[]; }
 interface SiteContent {
   companyInfo: { phone: string; email: string; address: string; whatsapp: string; };
   socialMedia: { facebook: string; twitter: string; instagram: string; };
@@ -27,6 +30,7 @@ interface SiteContent {
   gallery: { images: GalleryImage[]; buttonProjects: string; buttonNews: string; };
   contact: { title: string; subtitle: string; mapUrl: string; };
   footer: { text: string; designCredit: string; designUrl: string; };
+  navigation: NavItem[];
 }
 interface NewsArticle { slug: string; title: string; excerpt: string; content: string; image: string; date: string; category: string; author: string; }
 interface HistoryEntry { timestamp: Date; section: string; description: string; }
@@ -44,6 +48,7 @@ const TABS = [
   { id: "galeria", label: "Galería", icon: Images },
   { id: "contacto", label: "Contacto", icon: PhoneCall },
   { id: "social", label: "Redes / Footer", icon: Facebook },
+  { id: "navegacion", label: "Navegación", icon: Navigation },
   { id: "noticias", label: "Noticias", icon: Newspaper },
   { id: "historial", label: "Historial", icon: Clock },
 ];
@@ -52,7 +57,7 @@ const SECTION_LABELS: Record<string, string> = {
   general: "Información general", hero: "Carrusel", empresa: "La Empresa",
   fabricantes: "Fabricantes", productos: "Productos", sectores: "Sectores",
   climatizacion: "Climatización", galeria: "Galería", contacto: "Contacto",
-  social: "Redes / Footer", noticias: "Noticias",
+  social: "Redes / Footer", navegacion: "Navegación", noticias: "Noticias",
 };
 
 const NEWS_CATEGORIES = ["Proyectos", "Empresa", "Eventos", "Técnico", "Formación"];
@@ -261,6 +266,49 @@ export default function AdminPage() {
       const items = [...prev.sectors.items];
       items[i] = { ...items[i], [field]: value };
       return { ...prev, sectors: { ...prev.sectors, items } };
+    });
+  };
+
+  const addNavItem = () => {
+    setContent(
+      (prev) => ({ ...prev, navigation: [...(prev.navigation ?? []), { name: "", href: "/", dropdown: [] }] }),
+      "➕ Nuevo ítem de navegación agregado", "navegacion"
+    );
+  };
+  const removeNavItem = (i: number) => {
+    setContent(
+      (prev) => ({ ...prev, navigation: (prev.navigation ?? []).filter((_, idx) => idx !== i) }),
+      `🗑️ Ítem de navegación ${i + 1} eliminado`, "navegacion"
+    );
+  };
+  const updateNavItem = (i: number, field: keyof NavItem, value: string) => {
+    setContent((prev) => {
+      const nav = [...(prev.navigation ?? [])];
+      nav[i] = { ...nav[i], [field]: value };
+      return { ...prev, navigation: nav };
+    });
+  };
+  const addNavDropdownItem = (navIndex: number) => {
+    setContent((prev) => {
+      const nav = [...(prev.navigation ?? [])];
+      nav[navIndex] = { ...nav[navIndex], dropdown: [...nav[navIndex].dropdown, { name: "", href: "/" }] };
+      return { ...prev, navigation: nav };
+    });
+  };
+  const removeNavDropdownItem = (navIndex: number, dropIndex: number) => {
+    setContent((prev) => {
+      const nav = [...(prev.navigation ?? [])];
+      nav[navIndex] = { ...nav[navIndex], dropdown: nav[navIndex].dropdown.filter((_, idx) => idx !== dropIndex) };
+      return { ...prev, navigation: nav };
+    });
+  };
+  const updateNavDropdownItem = (navIndex: number, dropIndex: number, field: keyof NavDropdownItem, value: string) => {
+    setContent((prev) => {
+      const nav = [...(prev.navigation ?? [])];
+      const dropdown = [...nav[navIndex].dropdown];
+      dropdown[dropIndex] = { ...dropdown[dropIndex], [field]: value };
+      nav[navIndex] = { ...nav[navIndex], dropdown };
+      return { ...prev, navigation: nav };
     });
   };
 
@@ -764,6 +812,65 @@ export default function AdminPage() {
                   </div>
                 </div>
               </div>
+            </>)}
+
+            {/* ── NAVEGACIÓN ───────────────────────────────────────── */}
+            {activeTab === "navegacion" && (<>
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-500">Ítems del menú de navegación del escritorio y móvil.</p>
+                <button type="button" onClick={addNavItem} className={ADDBTN}>
+                  <Plus className="w-4 h-4" /> Agregar ítem
+                </button>
+              </div>
+              {(content.navigation ?? []).length === 0 && (
+                <div className={`${CARD} text-center py-8 text-gray-400`}>No hay ítems. Hacé clic en "Agregar ítem".</div>
+              )}
+              {(content.navigation ?? []).map((item, i) => (
+                <div key={i} className={CARD}>
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-medium text-gray-700">Ítem {i + 1}{item.name ? ` — ${item.name}` : ""}</h3>
+                    <button type="button" onClick={() => removeNavItem(i)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-3 mb-4">
+                    <div className={FC}>
+                      <label className={LC}>Nombre (en mayúsculas)</label>
+                      <input type="text" value={item.name} placeholder="CONTACTO" className={IC}
+                        onChange={(e) => updateNavItem(i, "name", e.target.value)} />
+                    </div>
+                    <div className={FC}>
+                      <label className={LC}>Enlace principal</label>
+                      <input type="text" value={item.href} placeholder="/contacto" className={IC}
+                        onChange={(e) => updateNavItem(i, "href", e.target.value)} />
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-100 pt-3">
+                    <div className="flex justify-between items-center mb-3">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Submenú desplegable ({item.dropdown.length} ítems)</p>
+                      <button type="button" onClick={() => addNavDropdownItem(i)}
+                        className="flex items-center gap-1.5 px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded-md text-gray-600 transition-colors">
+                        <Plus className="w-3 h-3" /> Agregar subítem
+                      </button>
+                    </div>
+                    {item.dropdown.length === 0 && (
+                      <p className="text-xs text-gray-400 italic">Sin submenú — este ítem no tiene desplegable.</p>
+                    )}
+                    <div className="space-y-2">
+                      {item.dropdown.map((sub, j) => (
+                        <div key={j} className="flex items-center gap-2">
+                          <input type="text" value={sub.name} placeholder="Nombre" className={`${IC} flex-1`}
+                            onChange={(e) => updateNavDropdownItem(i, j, "name", e.target.value)} />
+                          <input type="text" value={sub.href} placeholder="/ruta" className={`${IC} flex-1`}
+                            onChange={(e) => updateNavDropdownItem(i, j, "href", e.target.value)} />
+                          <button type="button" onClick={() => removeNavDropdownItem(i, j)}
+                            className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg flex-shrink-0 transition-colors">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </>)}
 
             {/* ── NOTICIAS ─────────────────────────────────────────── */}

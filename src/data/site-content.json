@@ -166,5 +166,35 @@
   "productsSection": {
     "title": "Soluciones de Climatización",
     "subtitle": "Nuestros Servicios"
-  }
+  },
+  "navigation": [
+    { "name": "HOME", "href": "/", "dropdown": [] },
+    {
+      "name": "LA EMPRESA",
+      "href": "/#empresa",
+      "dropdown": [
+        { "name": "Sobre Nosotros", "href": "/#empresa" },
+        { "name": "Rubros Gestionados", "href": "/#rubros" },
+        { "name": "Método de Servicio", "href": "/contacto" }
+      ]
+    },
+    { "name": "PRODUCTOS", "href": "/#productos", "dropdown": [] },
+    {
+      "name": "SERVICIOS",
+      "href": "/#productos",
+      "dropdown": [
+        { "name": "Climatización Industrial", "href": "/productos/enfriadores-evaporativos" },
+        { "name": "Climatización Comercial", "href": "/productos/ventilacion-industrial" }
+      ]
+    },
+    {
+      "name": "NOVEDADES",
+      "href": "/noticias",
+      "dropdown": [
+        { "name": "Proyectos Fotogalería", "href": "/#galeria" },
+        { "name": "Últimas Noticias", "href": "/noticias" }
+      ]
+    },
+    { "name": "CONTACTO", "href": "/contacto", "dropdown": [] }
+  ]
 }
