@@ -5,13 +5,13 @@ import { SiteContentProvider } from "@/context/SiteContentContext";
 
 const titilliumWeb = Titillium_Web({
   variable: "--font-titillium",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "600", "700"],
 });
 
 const oxygen = Oxygen({
   variable: "--font-oxygen",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "700"],
 });
 
