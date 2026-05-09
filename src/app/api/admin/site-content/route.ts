@@ -1,11 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
+import { getStore } from "@netlify/blobs";
 import fs from "fs/promises";
 import path from "path";
 
 const CONTENT_FILE = path.join(process.cwd(), "src/data/site-content.json");
+const BLOB_KEY = "site-content";
+const BLOB_STORE = "site-data";
 
 async function getSiteContent() {
+  if (process.env.NETLIFY) {
+    try {
+      const store = getStore(BLOB_STORE);
+      const content = await store.get(BLOB_KEY, { type: "json" });
+      if (content) return content;
+    } catch {
+      // fall through to file
+    }
+  }
   try {
     const data = await fs.readFile(CONTENT_FILE, "utf-8");
     return JSON.parse(data);
@@ -15,6 +27,11 @@ async function getSiteContent() {
 }
 
 async function saveSiteContent(content: Record<string, unknown>) {
+  if (process.env.NETLIFY) {
+    const store = getStore(BLOB_STORE);
+    await store.setJSON(BLOB_KEY, content);
+    return;
+  }
   const dir = path.dirname(CONTENT_FILE);
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(CONTENT_FILE, JSON.stringify(content, null, 2), "utf-8");
