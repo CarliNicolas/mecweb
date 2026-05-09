@@ -26,10 +26,19 @@ export async function POST(request: NextRequest) {
   const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
   const key = `upload-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
+  const arrayBuffer = await file.arrayBuffer();
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import("@vercel/blob");
+    await put(`images/${key}`, Buffer.from(arrayBuffer), {
+      access: "private",
+      contentType: file.type,
+    });
+    return NextResponse.json({ url: `/api/images/${key}` });
+  }
+
   const uploadsDir = path.join(process.cwd(), "public/uploads");
   await fs.mkdir(uploadsDir, { recursive: true });
-  const arrayBuffer = await file.arrayBuffer();
   await fs.writeFile(path.join(uploadsDir, key), Buffer.from(arrayBuffer));
-
   return NextResponse.json({ url: `/uploads/${key}` });
 }
