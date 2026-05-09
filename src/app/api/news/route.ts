@@ -11,7 +11,9 @@ export async function GET() {
       const { blobs } = await list({ prefix: "news.json" });
       const blob = blobs[0];
       if (blob) {
-        const res = await fetch(blob.url);
+        const res = await fetch(blob.url, {
+          headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+        });
         if (res.ok) return NextResponse.json(await res.json());
       }
     } catch { /* fall through */ }

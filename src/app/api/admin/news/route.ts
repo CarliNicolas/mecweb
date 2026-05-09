@@ -23,7 +23,9 @@ async function getNewsData(): Promise<NewsArticle[]> {
       const { blobs } = await list({ prefix: "news.json" });
       const blob = blobs[0];
       if (blob) {
-        const res = await fetch(blob.url);
+        const res = await fetch(blob.url, {
+          headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` },
+        });
         if (res.ok) return await res.json();
       }
     } catch { /* fall through */ }
@@ -43,7 +45,7 @@ async function saveNewsData(news: NewsArticle[]) {
     const { blobs } = await list({ prefix: "news.json" });
     for (const blob of blobs) await del(blob.url);
     await put("news.json", JSON.stringify(news), {
-      access: "public",
+      access: "private",
       contentType: "application/json",
     });
     return;
@@ -71,11 +73,8 @@ export async function POST(request: NextRequest) {
     }
     if (!article.slug) {
       article.slug = article.title
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "")
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
+        .toLowerCase().normalize("NFD")
+        .replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
     }
     if (!article.date) article.date = new Date().toISOString().split("T")[0];
     const news = await getNewsData();
