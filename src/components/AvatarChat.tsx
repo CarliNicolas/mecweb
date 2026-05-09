@@ -147,7 +147,7 @@ export default function AvatarChat() {
           {hasError && (
             <p className="text-center text-xs text-red-500">
               {hasError === "not_configured"
-                ? "⚙️ ANTHROPIC_API_KEY no configurada en Vercel"
+                ? "⚙️ GEMINI_API_KEY no configurada en Vercel"
                 : t("error")}
             </p>
           )}

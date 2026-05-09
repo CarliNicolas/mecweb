@@ -1,7 +1,5 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de Emprendimientos MEC S.A. (MECSA), empresa fabricante de sistemas de climatización industrial en Mendoza, Argentina.
 
@@ -33,22 +31,29 @@ INSTRUCCIONES:
 - Si no sabes algo, dilo honestamente y dirige al contacto directo`;
 
 export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return NextResponse.json({ error: "API key not configured" }, { status: 503 });
   }
 
   try {
     const { messages } = await req.json();
 
-    const message = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages,
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      systemInstruction: SYSTEM_PROMPT,
     });
 
-    const text =
-      message.content[0]?.type === "text" ? message.content[0].text : "";
+    // Convert to Gemini format: "assistant" → "model"
+    const history = messages.slice(0, -1).map((m: { role: string; content: string }) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+    const chat = model.startChat({ history });
+    const lastMessage = messages[messages.length - 1].content;
+    const result = await chat.sendMessage(lastMessage);
+    const text = result.response.text();
 
     return new Response(text, {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
