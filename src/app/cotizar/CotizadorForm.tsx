@@ -145,18 +145,19 @@ function buildMessage(data: FormData): string {
   const cfg = EXTRA_CONFIG[data.product];
 
   const lines = [
-    `Hola MECSA 👋, quiero consultar sobre un proyecto:`,
+    `Hola MECSA, quiero consultar sobre un proyecto:`,
     ``,
-    `🔧 *Solución:* ${prod}`,
-    space   ? `🏭 *Tipo de espacio:* ${space}`       : "",
-    area    ? `📐 *Superficie:* ${area}`              : "",
-    height  ? `📏 *Altura del techo:* ${height}`     : "",
-    data.location ? `📍 *Ubicación:* ${data.location}` : "",
-    data.extra1 ? `\n⚙️ *${cfg?.label1 ?? "Detalle"}:* ${data.extra1}` : "",
-    data.extra2 ? `⏰ *${cfg?.label2 ?? "Uso"}:* ${data.extra2}` : "",
+    `*Solucion:* ${prod}`,
+    space         ? `*Tipo de espacio:* ${space}`             : "",
+    area          ? `*Superficie:* ${area}`                   : "",
+    height        ? `*Altura del techo:* ${height}`           : "",
+    data.location ? `*Ubicacion:* ${data.location}`           : "",
     ``,
-    data.name    ? `👤 *Nombre:* ${data.name}`    : "",
-    data.company ? `🏢 *Empresa:* ${data.company}` : "",
+    data.extra1   ? `*${cfg?.label1 ?? "Detalle"}:* ${data.extra1}` : "",
+    data.extra2   ? `*${cfg?.label2 ?? "Uso"}:* ${data.extra2}`     : "",
+    ``,
+    data.name    ? `*Nombre:* ${data.name}`    : "",
+    data.company ? `*Empresa:* ${data.company}` : "",
   ];
 
   return lines.filter(Boolean).join("\n");
