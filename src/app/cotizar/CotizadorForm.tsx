@@ -33,40 +33,52 @@ const PRODUCTS = [
 
 const SPACE_TYPES: Record<string, { key: string; label: string; emoji: string }[]> = {
   enfriadores: [
-    { key: "galpon",    label: "Galpón / Nave industrial", emoji: "🏭" },
-    { key: "bodega",    label: "Bodega / Viñedo",          emoji: "🍷" },
-    { key: "avicola",   label: "Granja avícola",           emoji: "🐔" },
-    { key: "porcina",   label: "Granja porcina",           emoji: "🐷" },
-    { key: "invernadero",label: "Invernadero",             emoji: "🌱" },
-    { key: "comercial", label: "Local comercial",          emoji: "🏪" },
+    { key: "galpon",      label: "Galpón / Nave industrial",  emoji: "🏭" },
+    { key: "bodega",      label: "Bodega / Viñedo",           emoji: "🍷" },
+    { key: "avicola",     label: "Granja avícola",            emoji: "🐔" },
+    { key: "porcina",     label: "Granja porcina",            emoji: "🐷" },
+    { key: "invernadero", label: "Invernadero",               emoji: "🌱" },
+    { key: "gimnasio",    label: "Gimnasio / Fitness",        emoji: "🏋️" },
+    { key: "salon",       label: "Salón de eventos",          emoji: "🎉" },
+    { key: "supermercado",label: "Supermercado",              emoji: "🛒" },
+    { key: "hotel",       label: "Hotel / Hostel",            emoji: "🏨" },
+    { key: "comercial",   label: "Local comercial",           emoji: "🏪" },
+    { key: "otro",        label: "Otro",                      emoji: "📦" },
   ],
   calefactores: [
-    { key: "deposito",    label: "Depósito / Nave",       emoji: "🏭" },
-    { key: "taller",      label: "Taller mecánico",       emoji: "🔧" },
-    { key: "semiabierto", label: "Espacio semi-abierto",  emoji: "🏗️" },
-    { key: "otro",        label: "Otro",                  emoji: "📦" },
+    { key: "deposito",    label: "Depósito / Nave",           emoji: "🏭" },
+    { key: "taller",      label: "Taller mecánico",           emoji: "🔧" },
+    { key: "gimnasio",    label: "Gimnasio / Fitness",        emoji: "🏋️" },
+    { key: "salon",       label: "Salón de eventos",          emoji: "🎉" },
+    { key: "semiabierto", label: "Espacio semi-abierto",      emoji: "🏗️" },
+    { key: "comercial",   label: "Local comercial",           emoji: "🏪" },
+    { key: "otro",        label: "Otro",                      emoji: "📦" },
   ],
   ventilacion: [
-    { key: "industrial",  label: "Industrial general",     emoji: "🏭" },
-    { key: "alimentaria", label: "Industria alimentaria",  emoji: "🥩" },
-    { key: "quimica",     label: "Química / Farmacéutica", emoji: "⚗️" },
-    { key: "logistico",   label: "Centro logístico",       emoji: "📦" },
-    { key: "comercial",   label: "Comercial",              emoji: "🏪" },
-    { key: "otro",        label: "Otro",                   emoji: "🔧" },
+    { key: "industrial",  label: "Industrial general",        emoji: "🏭" },
+    { key: "alimentaria", label: "Industria alimentaria",     emoji: "🥩" },
+    { key: "quimica",     label: "Química / Farmacéutica",    emoji: "⚗️" },
+    { key: "logistico",   label: "Centro logístico",          emoji: "📦" },
+    { key: "gimnasio",    label: "Gimnasio / Fitness",        emoji: "🏋️" },
+    { key: "salon",       label: "Salón de eventos",          emoji: "🎉" },
+    { key: "hotel",       label: "Hotel / Hostel",            emoji: "🏨" },
+    { key: "comercial",   label: "Comercial",                 emoji: "🏪" },
+    { key: "otro",        label: "Otro",                      emoji: "🔧" },
   ],
   filtracion: [
-    { key: "farmaceutica", label: "Farmacéutica",        emoji: "💊" },
-    { key: "electronica",  label: "Electrónica",         emoji: "💻" },
-    { key: "laboratorio",  label: "Laboratorio",         emoji: "🔬" },
-    { key: "pintura",      label: "Taller de pintura",   emoji: "🎨" },
-    { key: "otro",         label: "Otra industria",      emoji: "🏭" },
+    { key: "farmaceutica", label: "Farmacéutica",             emoji: "💊" },
+    { key: "electronica",  label: "Electrónica",              emoji: "💻" },
+    { key: "laboratorio",  label: "Laboratorio",              emoji: "🔬" },
+    { key: "pintura",      label: "Taller de pintura",        emoji: "🎨" },
+    { key: "alimentaria",  label: "Industria alimentaria",    emoji: "🥩" },
+    { key: "otro",         label: "Otra industria",           emoji: "🏭" },
   ],
   control: [
-    { key: "enfriadores", label: "Enfriadores evaporativos", emoji: "❄️" },
-    { key: "ventilacion", label: "Ventilación industrial",   emoji: "💨" },
-    { key: "calefaccion", label: "Calefacción",              emoji: "🔥" },
-    { key: "varios",      label: "Varios sistemas",          emoji: "⚙️" },
-    { key: "nuevo",       label: "Proyecto nuevo",           emoji: "✨" },
+    { key: "enfriadores", label: "Enfriadores evaporativos",  emoji: "❄️" },
+    { key: "ventilacion", label: "Ventilación industrial",    emoji: "💨" },
+    { key: "calefaccion", label: "Calefacción",               emoji: "🔥" },
+    { key: "varios",      label: "Varios sistemas",           emoji: "⚙️" },
+    { key: "nuevo",       label: "Proyecto nuevo",            emoji: "✨" },
   ],
 };
 
@@ -233,7 +245,6 @@ export default function CotizadorForm() {
 
   const canNext1 = !!data.product;
   const canNext2 = !!(data.spaceType && data.area && data.height && data.location);
-  const canSend  = !!(data.name);
 
   const openWhatsApp = () => {
     const msg = buildMessage(data);
@@ -432,7 +443,7 @@ export default function CotizadorForm() {
               <div className="space-y-4 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-[var(--mecsa-text)] mb-2">
-                    Tu nombre *
+                    Tu nombre <span className="text-[var(--mecsa-text-light)] font-normal">(opcional)</span>
                   </label>
                   <input id="name" type="text" value={data.name}
                     onChange={(e) => set("name", e.target.value)}
@@ -470,8 +481,8 @@ export default function CotizadorForm() {
                   className="mecsa-btn-outline flex items-center gap-2">
                   <ChevronLeft className="w-4 h-4" /> Volver
                 </button>
-                <button type="button" onClick={openWhatsApp} disabled={!canSend}
-                  className="flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#1fba58] text-white font-semibold rounded-sm transition-colors duration-300 disabled:opacity-40 disabled:cursor-not-allowed text-sm uppercase tracking-wider">
+                <button type="button" onClick={openWhatsApp}
+                  className="flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#1fba58] text-white font-semibold rounded-sm transition-colors duration-300 text-sm uppercase tracking-wider">
                   <MessageCircle className="w-4 h-4" />
                   Enviar por WhatsApp
                 </button>
