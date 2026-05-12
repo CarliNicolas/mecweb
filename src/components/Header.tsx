@@ -21,7 +21,6 @@ export default function Header() {
       dropdown: [
         { name: t("aboutUs"), href: "/#empresa" },
         { name: t("sectors"), href: "/#rubros" },
-        { name: t("methodology"), href: "/#empresa" },
       ],
     },
     { key: "products", name: t("products"), href: "/#productos" },
