@@ -124,32 +124,44 @@
   "gallery": {
     "images": [
       {
-        "src": "/images/gallery1.jpeg",
-        "alt": "Sistemas de refrigeración industrial"
+        "src": "/api/images/upload-1778593182181-yvjoka7mqm.jpg",
+        "alt": "Instalación industrial MECSA"
       },
       {
-        "src": "/images/gallery2.jpeg",
-        "alt": "Fábrica EMECSA"
+        "src": "/api/images/upload-1778593281949-qe4t9waee2p.jpeg",
+        "alt": "Proyecto de climatización"
       },
       {
-        "src": "/images/gallery3.jpeg",
-        "alt": "Filtración de aire"
+        "src": "/api/images/upload-1778593405195-8ewuzghk98l.jpeg",
+        "alt": "Sistemas de ventilación industrial"
       },
       {
-        "src": "/images/gallery4.jpeg",
-        "alt": "Climatización para particulares"
+        "src": "/api/images/upload-1778593463202-vt43x3vwt3.jpeg",
+        "alt": "Instalación de enfriadores evaporativos"
       },
       {
-        "src": "/images/gallery5.jpeg",
-        "alt": "Cámaras de frío"
+        "src": "/api/images/upload-1778593661548-dzrtakbsvve.jpeg",
+        "alt": "Proyecto industrial MECSA"
       },
       {
-        "src": "/images/gallery7.jpeg",
-        "alt": "Enfriadores evaporativos"
+        "src": "/api/images/upload-1778593684153-ro8ugrxf6pi.jpg",
+        "alt": "Planta industrial climatizada"
       },
       {
-        "src": "/images/gallery8.jpeg",
-        "alt": "Filtración de aire industrial"
+        "src": "/api/images/upload-1778593703649-nbxbt6eukr.jpg",
+        "alt": "Equipos de climatización"
+      },
+      {
+        "src": "/api/images/upload-1778593744859-davun7k9z6e.jpeg",
+        "alt": "Instalación de ventilación"
+      },
+      {
+        "src": "/api/images/upload-1778593772697-lqar3xjcmrp.jpeg",
+        "alt": "Proyecto de climatización MECSA"
+      },
+      {
+        "src": "/api/images/upload-1778593804123-m7s1qokncc.png",
+        "alt": "Enfriador evaporativo MECSA"
       }
     ],
     "buttonProjects": "Ver Proyectos",
