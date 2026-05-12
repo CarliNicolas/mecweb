@@ -159,7 +159,7 @@ function buildMessage(data: FormData, fileNames?: string[]): string {
     data.name    ? `*Nombre:* ${data.name}`    : "",
     data.company ? `*Empresa:* ${data.company}` : "",
     fileNames && fileNames.length > 0
-      ? `*Archivos adjuntos:* ${fileNames.join(", ")} (los envio por correo)`
+      ? `*Archivos:* ${fileNames.join(", ")}`
       : "",
   ];
 
@@ -266,7 +266,8 @@ export default function CotizadorForm() {
   const canNext2 = !!(data.spaceType && data.area && data.height && data.location);
 
   const openWhatsApp = () => {
-    const msg = buildMessage(data, fileNames);
+    // Files cannot be sent via wa.me URL — send text only
+    const msg = buildMessage(data);
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -535,9 +536,12 @@ export default function CotizadorForm() {
                   )}
 
                   {files.length > 0 && (
-                    <p className="text-xs text-[var(--mecsa-text-light)] mt-2">
-                      Los archivos se adjuntan al correo electrónico. Por WhatsApp solo se menciona el nombre.
-                    </p>
+                    <div className="mt-3 flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      <span className="text-amber-500 mt-0.5 flex-shrink-0">⚠️</span>
+                      <p className="text-xs text-amber-800 leading-relaxed">
+                        <strong>WhatsApp no admite adjuntos.</strong> Los archivos solo se envían por correo electrónico. Usá el botón <strong>Enviar por Correo</strong> y adjuntalos desde tu cliente de correo.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -551,7 +555,7 @@ export default function CotizadorForm() {
                   </span>
                 </div>
                 <pre className="text-xs text-[var(--mecsa-text)] whitespace-pre-wrap leading-relaxed font-sans">
-                  {buildMessage({ ...data, name: data.name || "Tu nombre" }, fileNames)}
+                  {buildMessage({ ...data, name: data.name || "Tu nombre" })}
                 </pre>
               </div>
 
