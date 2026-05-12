@@ -103,8 +103,15 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* Mobile: lang + hamburger */}
+          {/* Mobile: cotizar CTA + lang + hamburger */}
           <div className="lg:hidden flex items-center gap-1">
+            <Link
+              href="/cotizar"
+              className="px-3 py-1.5 bg-[var(--mecsa-primary)] text-white text-xs font-semibold rounded-sm whitespace-nowrap"
+              onClick={closeMobile}
+            >
+              Cotizá
+            </Link>
             <LanguageSwitcher currentLocale={currentLocale} />
             <button
               type="button"
