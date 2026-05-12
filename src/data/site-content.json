@@ -46,16 +46,16 @@
     "title1": "Conozca nuestra empresa.",
     "title2": "Asesoramiento |",
     "title3": "Climatización según sus necesidades.",
-    "description1": "EMPRENDIMIENTOS MEC S.A. tiene como objetivo diseñar e implementar Sistemas de Climatización Industrial para proveer un ambiente confortable mediante el control simultáneo de la temperatura, la humedad, la limpieza y la distribución del aire en el ambiente, sin omitir el nivel acústico.",
-    "description2": "Esto se logra mediante la provisión de Enfriadores Evaporativos ventiladores/extractores de aire; sistemas de tratamiento de aire que permiten controlar distintos parámetros industriales (temperatura, humedad, cantidad de partículas, nivel sonoro y carga eléctrica entre otros factores) en diferentes espacios de acuerdo a especificaciones predeterminadas.",
+    "description1": "Objetivo Estratégico: Diseñar e implementar soluciones integrales de Climatización Industrial orientadas a garantizar condiciones ambientales óptimas. Nuestra ingeniería permite el control simultáneo de temperatura, humedad, pureza y distribución del flujo de aire, asegurando no solo el confort térmico, sino también el cumplimiento de estándares rigurosos de niveles acústicos.",
+    "description2": "Soluciones Técnicas: Logramos la excelencia operativa mediante la integración de: Sistemas de Enfriamiento Evaporativo: Equipos de alta eficiencia para la gestión térmica. Ventilación y Extracción: Unidades de movimiento de aire diseñadas para una renovación constante. Tratamiento de Aire Especializado: Sistemas avanzados que regulan parámetros críticos como la carga eléctrica, filtración de partículas y niveles sonoros, adaptándose estrictamente a las especificaciones técnicas de cada espacio industrial. Somos fabricantes.",
     "image1": "/images/enfriador.jpeg",
     "image2": "/images/ventilacion.jpeg"
   },
   "fabricantes": {
-    "title": "Somos Fabricantes",
-    "description1": "Somos fabricantes en Mendoza (Argentina) de Enfriadores Evaporativos de Alta Eficiencia.",
-    "description2": "Diseñamos el equipo y el sistema, según las características y necesidades del lugar donde serán finalmente instalados.",
-    "description3": "Tomando aire del exterior el sistema no sólo baja la carga térmica del ambiente sino que también genera presión positiva dentro del mismo lo que garantiza que desde el exterior entra aire previamente filtrado pudiendo implementarse normas de polución ambiental en lo que a calidad de aires se refiere. Ofrecemos soluciones sustentables.",
+    "title": "Líderes en Climatización Sustentable desde Mendoza",
+    "description1": "Con sede en Mendoza, Argentina, nos especializamos en el diseño y fabricación de Sistemas de Enfriamiento Evaporativo de Alta Eficiencia. Nuestra propuesta de valor se basa en la ingeniería personalizada: desarrollamos equipos y sistemas configurados exclusivamente bajo las especificaciones técnicas y necesidades climáticas de cada proyecto.",
+    "description2": "A través de la captación de aire exterior, nuestras soluciones no solo reducen eficazmente la carga térmica, sino que establecen un sistema de presión positiva. Esto garantiza un flujo constante de aire filtrado, permitiendo a nuestros clientes cumplir con los estándares más rigurosos de calidad de aire y control de polución ambiental. Todo bajo un modelo de operación sustentable y de bajo consumo energético.",
+    "description3": "",
     "image": "/images/ingenieros.png",
     "buttonText": "Ver Fotogalería",
     "buttonLink": "/#galeria"
@@ -90,12 +90,6 @@
       "title": "Control y Automatización",
       "description": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
       "icon": "Settings"
-    },
-    {
-      "id": "producto-1778279057409",
-      "title": "pelota",
-      "description": "",
-      "icon": "Cloud"
     }
   ],
   "sectors": {
@@ -173,6 +167,6 @@
   },
   "productsSection": {
     "title": "Soluciones de Climatización",
-    "subtitle": "Nuestros Servicios"
+    "subtitle": "Nuestros Productos y Servicios"
   }
 }
