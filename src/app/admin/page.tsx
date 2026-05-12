@@ -71,6 +71,7 @@ interface SiteContent {
   gallery: { images: GalleryImage[]; buttonProjects: string; buttonNews: string; };
   contact: { title: string; subtitle: string; mapUrl: string; };
   footer: { text: string; designCredit: string; designUrl: string; };
+  clientes: string[];
 }
 interface NewsArticle { slug: string; title: string; excerpt: string; content: string; image: string; date: string; category: string; author: string; }
 interface HistoryEntry { timestamp: Date; section: string; description: string; }
@@ -94,6 +95,7 @@ const TABS = [
   { id: "galeria", label: "Galería", icon: Images },
   { id: "contacto", label: "Contacto", icon: PhoneCall },
   { id: "social", label: "Redes / Footer", icon: Facebook },
+  { id: "clientes", label: "Clientes", icon: Building2 },
   { id: "cotizador", label: "Cotizador", icon: FileText },
   { id: "chat-ia", label: "Chat IA", icon: Bot },
   { id: "noticias", label: "Noticias", icon: Newspaper },
@@ -104,7 +106,7 @@ const SECTION_LABELS: Record<string, string> = {
   general: "Información general", hero: "Carrusel", empresa: "La Empresa",
   fabricantes: "Fabricantes", productos: "Productos", sectores: "Sectores",
   climatizacion: "Climatización", galeria: "Galería", contacto: "Contacto",
-  social: "Redes / Footer", noticias: "Noticias", "chat-ia": "Chat IA",
+  social: "Redes / Footer", clientes: "Clientes", noticias: "Noticias", "chat-ia": "Chat IA",
 };
 
 const NEWS_CATEGORIES = ["Proyectos", "Empresa", "Eventos", "Técnico", "Formación"];
@@ -886,6 +888,47 @@ export default function AdminPage() {
                 </div>
               </div>
             </>)}
+
+            {/* ── CLIENTES ─────────────────────────────────────────── */}
+            {activeTab === "clientes" && (
+              <div className="space-y-4">
+                <div className={CARD}>
+                  <p className="text-sm text-gray-500">Empresas que aparecen en el marquee de la página principal. El orden es el orden de desplazamiento.</p>
+                </div>
+                <div className={`${CARD} space-y-3`}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-medium text-gray-700 text-sm">Lista de clientes</h3>
+                    <button type="button" className={ADDBTN}
+                      onClick={() => setContent((prev) => ({ ...prev, clientes: [...(prev.clientes ?? []), ""] }))}>
+                      <Plus className="w-3.5 h-3.5" /> Agregar
+                    </button>
+                  </div>
+                  {(content.clientes ?? []).map((cliente, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={cliente}
+                        placeholder="Nombre de la empresa"
+                        className={`${IC} flex-1`}
+                        onChange={(e) => setContent((prev) => {
+                          const arr = [...(prev.clientes ?? [])];
+                          arr[i] = e.target.value;
+                          return { ...prev, clientes: arr };
+                        })}
+                      />
+                      <button type="button"
+                        onClick={() => setContent((prev) => ({ ...prev, clientes: (prev.clientes ?? []).filter((_, idx) => idx !== i) }))}
+                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  {!(content.clientes ?? []).length && (
+                    <p className="text-xs text-gray-400 italic">Sin clientes. Hacé clic en Agregar.</p>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* ── COTIZADOR ────────────────────────────────────────── */}
             {activeTab === "cotizador" && cotizador && (() => {

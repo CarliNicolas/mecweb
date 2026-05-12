@@ -174,5 +174,11 @@
   "productsSection": {
     "title": "Soluciones de Climatización",
     "subtitle": "Nuestros Productos y Servicios"
-  }
+  },
+  "clientes": [
+    "Arcor", "Unilever", "Drean Mabe", "Plastiandino", "BolsaFilm",
+    "Carin", "Zummy", "Mansur", "Oscar David", "Peñaflor",
+    "Carnes La Cuyana", "Fundación Instituto Leloir", "Lácteos Maitia",
+    "Finca Rocío", "Marata", "Agrinet", "Proemio"
+  ]
 }

@@ -90,6 +90,7 @@ export interface SiteContent {
     designCredit: string;
     designUrl: string;
   };
+  clientes: string[];
 }
 
 const defaultContent: SiteContent = {
@@ -172,6 +173,12 @@ const defaultContent: SiteContent = {
     designCredit: "",
     designUrl: "",
   },
+  clientes: [
+    "Arcor", "Unilever", "Drean Mabe", "Plastiandino", "BolsaFilm",
+    "Carin", "Zummy", "Mansur", "Oscar David", "Peñaflor",
+    "Carnes La Cuyana", "Fundación Instituto Leloir", "Lácteos Maitia",
+    "Finca Rocío", "Marata", "Agrinet", "Proemio",
+  ],
 };
 
 interface SiteContentContextType {
