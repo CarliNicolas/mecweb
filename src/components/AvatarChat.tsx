@@ -186,37 +186,20 @@ export default function AvatarChat() {
         </div>
       </div>
 
-      {/* Floating button */}
-      <div className="fixed bottom-24 right-6 z-50">
-        <button
-          type="button"
-          onClick={isOpen ? () => setIsOpen(false) : openChat}
-          className={`relative flex items-center justify-center w-14 h-14 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300 ${
-            isOpen
-              ? "bg-gray-600"
-              : "bg-[var(--mecsa-primary)]"
-          }`}
-          aria-label={t("tooltip")}
-        >
-          {isOpen ? (
-            <X className="w-6 h-6 text-white" />
-          ) : (
+      {/* Floating button — hidden while chat is open */}
+      {!isOpen && (
+        <div className="fixed bottom-24 right-6 z-50">
+          <button
+            type="button"
+            onClick={openChat}
+            className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[var(--mecsa-primary)] shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
+            aria-label={t("tooltip")}
+          >
             <Bot className="w-7 h-7 text-white" />
-          )}
-          {!isOpen && (
             <span className="absolute w-full h-full rounded-full bg-[var(--mecsa-primary)] animate-ping opacity-25" />
-          )}
-        </button>
-
-        {/* Tooltip */}
-        {!isOpen && (
-          <div className="absolute bottom-full right-0 mb-2 pointer-events-none">
-            <div className="bg-white rounded-lg shadow-lg px-3 py-2 text-xs text-gray-700 whitespace-nowrap opacity-0 group-hover:opacity-100">
-              {t("tooltip")}
-            </div>
-          </div>
-        )}
-      </div>
+          </button>
+        </div>
+      )}
     </>
   );
 }
