@@ -37,13 +37,16 @@ export async function generateMetadata({
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `/noticias/${slug}` },
     openGraph: {
       title: `${article.title} | Emprendimientos MEC S.A.`,
       description: article.excerpt,
       type: "article",
       publishedTime: article.date,
       authors: [article.author],
-      images: article.image ? [{ url: article.image }] : [],
+      images: article.image
+        ? [{ url: article.image, alt: article.title }]
+        : [{ url: "/images/climatizacion-en-galpones-1155x770.jpg", alt: "Emprendimientos MEC S.A." }],
     },
   };
 }

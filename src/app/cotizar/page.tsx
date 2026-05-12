@@ -9,6 +9,13 @@ export const metadata: Metadata = {
   title: "Cotizá tu Proyecto | MEC",
   description:
     "Completá el formulario con los datos de tu espacio y te enviamos un resumen detallado por WhatsApp para seguir conversando sobre tu proyecto de climatización industrial.",
+  keywords: [
+    "cotizar climatización industrial Mendoza",
+    "presupuesto enfriadores evaporativos",
+    "cotización ventilación industrial",
+    "presupuesto calefacción industrial Mendoza",
+  ],
+  alternates: { canonical: "/cotizar" },
 };
 
 export default async function CotizarPage() {

@@ -94,13 +94,23 @@ export async function generateMetadata({
 
   if (!product) return {};
 
+  const keywordsMap: Record<string, string[]> = {
+    "enfriadores-evaporativos": ["enfriadores evaporativos Mendoza", "climatización evaporativa industrial", "enfriamiento galpones bodegas", "enfriadores industriales Argentina"],
+    "calefactores-radiantes":   ["calefactores radiantes industriales", "tubos radiantes PIROMEC", "calefacción infrarroja galpones", "calefacción industrial Mendoza"],
+    "ventilacion-industrial":   ["ventilación industrial Mendoza", "extractores industriales", "ventiladores axiales centrífugos", "renovación de aire industrial"],
+    "filtracion-de-aire":       ["filtración de aire industrial", "filtros HEPA industriales", "calidad de aire Mendoza", "filtración farmacéutica electrónica"],
+    "control-y-automatizacion": ["automatización climatización industrial", "control remoto temperatura humedad", "monitoreo industrial 24/7", "SCADA climatización Mendoza"],
+  };
+
   return {
     title: product.title,
     description: product.description,
+    keywords: keywordsMap[slug] ?? [],
+    alternates: { canonical: `/productos/${slug}` },
     openGraph: {
-      title: `${product.title} | Emprendimientos MEC S.A.`,
+      title: `${product.title} | MEC S.A.`,
       description: product.description,
-      images: [{ url: product.image }],
+      images: [{ url: product.image, alt: product.title }],
     },
   };
 }
