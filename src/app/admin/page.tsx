@@ -7,7 +7,7 @@ import {
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
   Newspaper, Plus, Edit, Trash2, X, Calendar, User, Home, Building2,
   Package, Grid3X3, Thermometer, Images, PhoneCall, Eye, Clock, ChevronDown,
-  Upload,
+  Upload, Bot, Sparkles,
 } from "lucide-react";
 
 // ─── Image Upload Input ─────────────────────────────────────────────────────
@@ -74,6 +74,12 @@ interface SiteContent {
 }
 interface NewsArticle { slug: string; title: string; excerpt: string; content: string; image: string; date: string; category: string; author: string; }
 interface HistoryEntry { timestamp: Date; section: string; description: string; }
+interface ChatConfig {
+  empresa: { nombre: string; descripcion: string; direccion: string; telefono: string; email: string; web: string; };
+  productos: { nombre: string; descripcion: string; }[];
+  rubros: string[];
+  instrucciones: string;
+}
 
 // ─── Constants ─────────────────────────────────────────────────────────────
 
@@ -89,6 +95,7 @@ const TABS = [
   { id: "contacto", label: "Contacto", icon: PhoneCall },
   { id: "social", label: "Redes / Footer", icon: Facebook },
   { id: "cotizador", label: "Cotizador", icon: FileText },
+  { id: "chat-ia", label: "Chat IA", icon: Bot },
   { id: "noticias", label: "Noticias", icon: Newspaper },
   { id: "historial", label: "Historial", icon: Clock },
 ];
@@ -97,7 +104,7 @@ const SECTION_LABELS: Record<string, string> = {
   general: "Información general", hero: "Carrusel", empresa: "La Empresa",
   fabricantes: "Fabricantes", productos: "Productos", sectores: "Sectores",
   climatizacion: "Climatización", galeria: "Galería", contacto: "Contacto",
-  social: "Redes / Footer", noticias: "Noticias",
+  social: "Redes / Footer", noticias: "Noticias", "chat-ia": "Chat IA",
 };
 
 const NEWS_CATEGORIES = ["Proyectos", "Empresa", "Eventos", "Técnico", "Formación"];
@@ -118,6 +125,7 @@ export default function AdminPage() {
   const [news, setNews] = useState<NewsArticle[]>([]);
   const [cotizador, setCotizador] = useState<CotizadorConfig | null>(null);
   const [cotizadorTab, setCotizadorTab] = useState("productos");
+  const [chatConfig, setChatConfig] = useState<ChatConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
@@ -130,6 +138,11 @@ export default function AdminPage() {
   const [editingArticle, setEditingArticle] = useState<NewsArticle | null>(null);
   const [articleForm, setArticleForm] = useState<NewsArticle>(EMPTY_ARTICLE);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  // AI writing assistant
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiResult, setAiResult] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
 
   // ─── Wrapper that also records history ──────────────────────────────────
 
@@ -160,7 +173,7 @@ export default function AdminPage() {
     try {
       const authRes = await fetch("/api/admin/auth");
       if (!authRes.ok) { window.location.href = "/admin/login"; return; }
-      await Promise.all([loadContent(), loadNews(), loadCotizador()]);
+      await Promise.all([loadContent(), loadNews(), loadCotizador(), loadChatConfig()]);
     } catch { window.location.href = "/admin/login"; }
     finally { setIsLoading(false); }
   };
@@ -182,6 +195,41 @@ export default function AdminPage() {
   const loadCotizador = async () => {
     const res = await fetch("/api/admin/cotizador");
     if (res.ok) setCotizador(await res.json());
+  };
+
+  const loadChatConfig = async () => {
+    const res = await fetch("/api/admin/chat-config");
+    if (res.ok) setChatConfig(await res.json());
+  };
+
+  const handleSaveChatConfig = async () => {
+    if (!chatConfig) return;
+    setIsSaving(true); setSaveStatus("idle");
+    try {
+      const res = await fetch("/api/admin/chat-config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(chatConfig),
+      });
+      if (res.ok) { setSaveStatus("success"); setSaveMessage("Configuración del chat guardada"); }
+      else { setSaveStatus("error"); setSaveMessage("Error al guardar"); }
+    } catch { setSaveStatus("error"); setSaveMessage("Error de conexión"); }
+    finally { setIsSaving(false); setTimeout(() => setSaveStatus("idle"), 3000); }
+  };
+
+  const handleAiGenerate = async () => {
+    if (!aiPrompt.trim()) return;
+    setAiLoading(true); setAiResult("");
+    try {
+      const res = await fetch("/api/admin/ai-write", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: aiPrompt, context: { title: articleForm.title, category: articleForm.category } }),
+      });
+      if (res.ok) setAiResult(await res.text());
+      else alert("Error al generar texto");
+    } catch { alert("Error de conexión"); }
+    finally { setAiLoading(false); }
   };
 
   const handleSaveCotizador = async () => {
@@ -441,7 +489,11 @@ export default function AdminPage() {
             )}
             {activeTab !== "noticias" && activeTab !== "historial" && (
               <button type="button"
-                onClick={activeTab === "cotizador" ? handleSaveCotizador : handleSaveContent}
+                onClick={
+                  activeTab === "cotizador" ? handleSaveCotizador :
+                  activeTab === "chat-ia"   ? handleSaveChatConfig :
+                  handleSaveContent
+                }
                 disabled={isSaving}
                 className="flex items-center gap-2 px-4 py-2 bg-[var(--mecsa-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--mecsa-primary-dark)] disabled:opacity-60 transition-colors">
                 <Save className="w-4 h-4" />
@@ -1071,6 +1123,91 @@ export default function AdminPage() {
               </>);
             })()}
 
+            {/* ── CHAT IA ──────────────────────────────────────────── */}
+            {activeTab === "chat-ia" && chatConfig && (() => {
+              const cfg = chatConfig;
+              const setCfg = setChatConfig as React.Dispatch<React.SetStateAction<ChatConfig | null>>;
+              const upd = (fn: (prev: ChatConfig) => ChatConfig) => setCfg((prev) => prev ? fn(prev) : prev);
+              return (
+                <div className="space-y-4">
+                  <div className={`${CARD} flex items-start gap-3`}>
+                    <Bot className="w-5 h-5 text-[var(--mecsa-primary)] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm font-medium text-gray-800">Configuración del asistente virtual</p>
+                      <p className="text-xs text-gray-400 mt-0.5">Estos datos definen qué sabe el chat IA del sitio. Guardar aplica los cambios de inmediato.</p>
+                    </div>
+                  </div>
+
+                  {/* Empresa */}
+                  <div className={`${CARD} space-y-3`}>
+                    <h3 className="font-medium text-gray-700 text-sm">Datos de la empresa</h3>
+                    {(["nombre", "descripcion", "direccion", "telefono", "email", "web"] as const).map((field) => (
+                      <div key={field} className={FC}>
+                        <label className={LC + " capitalize"}>{field}</label>
+                        <input type="text" value={cfg.empresa[field]} className={IC}
+                          onChange={(e) => upd((p) => ({ ...p, empresa: { ...p.empresa, [field]: e.target.value } }))} />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Productos */}
+                  <div className={`${CARD} space-y-3`}>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-gray-700 text-sm">Productos que conoce el chat</h3>
+                      <button type="button" className={ADDBTN}
+                        onClick={() => upd((p) => ({ ...p, productos: [...p.productos, { nombre: "", descripcion: "" }] }))}>
+                        <Plus className="w-3.5 h-3.5" /> Agregar
+                      </button>
+                    </div>
+                    {cfg.productos.map((prod, i) => (
+                      <div key={i} className="flex gap-2 items-start">
+                        <div className="flex-1 grid md:grid-cols-2 gap-2">
+                          <input type="text" value={prod.nombre} placeholder="Nombre del producto" className={IC}
+                            onChange={(e) => upd((p) => { const arr = [...p.productos]; arr[i] = { ...arr[i], nombre: e.target.value }; return { ...p, productos: arr }; })} />
+                          <input type="text" value={prod.descripcion} placeholder="Descripción breve" className={IC}
+                            onChange={(e) => upd((p) => { const arr = [...p.productos]; arr[i] = { ...arr[i], descripcion: e.target.value }; return { ...p, productos: arr }; })} />
+                        </div>
+                        <button type="button" onClick={() => upd((p) => ({ ...p, productos: p.productos.filter((_, idx) => idx !== i) }))}
+                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0 mt-0.5">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Rubros */}
+                  <div className={`${CARD} space-y-3`}>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-gray-700 text-sm">Sectores / rubros atendidos</h3>
+                      <button type="button" className={ADDBTN}
+                        onClick={() => upd((p) => ({ ...p, rubros: [...p.rubros, ""] }))}>
+                        <Plus className="w-3.5 h-3.5" /> Agregar
+                      </button>
+                    </div>
+                    {cfg.rubros.map((rubro, i) => (
+                      <div key={i} className="flex gap-2 items-center">
+                        <input type="text" value={rubro} placeholder="Ej: Industrial: Bodegas, Fábricas..." className={`${IC} flex-1`}
+                          onChange={(e) => upd((p) => { const arr = [...p.rubros]; arr[i] = e.target.value; return { ...p, rubros: arr }; })} />
+                        <button type="button" onClick={() => upd((p) => ({ ...p, rubros: p.rubros.filter((_, idx) => idx !== i) }))}
+                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Instrucciones */}
+                  <div className={`${CARD} space-y-3`}>
+                    <h3 className="font-medium text-gray-700 text-sm">Instrucciones de comportamiento</h3>
+                    <p className="text-xs text-gray-400">Una instrucción por línea. Define el tono, límites y cómo responde el asistente.</p>
+                    <textarea value={cfg.instrucciones} rows={8} className={IC}
+                      placeholder={"Responde en el mismo idioma que el usuario\nSé amigable y conciso\n..."}
+                      onChange={(e) => upd((p) => ({ ...p, instrucciones: e.target.value }))} />
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* ── NOTICIAS ─────────────────────────────────────────── */}
             {activeTab === "noticias" && (<>
               <div className="flex justify-between items-center">
@@ -1187,7 +1324,66 @@ export default function AdminPage() {
                 <label className={LC}>Contenido completo *</label>
                 <textarea value={articleForm.content} rows={10} placeholder="Contenido completo del artículo. Podés usar **negrita** y saltos de línea." className={IC} onChange={(e) => setArticleForm((p) => ({ ...p, content: e.target.value }))} />
               </div>
-            </div>
+              {/* AI Writing Assistant */}
+              <div className="border-t pt-4 mt-2">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4 text-[var(--mecsa-primary)]" />
+                  <span className="text-sm font-semibold text-gray-700">Asistente IA</span>
+                  <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Gemini</span>
+                </div>
+                <textarea
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  rows={2}
+                  placeholder='Ej: "Redactá un artículo sobre la instalación de enfriadores en una bodega mendocina" o "Mejorá este título: ..."'
+                  className={IC}
+                />
+                <button
+                  type="button"
+                  disabled={!aiPrompt.trim() || aiLoading}
+                  onClick={handleAiGenerate}
+                  className="mt-2 flex items-center gap-2 px-3 py-2 bg-[var(--mecsa-primary)] text-white rounded-lg text-sm font-medium disabled:opacity-50 hover:bg-[var(--mecsa-primary-dark)] transition-colors"
+                >
+                  {aiLoading
+                    ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    : <Sparkles className="w-4 h-4" />}
+                  {aiLoading ? "Generando..." : "Generar con IA"}
+                </button>
+                {aiResult && (
+                  <div className="mt-3">
+                    <div className="bg-gray-50 border rounded-lg p-3 text-sm text-gray-700 whitespace-pre-wrap max-h-52 overflow-y-auto">
+                      {aiResult}
+                    </div>
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      <button type="button"
+                        onClick={() => setArticleForm((p) => ({ ...p, title: aiResult.split("\n")[0].replace(/^#+\s*/, "").replace(/\*\*/g, "").trim() }))}
+                        className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                        → Como título
+                      </button>
+                      <button type="button"
+                        onClick={() => setArticleForm((p) => ({ ...p, excerpt: aiResult.replace(/\*\*/g, "").substring(0, 250).trim() }))}
+                        className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                        → Como extracto
+                      </button>
+                      <button type="button"
+                        onClick={() => setArticleForm((p) => ({ ...p, content: aiResult }))}
+                        className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                        → Reemplazar contenido
+                      </button>
+                      <button type="button"
+                        onClick={() => setArticleForm((p) => ({ ...p, content: p.content ? p.content + "\n\n" + aiResult : aiResult }))}
+                        className="px-3 py-1.5 text-xs border border-gray-200 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                        → Agregar al contenido
+                      </button>
+                      <button type="button" onClick={() => setAiResult("")}
+                        className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-600 transition-colors ml-auto">
+                        Limpiar
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>{/* end p-5 space-y-4 */}
             <div className="p-5 border-t flex justify-end gap-3 sticky bottom-0 bg-white">
               <button type="button" onClick={closeEditor} className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-50">Cancelar</button>
               <button type="button" onClick={handleSaveArticle} disabled={isSaving} className="px-4 py-2 bg-[var(--mecsa-primary)] text-white rounded-lg text-sm font-medium disabled:opacity-60 hover:bg-[var(--mecsa-primary-dark)]">
