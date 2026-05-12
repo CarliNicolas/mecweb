@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import type { CotizadorConfig, SpaceTypeItem, ExtraCfg } from "@/app/cotizar/CotizadorForm";
 import {
   LayoutDashboard, FileText, LogOut, Save, Phone, Mail, MapPin,
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
@@ -87,6 +88,7 @@ const TABS = [
   { id: "galeria", label: "Galería", icon: Images },
   { id: "contacto", label: "Contacto", icon: PhoneCall },
   { id: "social", label: "Redes / Footer", icon: Facebook },
+  { id: "cotizador", label: "Cotizador", icon: FileText },
   { id: "noticias", label: "Noticias", icon: Newspaper },
   { id: "historial", label: "Historial", icon: Clock },
 ];
@@ -114,6 +116,8 @@ export default function AdminPage() {
   const [activeTab, setActiveTab] = useState("general");
   const [content, setContentRaw] = useState<SiteContent | null>(null);
   const [news, setNews] = useState<NewsArticle[]>([]);
+  const [cotizador, setCotizador] = useState<CotizadorConfig | null>(null);
+  const [cotizadorTab, setCotizadorTab] = useState("productos");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
@@ -156,7 +160,7 @@ export default function AdminPage() {
     try {
       const authRes = await fetch("/api/admin/auth");
       if (!authRes.ok) { window.location.href = "/admin/login"; return; }
-      await Promise.all([loadContent(), loadNews()]);
+      await Promise.all([loadContent(), loadNews(), loadCotizador()]);
     } catch { window.location.href = "/admin/login"; }
     finally { setIsLoading(false); }
   };
@@ -173,6 +177,26 @@ export default function AdminPage() {
   const loadNews = async () => {
     const res = await fetch("/api/admin/news");
     if (res.ok) setNews(await res.json());
+  };
+
+  const loadCotizador = async () => {
+    const res = await fetch("/api/admin/cotizador");
+    if (res.ok) setCotizador(await res.json());
+  };
+
+  const handleSaveCotizador = async () => {
+    if (!cotizador) return;
+    setIsSaving(true); setSaveStatus("idle");
+    try {
+      const res = await fetch("/api/admin/cotizador", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cotizador),
+      });
+      if (res.ok) { setSaveStatus("success"); setSaveMessage("Cotizador guardado"); }
+      else { setSaveStatus("error"); setSaveMessage("Error al guardar"); }
+    } catch { setSaveStatus("error"); setSaveMessage("Error de conexión"); }
+    finally { setIsSaving(false); setTimeout(() => setSaveStatus("idle"), 3000); }
   };
 
   // ─── Save ────────────────────────────────────────────────────────────────
@@ -416,7 +440,9 @@ export default function AdminPage() {
               </div>
             )}
             {activeTab !== "noticias" && activeTab !== "historial" && (
-              <button type="button" onClick={handleSaveContent} disabled={isSaving}
+              <button type="button"
+                onClick={activeTab === "cotizador" ? handleSaveCotizador : handleSaveContent}
+                disabled={isSaving}
                 className="flex items-center gap-2 px-4 py-2 bg-[var(--mecsa-primary)] text-white rounded-lg text-sm font-medium hover:bg-[var(--mecsa-primary-dark)] disabled:opacity-60 transition-colors">
                 <Save className="w-4 h-4" />
                 {isSaving ? "Guardando..." : "Guardar cambios"}
@@ -808,6 +834,242 @@ export default function AdminPage() {
                 </div>
               </div>
             </>)}
+
+            {/* ── COTIZADOR ────────────────────────────────────────── */}
+            {activeTab === "cotizador" && cotizador && (() => {
+              const ctz = cotizador;
+              const setCtz = setCotizador as React.Dispatch<React.SetStateAction<CotizadorConfig | null>>;
+              const updateCtz = (fn: (prev: CotizadorConfig) => CotizadorConfig) =>
+                setCtz((prev) => prev ? fn(prev) : prev);
+
+              const SUB_TABS = [
+                { id: "productos", label: "Productos" },
+                { id: "espacios",  label: "Tipos de espacio" },
+                { id: "areas",     label: "Superficies" },
+                { id: "alturas",   label: "Alturas" },
+                { id: "extra",     label: "Preguntas extra" },
+              ];
+
+              return (<>
+                {/* Sub-tabs */}
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {SUB_TABS.map((st) => (
+                    <button key={st.id} type="button" onClick={() => setCotizadorTab(st.id)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                        cotizadorTab === st.id
+                          ? "bg-[var(--mecsa-primary)] text-white"
+                          : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
+                      }`}>
+                      {st.label}
+                    </button>
+                  ))}
+                </div>
+
+                {/* ─ Productos ─ */}
+                {cotizadorTab === "productos" && (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-500">Nombre y descripción de cada producto en el cotizador.</p>
+                    {ctz.products.map((prod, i) => (
+                      <div key={prod.key} className={CARD}>
+                        <p className="text-xs font-mono text-gray-400 mb-3">key: {prod.key}</p>
+                        <div className="grid md:grid-cols-2 gap-3">
+                          <div className={FC}>
+                            <label className={LC}>Título</label>
+                            <input type="text" value={prod.title} className={IC}
+                              onChange={(e) => updateCtz((p) => {
+                                const products = [...p.products];
+                                products[i] = { ...products[i], title: e.target.value };
+                                return { ...p, products };
+                              })} />
+                          </div>
+                          <div className={FC}>
+                            <label className={LC}>Descripción corta</label>
+                            <input type="text" value={prod.desc} className={IC}
+                              onChange={(e) => updateCtz((p) => {
+                                const products = [...p.products];
+                                products[i] = { ...products[i], desc: e.target.value };
+                                return { ...p, products };
+                              })} />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* ─ Tipos de espacio ─ */}
+                {cotizadorTab === "espacios" && (
+                  <div className="space-y-4">
+                    <p className="text-sm text-gray-500">Opciones de tipo de espacio para cada producto.</p>
+                    {ctz.products.map((prod) => {
+                      const items: SpaceTypeItem[] = ctz.spaceTypes[prod.key] ?? [];
+                      return (
+                        <div key={prod.key} className={CARD}>
+                          <div className="flex items-center justify-between mb-3">
+                            <h3 className="font-medium text-gray-700 text-sm">{prod.title}</h3>
+                            <button type="button" className={ADDBTN}
+                              onClick={() => updateCtz((p) => ({
+                                ...p,
+                                spaceTypes: {
+                                  ...p.spaceTypes,
+                                  [prod.key]: [...(p.spaceTypes[prod.key] ?? []), { key: `nuevo-${Date.now()}`, label: "", emoji: "📦" }],
+                                },
+                              }))}>
+                              <Plus className="w-3.5 h-3.5" /> Agregar
+                            </button>
+                          </div>
+                          <div className="space-y-2">
+                            {items.map((item, idx) => (
+                              <div key={idx} className="flex items-center gap-2">
+                                <input type="text" value={item.emoji} placeholder="🏭"
+                                  className={`${IC} w-16 text-center`}
+                                  onChange={(e) => updateCtz((p) => {
+                                    const arr = [...(p.spaceTypes[prod.key] ?? [])];
+                                    arr[idx] = { ...arr[idx], emoji: e.target.value };
+                                    return { ...p, spaceTypes: { ...p.spaceTypes, [prod.key]: arr } };
+                                  })} />
+                                <input type="text" value={item.label} placeholder="Nombre del espacio"
+                                  className={`${IC} flex-1`}
+                                  onChange={(e) => updateCtz((p) => {
+                                    const arr = [...(p.spaceTypes[prod.key] ?? [])];
+                                    arr[idx] = { ...arr[idx], label: e.target.value };
+                                    return { ...p, spaceTypes: { ...p.spaceTypes, [prod.key]: arr } };
+                                  })} />
+                                <button type="button"
+                                  onClick={() => updateCtz((p) => ({
+                                    ...p,
+                                    spaceTypes: { ...p.spaceTypes, [prod.key]: (p.spaceTypes[prod.key] ?? []).filter((_, i) => i !== idx) },
+                                  }))}
+                                  className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            ))}
+                            {items.length === 0 && <p className="text-xs text-gray-400 italic">Sin opciones. Hacé clic en Agregar.</p>}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* ─ Superficies ─ */}
+                {cotizadorTab === "areas" && (
+                  <div className={`${CARD} space-y-3`}>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-gray-700">Rangos de superficie</h3>
+                      <button type="button" className={ADDBTN}
+                        onClick={() => updateCtz((p) => ({ ...p, areas: [...p.areas, { key: `area-${Date.now()}`, label: "" }] }))}>
+                        <Plus className="w-3.5 h-3.5" /> Agregar
+                      </button>
+                    </div>
+                    {ctz.areas.map((area, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <input type="text" value={area.label} placeholder="Ej: 100 – 300 m²" className={`${IC} flex-1`}
+                          onChange={(e) => updateCtz((p) => {
+                            const areas = [...p.areas];
+                            areas[i] = { ...areas[i], label: e.target.value };
+                            return { ...p, areas };
+                          })} />
+                        <button type="button"
+                          onClick={() => updateCtz((p) => ({ ...p, areas: p.areas.filter((_, idx) => idx !== i) }))}
+                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* ─ Alturas ─ */}
+                {cotizadorTab === "alturas" && (
+                  <div className={`${CARD} space-y-3`}>
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-medium text-gray-700">Opciones de altura del techo</h3>
+                      <button type="button" className={ADDBTN}
+                        onClick={() => updateCtz((p) => ({ ...p, heights: [...p.heights, { key: `h-${Date.now()}`, label: "" }] }))}>
+                        <Plus className="w-3.5 h-3.5" /> Agregar
+                      </button>
+                    </div>
+                    {ctz.heights.map((h, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <input type="text" value={h.label} placeholder="Ej: 6 – 10 m" className={`${IC} flex-1`}
+                          onChange={(e) => updateCtz((p) => {
+                            const heights = [...p.heights];
+                            heights[i] = { ...heights[i], label: e.target.value };
+                            return { ...p, heights };
+                          })} />
+                        <button type="button"
+                          onClick={() => updateCtz((p) => ({ ...p, heights: p.heights.filter((_, idx) => idx !== i) }))}
+                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* ─ Preguntas extra ─ */}
+                {cotizadorTab === "extra" && (
+                  <div className="space-y-4">
+                    <p className="text-sm text-gray-500">Preguntas adicionales (chips) para cada producto en el paso 2.</p>
+                    {ctz.products.map((prod) => {
+                      const cfg: ExtraCfg = ctz.extraConfig[prod.key] ?? { label1: "", opts1: [], label2: "", opts2: [] };
+                      const updateField = (field: keyof ExtraCfg, value: string | string[]) =>
+                        updateCtz((p) => ({
+                          ...p,
+                          extraConfig: { ...p.extraConfig, [prod.key]: { ...cfg, [field]: value } },
+                        }));
+
+                      return (
+                        <div key={prod.key} className={CARD}>
+                          <h3 className="font-medium text-gray-700 text-sm mb-4">{prod.title}</h3>
+                          <div className="space-y-4">
+                            {(["1", "2"] as const).map((n) => {
+                              const labelKey = `label${n}` as "label1" | "label2";
+                              const optsKey  = `opts${n}`  as "opts1"  | "opts2";
+                              return (
+                                <div key={n}>
+                                  <div className={FC}>
+                                    <label className={LC}>Pregunta {n}</label>
+                                    <input type="text" value={cfg[labelKey]} className={IC}
+                                      placeholder={`Ej: Uso diario aproximado`}
+                                      onChange={(e) => updateField(labelKey, e.target.value)} />
+                                  </div>
+                                  <div className="mt-2 space-y-1.5">
+                                    <p className="text-xs text-gray-500 font-medium">Opciones:</p>
+                                    {cfg[optsKey].map((opt, oi) => (
+                                      <div key={oi} className="flex items-center gap-2">
+                                        <input type="text" value={opt} className={`${IC} flex-1`}
+                                          onChange={(e) => {
+                                            const arr = [...cfg[optsKey]];
+                                            arr[oi] = e.target.value;
+                                            updateField(optsKey, arr);
+                                          }} />
+                                        <button type="button"
+                                          onClick={() => updateField(optsKey, cfg[optsKey].filter((_, i) => i !== oi))}
+                                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0">
+                                          <Trash2 className="w-3.5 h-3.5" />
+                                        </button>
+                                      </div>
+                                    ))}
+                                    <button type="button"
+                                      onClick={() => updateField(optsKey, [...cfg[optsKey], ""])}
+                                      className="text-xs text-[var(--mecsa-primary)] hover:underline flex items-center gap-1 mt-1">
+                                      <Plus className="w-3 h-3" /> Agregar opción
+                                    </button>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </>);
+            })()}
 
             {/* ── NOTICIAS ─────────────────────────────────────────── */}
             {activeTab === "noticias" && (<>
