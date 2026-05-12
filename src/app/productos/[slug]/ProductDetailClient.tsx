@@ -112,7 +112,7 @@ export default function ProductDetailClient({
                 </StaggerChildren>
 
                 <div className="mt-8">
-                  <Link href="/contacto" className="mecsa-btn inline-block">
+                  <Link href="/cotizar" className="mecsa-btn inline-block">
                     {t("requestQuote")}
                   </Link>
                 </div>

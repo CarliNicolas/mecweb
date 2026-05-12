@@ -96,6 +96,12 @@ export default function Header() {
               </div>
             ))}
             <LanguageSwitcher currentLocale={currentLocale} />
+            <Link
+              href="/cotizar"
+              className="ml-2 px-4 py-2 bg-[var(--mecsa-primary)] hover:bg-[var(--mecsa-primary)]/90 text-white text-sm font-semibold rounded-sm transition-colors duration-200 whitespace-nowrap"
+            >
+              Cotizá tu Proyecto
+            </Link>
           </nav>
 
           {/* Mobile: lang + hamburger */}
@@ -142,6 +148,15 @@ export default function Header() {
                   )}
                 </div>
               ))}
+              <div className="pt-2 pb-1">
+                <Link
+                  href="/cotizar"
+                  className="block text-center px-4 py-3 bg-[var(--mecsa-primary)] text-white text-sm font-semibold rounded-sm transition-colors duration-200"
+                  onClick={closeMobile}
+                >
+                  Cotizá tu Proyecto
+                </Link>
+              </div>
             </nav>
           </div>
         )}
