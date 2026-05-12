@@ -55,7 +55,7 @@ function buildMessage(data: FormData, cfg: CotizadorConfig, fileNames?: string[]
   const extra = cfg.extraConfig[data.product];
 
   const lines = [
-    `Hola MECSA, quiero consultar sobre un proyecto:`,
+    `Hola MEC, quiero consultar sobre un proyecto:`,
     ``,
     `*Solucion:* ${prod}`,
     space         ? `*Tipo de espacio:* ${space}`             : "",
@@ -143,11 +143,16 @@ export default function CotizadorForm({ config }: { config: CotizadorConfig }) {
   });
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
   const set = (field: keyof FormData, value: string) =>
     setData((prev) => ({ ...prev, [field]: value }));
 
-  const goTo = (next: Step) => { setDir(next > step ? 1 : -1); setStep(next); };
+  const goTo = (next: Step) => {
+    setDir(next > step ? 1 : -1);
+    setStep(next);
+    setTimeout(() => topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  };
 
   const addFiles = (incoming: FileList | null) => {
     if (!incoming) return;
@@ -180,6 +185,7 @@ export default function CotizadorForm({ config }: { config: CotizadorConfig }) {
 
   return (
     <div className="max-w-2xl mx-auto">
+      <div ref={topRef} className="scroll-mt-24" />
       <ProgressBar step={step} />
 
       <div className="relative overflow-hidden">

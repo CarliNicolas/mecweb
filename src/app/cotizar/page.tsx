@@ -6,7 +6,7 @@ import { getCotizadorConfig } from "@/lib/cotizador-config";
 import defaultConfig from "@/data/cotizador-config.json";
 
 export const metadata: Metadata = {
-  title: "Cotizá tu Proyecto | MECSA",
+  title: "Cotizá tu Proyecto | MEC",
   description:
     "Completá el formulario con los datos de tu espacio y te enviamos un resumen detallado por WhatsApp para seguir conversando sobre tu proyecto de climatización industrial.",
 };
