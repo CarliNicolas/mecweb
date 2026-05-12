@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cloud, Flame, Wind, Filter, Settings, ChevronRight, ChevronLeft, MessageCircle, Check } from "lucide-react";
+import { Cloud, Flame, Wind, Filter, Settings, ChevronRight, ChevronLeft, MessageCircle, Check, Paperclip, X, Mail, Upload } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -137,7 +137,7 @@ const productLabel = (key: string) => PRODUCTS.find((p) => p.key === key)?.title
 const spaceLabel   = (product: string, key: string) =>
   (SPACE_TYPES[product] ?? []).find((s) => s.key === key)?.label ?? key;
 
-function buildMessage(data: FormData): string {
+function buildMessage(data: FormData, fileNames?: string[]): string {
   const prod = productLabel(data.product);
   const space = data.spaceType ? spaceLabel(data.product, data.spaceType) : "";
   const area  = AREAS.find((a) => a.key === data.area)?.label ?? "";
@@ -158,6 +158,9 @@ function buildMessage(data: FormData): string {
     ``,
     data.name    ? `*Nombre:* ${data.name}`    : "",
     data.company ? `*Empresa:* ${data.company}` : "",
+    fileNames && fileNames.length > 0
+      ? `*Archivos adjuntos:* ${fileNames.join(", ")} (los envio por correo)`
+      : "",
   ];
 
   return lines.filter(Boolean).join("\n");
@@ -235,6 +238,8 @@ export default function CotizadorForm() {
     product: "", spaceType: "", area: "", height: "",
     location: "", extra1: "", extra2: "", name: "", company: "",
   });
+  const [files, setFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const set = (field: keyof FormData, value: string) =>
     setData((prev) => ({ ...prev, [field]: value }));
@@ -244,12 +249,33 @@ export default function CotizadorForm() {
     setStep(next);
   };
 
+  const addFiles = (incoming: FileList | null) => {
+    if (!incoming) return;
+    const next = Array.from(incoming).filter(
+      (f) => !files.some((e) => e.name === f.name && e.size === f.size)
+    );
+    setFiles((prev) => [...prev, ...next]);
+  };
+
+  const removeFile = (index: number) =>
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+
+  const fileNames = files.map((f) => f.name);
+
   const canNext1 = !!data.product;
   const canNext2 = !!(data.spaceType && data.area && data.height && data.location);
 
   const openWhatsApp = () => {
-    const msg = buildMessage(data);
+    const msg = buildMessage(data, fileNames);
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  const openEmail = () => {
+    const prod = productLabel(data.product);
+    const subject = `Consulta de proyecto - ${prod}`;
+    const body = buildMessage(data, fileNames);
+    const mailto = `mailto:info@mecsa.com.ar?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailto, "_blank");
   };
 
   const cfg = EXTRA_CONFIG[data.product] ?? null;
@@ -438,7 +464,7 @@ export default function CotizadorForm() {
                 ¡Casi listo!
               </h2>
               <p className="text-sm text-[var(--mecsa-text-light)] mb-5">
-                Dejá tu nombre y te abrimos WhatsApp con el resumen del proyecto listo para enviar.
+                Completá los datos opcionales y elegí cómo enviar tu consulta.
               </p>
 
               <div className="space-y-4 mb-6">
@@ -462,6 +488,58 @@ export default function CotizadorForm() {
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[var(--mecsa-primary)] outline-none transition-colors text-sm"
                   />
                 </div>
+
+                {/* File upload */}
+                <div>
+                  <label className="block text-sm font-semibold text-[var(--mecsa-text)] mb-2">
+                    Planos, fotos o videos{" "}
+                    <span className="text-[var(--mecsa-text-light)] font-normal">(opcional)</span>
+                  </label>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    multiple
+                    accept="image/*,video/*,.pdf,.dwg,.dxf"
+                    className="hidden"
+                    onChange={(e) => addFiles(e.target.files)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-gray-300 rounded-xl text-sm text-[var(--mecsa-text-light)] hover:border-[var(--mecsa-primary)]/50 hover:text-[var(--mecsa-primary)] transition-colors"
+                  >
+                    <Upload className="w-4 h-4" />
+                    Adjuntar archivos (imágenes, PDF, planos, videos)
+                  </button>
+
+                  {files.length > 0 && (
+                    <ul className="mt-3 space-y-2">
+                      {files.map((f, i) => (
+                        <li key={i} className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 text-xs">
+                          <Paperclip className="w-3.5 h-3.5 text-[var(--mecsa-primary)] flex-shrink-0" />
+                          <span className="flex-1 truncate text-[var(--mecsa-text)]">{f.name}</span>
+                          <span className="text-[var(--mecsa-text-light)] flex-shrink-0">
+                            {(f.size / 1024).toFixed(0)} KB
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeFile(i)}
+                            className="text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+                            aria-label="Quitar archivo"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {files.length > 0 && (
+                    <p className="text-xs text-[var(--mecsa-text-light)] mt-2">
+                      Los archivos se adjuntan al correo electrónico. Por WhatsApp solo se menciona el nombre.
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Message preview */}
@@ -473,20 +551,27 @@ export default function CotizadorForm() {
                   </span>
                 </div>
                 <pre className="text-xs text-[var(--mecsa-text)] whitespace-pre-wrap leading-relaxed font-sans">
-                  {buildMessage({ ...data, name: data.name || "Tu nombre" })}
+                  {buildMessage({ ...data, name: data.name || "Tu nombre" }, fileNames)}
                 </pre>
               </div>
 
-              <div className="flex justify-between">
+              <div className="flex flex-col sm:flex-row justify-between gap-3">
                 <button type="button" onClick={() => goTo(2)}
-                  className="mecsa-btn-outline flex items-center gap-2">
+                  className="mecsa-btn-outline flex items-center gap-2 justify-center">
                   <ChevronLeft className="w-4 h-4" /> Volver
                 </button>
-                <button type="button" onClick={openWhatsApp}
-                  className="flex items-center gap-2 px-6 py-3 bg-[#25D366] hover:bg-[#1fba58] text-white font-semibold rounded-sm transition-colors duration-300 text-sm uppercase tracking-wider">
-                  <MessageCircle className="w-4 h-4" />
-                  Enviar por WhatsApp
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button type="button" onClick={openEmail}
+                    className="flex items-center justify-center gap-2 px-5 py-3 bg-[var(--mecsa-primary)] hover:bg-[var(--mecsa-primary)]/90 text-white font-semibold rounded-sm transition-colors duration-300 text-sm uppercase tracking-wider">
+                    <Mail className="w-4 h-4" />
+                    Enviar por Correo
+                  </button>
+                  <button type="button" onClick={openWhatsApp}
+                    className="flex items-center justify-center gap-2 px-5 py-3 bg-[#25D366] hover:bg-[#1fba58] text-white font-semibold rounded-sm transition-colors duration-300 text-sm uppercase tracking-wider">
+                    <MessageCircle className="w-4 h-4" />
+                    Enviar por WhatsApp
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
