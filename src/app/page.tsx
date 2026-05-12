@@ -8,6 +8,7 @@ import SectorsGrid from "@/components/SectorsGrid";
 import SocialIcons from "@/components/SocialIcons";
 import ClimatizacionInfo from "@/components/ClimatizacionInfo";
 import PhotoGallery from "@/components/PhotoGallery";
+import ClientesSection from "@/components/ClientesSection";
 import NewsPreview from "@/components/NewsPreview";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -45,6 +46,7 @@ export default function Home() {
         <SectorsGrid />
         <SocialIcons />
         <ClimatizacionInfo />
+        <ClientesSection />
         <PhotoGallery />
         <NewsPreview />
         <Footer />
