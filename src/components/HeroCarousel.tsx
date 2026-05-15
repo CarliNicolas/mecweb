@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 function isExternalUrl(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -114,7 +115,7 @@ export default function HeroCarousel() {
                     {slide.titleHighlight}
                   </span>
                 </h1>
-                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">{slide.subtitle}</p>
+                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">{renderInline(slide.subtitle)}</p>
                 <Link href="#empresa" className="mecsa-btn inline-block">
                   {t("learnMore")}
                 </Link>

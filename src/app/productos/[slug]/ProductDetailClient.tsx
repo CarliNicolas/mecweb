@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FadeIn, StaggerChildren, StaggerItem } from "@/components/ScrollAnimations";
 import { Check, ChevronRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 interface Product {
   title: string;
@@ -64,7 +65,7 @@ export default function ProductDetailClient({
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-4">
                 {product.title}
               </h1>
-              <p className="text-xl text-white/80 max-w-2xl">{product.subtitle}</p>
+              <p className="text-xl text-white/80 max-w-2xl">{renderInline(product.subtitle)}</p>
             </FadeIn>
           </div>
         </div>
@@ -78,7 +79,7 @@ export default function ProductDetailClient({
               <div>
                 <h2 className="mecsa-section-title mb-6">{t("description")}</h2>
                 <p className="text-[var(--mecsa-text-light)] mb-6 leading-relaxed">
-                  {product.description}
+                  {renderInline(product.description)}
                 </p>
                 <div className="prose prose-gray max-w-none">
                   {product.longDescription.split("\n\n").map((paragraph, index) => (
@@ -86,7 +87,7 @@ export default function ProductDetailClient({
                       key={`para-${index}`}
                       className="text-[var(--mecsa-text-light)] mb-4 leading-relaxed whitespace-pre-line"
                     >
-                      {paragraph}
+                      {renderInline(paragraph)}
                     </p>
                   ))}
                 </div>
@@ -177,7 +178,7 @@ export default function ProductDetailClient({
                       {otherProduct.title}
                     </h3>
                     <p className="text-sm text-[var(--mecsa-text-light)] mt-1 line-clamp-2">
-                      {otherProduct.description}
+                      {renderInline(otherProduct.description)}
                     </p>
                   </div>
                 </Link>

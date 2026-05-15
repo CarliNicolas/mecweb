@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import type { NewsArticle } from "@/data/news";
+import { renderInline } from "@/lib/inline-markdown";
 
 interface NewsArticleClientProps {
   article: NewsArticle;
@@ -125,7 +126,7 @@ export default function NewsArticleClient({
               <article className="prose prose-lg max-w-none">
                 {/* Excerpt as lead paragraph */}
                 <p className="text-xl text-[var(--mecsa-text)] font-medium leading-relaxed mb-8 border-l-4 border-[var(--mecsa-primary)] pl-6">
-                  {article.excerpt}
+                  {renderInline(article.excerpt)}
                 </p>
 
                 {/* Content */}
@@ -138,7 +139,7 @@ export default function NewsArticleClient({
                           key={`para-${index}`}
                           className="text-xl font-semibold text-[var(--mecsa-text)] mt-8 mb-4"
                         >
-                          {paragraph.replace(/\*\*/g, "")}
+                          {renderInline(paragraph.replace(/^\*\*|\*\*$/g, ""))}
                         </h3>
                       );
                     }
@@ -153,13 +154,13 @@ export default function NewsArticleClient({
                         <div key={`para-${index}`}>
                           {title && (
                             <h4 className="text-lg font-semibold text-[var(--mecsa-text)] mb-3">
-                              {title.replace(/\*\*/g, "")}
+                              {renderInline(title.replace(/^\*\*|\*\*$/g, ""))}
                             </h4>
                           )}
                           <ul className="list-disc list-inside space-y-2 ml-4">
                             {items.map((item, i) => (
                               <li key={`item-${i}`} className="text-[var(--mecsa-text-light)]">
-                                {item.replace("- ", "")}
+                                {renderInline(item.replace("- ", ""))}
                               </li>
                             ))}
                           </ul>
@@ -169,7 +170,7 @@ export default function NewsArticleClient({
 
                     return (
                       <p key={`para-${index}`} className="text-[var(--mecsa-text-light)]">
-                        {paragraph}
+                        {renderInline(paragraph)}
                       </p>
                     );
                   })}

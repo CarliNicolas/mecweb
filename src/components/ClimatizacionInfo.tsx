@@ -3,6 +3,7 @@
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 export default function ClimatizacionInfo() {
   const { content } = useSiteContent();
@@ -38,11 +39,11 @@ export default function ClimatizacionInfo() {
               </h2>
 
               <p className="text-white/90 mb-6 leading-relaxed">
-                {desc1}
+                {renderInline(desc1)}
               </p>
 
               <p className="text-white/90 leading-relaxed">
-                {desc2}
+                {renderInline(desc2)}
               </p>
             </div>
           </FadeIn>

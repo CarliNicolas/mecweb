@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FadeIn, StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 const defaultSectors = [
   { title: "INDUSTRIAL", description: "Bodegas, Fábricas, Galpones, Metalúrgicas, Mineras, Petroleras, Siderúrgicas, Frigoríficos, entre otros.", image: "/images/industrial.jpeg", link: "/productos/enfriadores-evaporativos" },
@@ -56,7 +57,7 @@ export default function SectorsGrid() {
               <Link href={sector.link}
                 className="block bg-[var(--mecsa-bg)] rounded-lg p-8 flex flex-col items-center text-center hover:shadow-lg transition-all duration-300 group hover:-translate-y-1">
                 <p className="text-[var(--mecsa-text-light)] mb-8 leading-relaxed min-h-[80px] group-hover:text-[var(--mecsa-text)] transition-colors">
-                  {sector.description}
+                  {renderInline(sector.description)}
                 </p>
                 <div className="relative w-32 h-32 rounded-full overflow-hidden mb-4 ring-4 ring-transparent group-hover:ring-[var(--mecsa-primary)] transition-all">
                   {isExternal(sector.image) ? (

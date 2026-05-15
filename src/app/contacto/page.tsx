@@ -8,6 +8,7 @@ import { FadeIn } from "@/components/ScrollAnimations";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 export default function ContactoPage() {
   const { content } = useSiteContent();
@@ -70,7 +71,7 @@ export default function ContactoPage() {
                 {contact.title || t("title")}
               </h1>
               <p className="text-white/80 text-base sm:text-lg max-w-2xl mx-auto">
-                {contact.subtitle || t("subtitle")}
+                {renderInline(contact.subtitle || t("subtitle"))}
               </p>
             </FadeIn>
           </div>

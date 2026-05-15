@@ -8,6 +8,7 @@ import {
 import { StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
+import { renderInline } from "@/lib/inline-markdown";
 import { useTranslations, useLocale } from "next-intl";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -113,7 +114,7 @@ export default function ProductsGrid() {
                     {product.title}
                   </h3>
                   <p className={`relative z-10 text-sm leading-relaxed flex-1 mb-6 ${style.sub}`}>
-                    {product.description}
+                    {renderInline(product.description)}
                   </p>
                   <Link
                     href={`/productos/${product.id}`}

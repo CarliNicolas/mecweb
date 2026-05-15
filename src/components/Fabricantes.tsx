@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 export default function Fabricantes() {
   const { content } = useSiteContent();
@@ -38,12 +39,12 @@ export default function Fabricantes() {
               <h2 className="mecsa-section-title mb-6">{title}</h2>
 
               <p className="text-[var(--mecsa-text-light)] mb-6 leading-relaxed">
-                <strong className="text-[var(--mecsa-text)]">{desc1}</strong>{" "}
-                {desc2}
+                <strong className="text-[var(--mecsa-text)]">{renderInline(desc1)}</strong>{" "}
+                {renderInline(desc2)}
               </p>
 
               <p className="text-[var(--mecsa-text-light)] mb-8 leading-relaxed">
-                {desc3}
+                {renderInline(desc3)}
               </p>
 
               <Link href={fab.buttonLink || "/#galeria"} className="mecsa-btn flex items-center gap-2 group inline-flex">

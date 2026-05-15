@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
+import { renderInline } from "@/lib/inline-markdown";
 
 function isExternal(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -36,10 +37,10 @@ export default function CompanyIntro() {
                 <span className="mecsa-heading">{title3}</span>
               </h2>
               <p className="text-[var(--mecsa-text-light)] mb-5 leading-relaxed text-sm sm:text-base">
-                {description1}
+                {renderInline(description1)}
               </p>
               <p className="text-[var(--mecsa-text-light)] leading-relaxed text-sm sm:text-base">
-                {description2}
+                {renderInline(description2)}
               </p>
             </div>
           </FadeIn>
