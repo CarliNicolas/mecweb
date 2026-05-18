@@ -15,6 +15,11 @@ interface Product {
   title: string;
   description: string;
   icon: string;
+  subtitle?: string;
+  longDescription?: string;
+  features?: string[];
+  image?: string;
+  gallery?: string[];
 }
 
 interface SectorItem {

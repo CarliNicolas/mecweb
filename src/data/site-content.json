@@ -59,31 +59,81 @@
       "id": "enfriadores-evaporativos",
       "title": "Enfriadores Evaporativos",
       "description": "Consuma hasta un 80% menos de energía eléctrica con nuestro sistema de enfriadores evaporativos.",
-      "icon": "Cloud"
+      "icon": "Cloud",
+      "subtitle": "Climatización eficiente y sustentable",
+      "longDescription": "Los Enfriadores Evaporativos de Emprendimientos MEC S.A. representan la vanguardia en climatización industrial y comercial. Basados en el principio termodinámico natural de la evaporación del agua, nuestros sistemas están diseñados para suministrar un flujo constante de aire fresco y purificado, garantizando entornos de trabajo óptimos.\n\nA diferencia de los métodos de refrigeración tradicionales, nuestra tecnología permite una reducción de hasta el 80% en el consumo de energía eléctrica, consolidándose como la solución de mayor eficiencia energética y menor impacto ambiental en el mercado actual.\n\n**Ámbitos de Aplicación y Versatilidad**\nNuestras soluciones de enfriamiento evaporativo están diseñadas para ofrecer un rendimiento óptimo en diversos entornos de alta exigencia.",
+      "features": [
+        "Sector Industrial y Logístico: Optimización térmica en naves industriales, galpones, fábricas y plantas de producción.",
+        "Industria Vitivinícola: Control ambiental especializado para bodegas y áreas críticas en viñedos.",
+        "Sector Agropecuario: Climatización de granjas avícolas y porcinas, garantizando el bienestar animal.",
+        "Horticultura de Precisión: Regulación de temperatura y humedad en invernaderos y cultivos bajo cubierta."
+      ],
+      "image": "/images/enfriador.jpeg",
+      "gallery": ["/images/gallery1.jpeg", "/images/gallery5.jpeg", "/images/gallery3.jpeg"]
     },
     {
       "id": "calefactores-radiantes",
       "title": "Calefactores Radiantes",
       "description": "Nuestros tubos radiantes PIROMEC son aparatos autónomos de combustión a gas natural o G.L.P de gran eficiencia.",
-      "icon": "Flame"
+      "icon": "Flame",
+      "subtitle": "Calefacción eficiente por radiación infrarroja",
+      "longDescription": "Los tubos radiantes PIROMEC representan una solución avanzada en calefacción industrial de alta eficiencia. Basados en la tecnología de radiación infrarroja, estos sistemas emiten calor de manera directa hacia las superficies, objetos y personas, eliminando la necesidad de calentar el aire circundante. Este principio físico asegura un confort térmico inmediato y una optimización energética superior en grandes volúmenes.\n\n**Versatilidad de Aplicación**",
+      "features": [
+        "Logística e Industria: Depósitos, centros de distribución y naves industriales de gran altura.",
+        "Servicios y Talleres: Talleres mecánicos y automotrices.",
+        "Entornos Exigentes: Espacios semi-abiertos y áreas con alta renovación de aire."
+      ],
+      "image": "/images/gallery2.jpeg",
+      "gallery": ["/images/gallery2.jpeg", "/images/gallery4.jpeg", "/images/gallery8.jpeg"]
     },
     {
       "id": "ventilacion-industrial",
       "title": "Ventilación Industrial",
       "description": "Sistemas de ventilación para usos comerciales, industriales y agrícolas; soluciones para cada necesidad.",
-      "icon": "Wind"
+      "icon": "Wind",
+      "subtitle": "Versatilidad y Control Ambiental",
+      "longDescription": "Ofrecemos ingeniería en ventilación para los sectores más exigentes del mercado, asegurando ambientes libres de impurezas y térmicamente estables.\n\n**Características Destacadas**",
+      "features": [
+        "Variedad Tecnológica: Extractores, inyectores, ventiladores axiales y centrífugos.",
+        "Distribución Eficiente: Red de conductos y difusores a medida.",
+        "Inteligencia Operativa: Sistemas de control automatizado para una gestión simplificada.",
+        "Garantía Técnica: Proyectos desarrollados bajo normas internacionales de calidad de aire."
+      ],
+      "image": "/images/ventilacion.jpeg",
+      "gallery": ["/images/gallery1.jpeg", "/images/gallery2.jpeg", "/images/gallery6.jpeg"]
     },
     {
       "id": "filtracion-de-aire",
       "title": "Filtración de Aire",
       "description": "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, tratamiento y recolección de polvos, humedad, etc",
-      "icon": "Filter"
+      "icon": "Filter",
+      "subtitle": "Excelencia en Calidad de Aire",
+      "longDescription": "**Excelencia en Calidad de Aire:** Soluciones integrales para la eliminación de partículas, gases y control de humedad en industrias de alta exigencia.\n\n**Atributos Principales**",
+      "features": [
+        "Filtración Absoluta: Tecnología HEPA/ULPA y filtros de carbón activado.",
+        "Equipamiento Especializado: Cabinas de flujo laminar y colectores de polvo.",
+        "Tratamiento Químico: Scrubbers para lavado de gases.",
+        "Control de Precisión: Monitoreo constante de parámetros ambientales y humedad.",
+        "Garantía de Proceso: Seguridad operativa para laboratorios, farmacéuticas y electrónica."
+      ],
+      "image": "/images/gallery3.jpeg",
+      "gallery": ["/images/gallery3.jpeg", "/images/gallery7.jpeg", "/images/gallery1.jpeg"]
     },
     {
       "id": "control-y-automatizacion",
       "title": "Control y Automatización",
       "description": "Disponemos de los mejores controles de monitoreo, automatización y control para la climatización de su empresa.",
-      "icon": "Settings"
+      "icon": "Settings",
+      "subtitle": "Automatización y gestión inteligente",
+      "longDescription": "**Transformación Digital:** Automatizamos sus sistemas de climatización para ofrecer una gestión eficiente, remota y segura.\n\n**Atributos Clave**",
+      "features": [
+        "Control de Precisión: Regulación automática de temperatura, humedad y presión.",
+        "Eficiencia Energética: Optimización de recursos mediante variadores de frecuencia y gestión de horarios.",
+        "Visualización en Tiempo Real: Monitoreo remoto 24/7 e interfaces HMI de última generación.",
+        "Inteligencia de Datos: Reportes de consumo y métricas de desempeño para la toma de decisiones."
+      ],
+      "image": "/images/gallery4.jpeg",
+      "gallery": ["/images/gallery4.jpeg", "/images/gallery6.jpeg", "/images/gallery8.jpeg"]
     }
   ],
   "sectors": {

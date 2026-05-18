@@ -74,6 +74,221 @@ function DescriptionsEditor({
   );
 }
 
+// ─── Product Detail Editor (expandable per-product card) ───────────────────
+
+interface ProductLike {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  subtitle?: string;
+  longDescription?: string;
+  features?: string[];
+  image?: string;
+  gallery?: string[];
+}
+
+function ProductEditor({
+  index,
+  product,
+  onRemove,
+  onUpdate,
+  CARD,
+  FC,
+  IC,
+  LC,
+  ADDBTN,
+}: {
+  index: number;
+  product: ProductLike;
+  onRemove: () => void;
+  onUpdate: (field: keyof ProductLike, value: string | string[]) => void;
+  CARD: string;
+  FC: string;
+  IC: string;
+  LC: string;
+  ADDBTN: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const features = product.features ?? [];
+  const gallery = product.gallery ?? [];
+
+  return (
+    <div className={CARD}>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-medium text-gray-700">
+          Producto {index + 1}
+          {product.title ? ` — ${product.title}` : ""}
+        </h3>
+        <button
+          type="button"
+          onClick={onRemove}
+          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+        >
+          <Trash2 className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Card on homepage */}
+      <div className="grid md:grid-cols-2 gap-3">
+        <div className={FC}>
+          <label className={LC}>Título</label>
+          <input type="text" value={product.title} className={IC}
+            onChange={(e) => onUpdate("title", e.target.value)} />
+        </div>
+        <div className={FC}>
+          <label className={LC}>ID (slug para URL)</label>
+          <input type="text" value={product.id} placeholder="enfriadores-evaporativos" className={IC}
+            onChange={(e) => onUpdate("id", e.target.value)} />
+        </div>
+        <div className={FC}>
+          <label className={LC}>Ícono</label>
+          <select value={product.icon} className={IC}
+            onChange={(e) => onUpdate("icon", e.target.value)}>
+            {PRODUCT_ICONS.map((icon) => <option key={icon} value={icon}>{icon}</option>)}
+          </select>
+        </div>
+        <div className={`${FC} md:col-span-2`}>
+          <label className={LC}>Descripción (card en la home)</label>
+          <textarea value={product.description} rows={2} className={IC}
+            onChange={(e) => onUpdate("description", e.target.value)} />
+        </div>
+      </div>
+
+      {/* Detail page editor */}
+      <div className="mt-4 border-t pt-4">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="flex items-center gap-2 text-sm font-semibold text-[var(--mecsa-primary)] hover:underline"
+        >
+          <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
+          {open ? "Ocultar página de detalle" : "Editar página de detalle"} (<code>/productos/{product.id || "…"}</code>)
+        </button>
+
+        {open && (
+          <div className="mt-4 space-y-4">
+            <div className={FC}>
+              <label className={LC}>Subtítulo (debajo del título grande en el hero)</label>
+              <input type="text" value={product.subtitle || ""} className={IC}
+                placeholder="Climatización eficiente y sustentable"
+                onChange={(e) => onUpdate("subtitle", e.target.value)} />
+            </div>
+
+            <div className={FC}>
+              <label className={LC}>Imagen de portada (hero)</label>
+              <ImageInput
+                value={product.image || ""}
+                placeholder="/images/enfriador.jpeg"
+                className={IC}
+                onChange={(v) => onUpdate("image", v)}
+              />
+              {product.image && (
+                <img src={product.image} alt="" className="mt-2 h-24 w-full object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div className={FC}>
+              <label className={LC}>Descripción larga (varios párrafos, podés usar <code>**negrita**</code>)</label>
+              <textarea
+                value={product.longDescription || ""}
+                rows={8}
+                className={IC}
+                placeholder="Separá párrafos con doble Enter. Podés usar **palabra** para resaltar."
+                onChange={(e) => onUpdate("longDescription", e.target.value)}
+              />
+            </div>
+
+            {/* Features list */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className={LC}>Características (lista con tilde verde)</label>
+                <button
+                  type="button"
+                  onClick={() => onUpdate("features", [...features, ""])}
+                  className={ADDBTN}
+                >
+                  <Plus className="w-4 h-4" /> Agregar característica
+                </button>
+              </div>
+              {features.length === 0 && (
+                <p className="text-xs text-gray-400">No hay características aún.</p>
+              )}
+              {features.map((feat, fi) => (
+                <div key={fi} className="flex gap-2 items-start">
+                  <textarea
+                    value={feat}
+                    rows={2}
+                    className={IC}
+                    placeholder="Ej: Variedad Tecnológica: Extractores, inyectores, ventiladores..."
+                    onChange={(e) => {
+                      const next = [...features];
+                      next[fi] = e.target.value;
+                      onUpdate("features", next);
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => onUpdate("features", features.filter((_, x) => x !== fi))}
+                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                    title="Quitar característica"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {/* Gallery list */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <label className={LC}>Galería (imágenes que se muestran en la sección Galería)</label>
+                <button
+                  type="button"
+                  onClick={() => onUpdate("gallery", [...gallery, ""])}
+                  className={ADDBTN}
+                >
+                  <Plus className="w-4 h-4" /> Agregar imagen
+                </button>
+              </div>
+              {gallery.length === 0 && (
+                <p className="text-xs text-gray-400">No hay imágenes en la galería.</p>
+              )}
+              {gallery.map((img, gi) => (
+                <div key={gi} className="flex gap-2 items-start">
+                  <div className="flex-1">
+                    <ImageInput
+                      value={img}
+                      placeholder="/images/gallery1.jpeg"
+                      className={IC}
+                      onChange={(v) => {
+                        const next = [...gallery];
+                        next[gi] = v;
+                        onUpdate("gallery", next);
+                      }}
+                    />
+                    {img && (
+                      <img src={img} alt="" className="mt-2 h-20 w-full object-cover rounded" />
+                    )}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onUpdate("gallery", gallery.filter((_, x) => x !== gi))}
+                    className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                    title="Quitar imagen"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Image Upload Input ─────────────────────────────────────────────────────
 
 function ImageInput({ value, onChange, placeholder, className }: {
@@ -119,7 +334,17 @@ function ImageInput({ value, onChange, placeholder, className }: {
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 interface HeroSlide { title: string; titleHighlight: string; subtitle: string; image: string; }
-interface Product { id: string; title: string; description: string; icon: string; }
+interface Product {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  subtitle?: string;
+  longDescription?: string;
+  features?: string[];
+  image?: string;
+  gallery?: string[];
+}
 interface SectorItem { title: string; description: string; image: string; link: string; }
 interface GalleryImage { src: string; alt: string; }
 interface SiteContent {
@@ -417,7 +642,7 @@ export default function AdminPage() {
       `🗑️ Producto ${i + 1} eliminado`, "productos"
     );
   };
-  const updateProduct = (i: number, field: keyof Product, value: string) => {
+  const updateProduct = (i: number, field: keyof Product, value: string | string[]) => {
     setContent((prev) => {
       const products = [...prev.products];
       products[i] = { ...products[i], [field]: value };
@@ -768,32 +993,18 @@ export default function AdminPage() {
                 <div className={`${CARD} text-center py-8 text-gray-400`}>No hay productos. Hacé clic en "Agregar producto".</div>
               )}
               {content.products.map((product, i) => (
-                <div key={i} className={CARD}>
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-medium text-gray-700">Producto {i + 1}{product.title ? ` — ${product.title}` : ""}</h3>
-                    <button type="button" onClick={() => removeProduct(i)} className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-3">
-                    <div className={FC}>
-                      <label className={LC}>Título</label>
-                      <input type="text" value={product.title} className={IC} onChange={(e) => updateProduct(i, "title", e.target.value)} />
-                    </div>
-                    <div className={FC}>
-                      <label className={LC}>ID (slug para URL)</label>
-                      <input type="text" value={product.id} placeholder="enfriadores-evaporativos" className={IC} onChange={(e) => updateProduct(i, "id", e.target.value)} />
-                    </div>
-                    <div className={FC}>
-                      <label className={LC}>Ícono</label>
-                      <select value={product.icon} className={IC} onChange={(e) => updateProduct(i, "icon", e.target.value)}>
-                        {PRODUCT_ICONS.map((icon) => <option key={icon} value={icon}>{icon}</option>)}
-                      </select>
-                    </div>
-                    <div className={`${FC} md:col-span-2`}>
-                      <label className={LC}>Descripción</label>
-                      <textarea value={product.description} rows={2} className={IC} onChange={(e) => updateProduct(i, "description", e.target.value)} />
-                    </div>
-                  </div>
-                </div>
+                <ProductEditor
+                  key={i}
+                  index={i}
+                  product={product}
+                  onRemove={() => removeProduct(i)}
+                  onUpdate={(field, value) => updateProduct(i, field, value)}
+                  CARD={CARD}
+                  FC={FC}
+                  IC={IC}
+                  LC={LC}
+                  ADDBTN={ADDBTN}
+                />
               ))}
             </>)}
 
