@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
 import fs from "fs/promises";
 import path from "path";
+import { mergeSiteContent } from "@/lib/site-content-merge";
 
 const CONTENT_FILE = path.join(process.cwd(), "src/data/site-content.json");
 
@@ -22,8 +23,7 @@ async function getSiteContent() {
         });
         if (res.ok) {
           const blobData = await res.json();
-          // File provides defaults for new fields; Blob preserves admin edits
-          return fileData ? { ...fileData, ...blobData } : blobData;
+          return mergeSiteContent(fileData, blobData);
         }
       }
     } catch { /* fall through to file */ }

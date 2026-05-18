@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import { mergeSiteContent } from "@/lib/site-content-merge";
 
 const CONTENT_FILE = path.join(process.cwd(), "src/data/site-content.json");
 
@@ -21,7 +22,8 @@ export async function GET() {
         });
         if (res.ok) {
           const blobData = await res.json();
-          return NextResponse.json(fileData ? { ...fileData, ...blobData } : blobData);
+          const merged = mergeSiteContent(fileData, blobData);
+          if (merged) return NextResponse.json(merged);
         }
       }
     } catch { /* fall through */ }

@@ -4,6 +4,7 @@
 import "server-only";
 import fs from "fs/promises";
 import path from "path";
+import { mergeSiteContent } from "./site-content-merge";
 
 const CONTENT_FILE = path.join(process.cwd(), "src/data/site-content.json");
 
@@ -27,8 +28,7 @@ export async function getSiteContent(): Promise<Record<string, unknown> | null> 
         });
         if (res.ok) {
           const blobData = await res.json();
-          // File provides defaults for new fields; Blob preserves admin edits
-          return fileData ? { ...fileData, ...blobData } : blobData;
+          return mergeSiteContent(fileData, blobData);
         }
       }
     } catch {
