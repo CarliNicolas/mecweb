@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
-import { renderInline } from "@/lib/inline-markdown";
+import { renderInline, resolveDescriptions } from "@/lib/inline-markdown";
 
 export default function Fabricantes() {
   const { content } = useSiteContent();
@@ -15,9 +15,14 @@ export default function Fabricantes() {
   const isEs = locale === "es";
 
   const title = isEs ? (fab.title || t("title")) : t("title");
-  const desc1 = isEs ? (fab.description1 || t("description1")) : t("description1");
-  const desc2 = isEs ? (fab.description2 || t("description2")) : t("description2");
-  const desc3 = isEs ? (fab.description3 || t("description3")) : t("description3");
+  const descriptions = isEs
+    ? (() => {
+        const resolved = resolveDescriptions(fab, ["description1", "description2", "description3"]);
+        return resolved.length > 0
+          ? resolved
+          : [t("description1"), t("description2"), t("description3")];
+      })()
+    : [t("description1"), t("description2"), t("description3")];
   const btnText = isEs ? (fab.buttonText || t("viewGallery")) : t("viewGallery");
 
   return (
@@ -38,14 +43,20 @@ export default function Fabricantes() {
             <div>
               <h2 className="mecsa-section-title mb-6">{title}</h2>
 
-              <p className="text-[var(--mecsa-text-light)] mb-6 leading-relaxed">
-                <strong className="text-[var(--mecsa-text)]">{renderInline(desc1)}</strong>{" "}
-                {renderInline(desc2)}
-              </p>
-
-              <p className="text-[var(--mecsa-text-light)] mb-8 leading-relaxed">
-                {renderInline(desc3)}
-              </p>
+              {descriptions.map((desc, i) => (
+                <p
+                  key={`desc-${i}`}
+                  className={`text-[var(--mecsa-text-light)] leading-relaxed ${
+                    i === descriptions.length - 1 ? "mb-8" : "mb-6"
+                  }`}
+                >
+                  {i === 0 && !desc.includes("**") ? (
+                    <strong className="text-[var(--mecsa-text)]">{renderInline(desc)}</strong>
+                  ) : (
+                    renderInline(desc)
+                  )}
+                </p>
+              ))}
 
               <Link href={fab.buttonLink || "/#galeria"} className="mecsa-btn flex items-center gap-2 group inline-flex">
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

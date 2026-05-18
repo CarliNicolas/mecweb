@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
-import { renderInline } from "@/lib/inline-markdown";
+import { renderInline, resolveDescriptions } from "@/lib/inline-markdown";
 
 function isExternal(url: string) {
   return url.startsWith("http://") || url.startsWith("https://");
@@ -20,8 +20,12 @@ export default function CompanyIntro() {
   const title1 = isEs ? (intro.title1 || t("title1")) : t("title1");
   const title2 = isEs ? (intro.title2 || t("title2")) : t("title2");
   const title3 = isEs ? (intro.title3 || t("title3")) : t("title3");
-  const description1 = isEs ? (intro.description1 || t("description1")) : t("description1");
-  const description2 = isEs ? (intro.description2 || t("description2")) : t("description2");
+  const descriptions = isEs
+    ? (() => {
+        const resolved = resolveDescriptions(intro, ["description1", "description2"]);
+        return resolved.length > 0 ? resolved : [t("description1"), t("description2")];
+      })()
+    : [t("description1"), t("description2")];
 
   return (
     <section id="empresa" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
@@ -36,12 +40,16 @@ export default function CompanyIntro() {
                 <br />
                 <span className="mecsa-heading">{title3}</span>
               </h2>
-              <p className="text-[var(--mecsa-text-light)] mb-5 leading-relaxed text-sm sm:text-base">
-                {renderInline(description1)}
-              </p>
-              <p className="text-[var(--mecsa-text-light)] leading-relaxed text-sm sm:text-base">
-                {renderInline(description2)}
-              </p>
+              {descriptions.map((desc, i) => (
+                <p
+                  key={`desc-${i}`}
+                  className={`text-[var(--mecsa-text-light)] leading-relaxed text-sm sm:text-base ${
+                    i < descriptions.length - 1 ? "mb-5" : ""
+                  }`}
+                >
+                  {renderInline(desc)}
+                </p>
+              ))}
             </div>
           </FadeIn>
 

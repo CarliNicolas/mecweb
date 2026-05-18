@@ -46,16 +46,18 @@ export interface SiteContent {
     title1: string;
     title2: string;
     title3: string;
-    description1: string;
-    description2: string;
+    description1?: string;
+    description2?: string;
+    descriptions?: string[];
     image1: string;
     image2: string;
   };
   fabricantes: {
     title: string;
-    description1: string;
-    description2: string;
-    description3: string;
+    description1?: string;
+    description2?: string;
+    description3?: string;
+    descriptions?: string[];
     image: string;
     buttonText: string;
     buttonLink: string;
@@ -72,8 +74,9 @@ export interface SiteContent {
   };
   climatizacion: {
     title: string;
-    description1: string;
-    description2: string;
+    description1?: string;
+    description2?: string;
+    descriptions?: string[];
   };
   gallery: {
     images: GalleryImage[];

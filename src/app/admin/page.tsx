@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { CotizadorConfig, SpaceTypeItem, ExtraCfg } from "@/app/cotizar/CotizadorForm";
+import { resolveDescriptions } from "@/lib/inline-markdown";
 import {
   LayoutDashboard, FileText, LogOut, Save, Phone, Mail, MapPin,
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
@@ -9,6 +10,69 @@ import {
   Package, Grid3X3, Thermometer, Images, PhoneCall, Eye, Clock, ChevronDown,
   Upload, Bot, Sparkles,
 } from "lucide-react";
+
+// ─── Descriptions List Editor ───────────────────────────────────────────────
+
+function DescriptionsEditor({
+  values,
+  onChange,
+  rows = 4,
+  placeholder,
+  inputClass,
+  fieldClass,
+  labelClass,
+  addBtnClass,
+}: {
+  values: string[];
+  onChange: (next: string[]) => void;
+  rows?: number;
+  placeholder?: string;
+  inputClass: string;
+  fieldClass: string;
+  labelClass: string;
+  addBtnClass: string;
+}) {
+  const list = values.length > 0 ? values : [""];
+  return (
+    <div className="space-y-3">
+      {list.map((value, idx) => (
+        <div key={idx} className={fieldClass}>
+          <div className="flex items-center justify-between mb-1">
+            <label className={labelClass}>Descripción {idx + 1}</label>
+            {list.length > 1 && (
+              <button
+                type="button"
+                onClick={() => onChange(list.filter((_, i) => i !== idx))}
+                className="flex items-center gap-1 text-xs text-red-600 hover:text-red-700"
+                title="Quitar esta descripción"
+              >
+                <X className="w-3.5 h-3.5" /> Quitar
+              </button>
+            )}
+          </div>
+          <textarea
+            value={value}
+            rows={rows}
+            placeholder={placeholder}
+            className={inputClass}
+            onChange={(e) => {
+              const next = [...list];
+              next[idx] = e.target.value;
+              onChange(next);
+            }}
+          />
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() => onChange([...list, ""])}
+        className={addBtnClass}
+      >
+        <Plus className="w-4 h-4" /> Agregar descripción
+      </button>
+    </div>
+  );
+}
 
 // ─── Image Upload Input ─────────────────────────────────────────────────────
 
@@ -62,12 +126,12 @@ interface SiteContent {
   companyInfo: { phone: string; email: string; address: string; whatsapp: string; };
   socialMedia: { facebook: string; twitter: string; instagram: string; };
   heroSlides: HeroSlide[];
-  companyIntro: { title1: string; title2: string; title3: string; description1: string; description2: string; image1: string; image2: string; };
-  fabricantes: { title: string; description1: string; description2: string; description3: string; image: string; buttonText: string; buttonLink: string; };
+  companyIntro: { title1: string; title2: string; title3: string; description1?: string; description2?: string; descriptions?: string[]; image1: string; image2: string; };
+  fabricantes: { title: string; description1?: string; description2?: string; description3?: string; descriptions?: string[]; image: string; buttonText: string; buttonLink: string; };
   products: Product[];
   productsSection: { title: string; subtitle: string; };
   sectors: { title: string; subtitle: string; items: SectorItem[]; };
-  climatizacion: { title: string; description1: string; description2: string; };
+  climatizacion: { title: string; description1?: string; description2?: string; descriptions?: string[]; };
   gallery: { images: GalleryImage[]; buttonProjects: string; buttonNews: string; };
   contact: { title: string; subtitle: string; mapUrl: string; };
   footer: { text: string; designCredit: string; designUrl: string; };
@@ -590,13 +654,21 @@ export default function AdminPage() {
                       onChange={(e) => setContent((prev) => ({ ...prev, companyIntro: { ...prev.companyIntro, [key]: e.target.value } }))} />
                   </div>
                 ))}
-                {(["description1", "description2"] as const).map((key, idx) => (
-                  <div key={key} className={FC}>
-                    <label className={LC}>Descripción {idx + 1}</label>
-                    <textarea value={content.companyIntro[key]} rows={4} className={IC}
-                      onChange={(e) => setContent((prev) => ({ ...prev, companyIntro: { ...prev.companyIntro, [key]: e.target.value } }))} />
-                  </div>
-                ))}
+                <DescriptionsEditor
+                  values={resolveDescriptions(content.companyIntro, ["description1", "description2"])}
+                  onChange={(next) =>
+                    setContent((prev) => ({
+                      ...prev,
+                      companyIntro: { ...prev.companyIntro, descriptions: next, description1: undefined, description2: undefined },
+                    }))
+                  }
+                  rows={4}
+                  inputClass={IC}
+                  fieldClass={FC}
+                  labelClass={LC}
+                  addBtnClass={ADDBTN}
+                />
+                <p className="text-xs text-gray-500">Tip: podés usar <code>**palabra**</code> para resaltar en negrita.</p>
                 <div className="grid md:grid-cols-2 gap-4">
                   {(["image1", "image2"] as const).map((key, idx) => (
                     <div key={key} className={FC}>
@@ -619,13 +691,27 @@ export default function AdminPage() {
                   <input type="text" value={content.fabricantes.title} className={IC}
                     onChange={(e) => setContent((prev) => ({ ...prev, fabricantes: { ...prev.fabricantes, title: e.target.value } }))} />
                 </div>
-                {(["description1", "description2", "description3"] as const).map((key, idx) => (
-                  <div key={key} className={FC}>
-                    <label className={LC}>Descripción {idx + 1}{idx === 0 ? " (negrita)" : ""}</label>
-                    <textarea value={content.fabricantes[key]} rows={3} className={IC}
-                      onChange={(e) => setContent((prev) => ({ ...prev, fabricantes: { ...prev.fabricantes, [key]: e.target.value } }))} />
-                  </div>
-                ))}
+                <DescriptionsEditor
+                  values={resolveDescriptions(content.fabricantes, ["description1", "description2", "description3"])}
+                  onChange={(next) =>
+                    setContent((prev) => ({
+                      ...prev,
+                      fabricantes: {
+                        ...prev.fabricantes,
+                        descriptions: next,
+                        description1: undefined,
+                        description2: undefined,
+                        description3: undefined,
+                      },
+                    }))
+                  }
+                  rows={3}
+                  inputClass={IC}
+                  fieldClass={FC}
+                  labelClass={LC}
+                  addBtnClass={ADDBTN}
+                />
+                <p className="text-xs text-gray-500">La primera descripción se muestra en negrita automáticamente (si no usás <code>**…**</code> dentro). Podés usar <code>**palabra**</code> para resaltar en negrita.</p>
                 <div className={FC}>
                   <label className={LC}>Imagen</label>
                   <ImageInput value={content.fabricantes.image} placeholder="/images/ingenieros.png" className={IC}
@@ -774,13 +860,21 @@ export default function AdminPage() {
                   <input type="text" value={content.climatizacion.title} className={IC}
                     onChange={(e) => setContent((prev) => ({ ...prev, climatizacion: { ...prev.climatizacion, title: e.target.value } }))} />
                 </div>
-                {(["description1", "description2"] as const).map((key, idx) => (
-                  <div key={key} className={FC}>
-                    <label className={LC}>Descripción {idx + 1}</label>
-                    <textarea value={content.climatizacion[key]} rows={4} className={IC}
-                      onChange={(e) => setContent((prev) => ({ ...prev, climatizacion: { ...prev.climatizacion, [key]: e.target.value } }))} />
-                  </div>
-                ))}
+                <DescriptionsEditor
+                  values={resolveDescriptions(content.climatizacion, ["description1", "description2"])}
+                  onChange={(next) =>
+                    setContent((prev) => ({
+                      ...prev,
+                      climatizacion: { ...prev.climatizacion, descriptions: next, description1: undefined, description2: undefined },
+                    }))
+                  }
+                  rows={4}
+                  inputClass={IC}
+                  fieldClass={FC}
+                  labelClass={LC}
+                  addBtnClass={ADDBTN}
+                />
+                <p className="text-xs text-gray-500">Tip: podés usar <code>**palabra**</code> para resaltar en negrita.</p>
               </div>
             )}
 

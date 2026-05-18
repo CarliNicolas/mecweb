@@ -3,7 +3,7 @@
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
-import { renderInline } from "@/lib/inline-markdown";
+import { renderInline, resolveDescriptions } from "@/lib/inline-markdown";
 
 export default function ClimatizacionInfo() {
   const { content } = useSiteContent();
@@ -13,8 +13,12 @@ export default function ClimatizacionInfo() {
   const isEs = locale === "es";
 
   const title = isEs ? (clim.title || t("title")) : t("title");
-  const desc1 = isEs ? (clim.description1 || t("description1")) : t("description1");
-  const desc2 = isEs ? (clim.description2 || t("description2")) : t("description2");
+  const descriptions = isEs
+    ? (() => {
+        const resolved = resolveDescriptions(clim, ["description1", "description2"]);
+        return resolved.length > 0 ? resolved : [t("description1"), t("description2")];
+      })()
+    : [t("description1"), t("description2")];
 
   return (
     <section className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 bg-[#c9a9a2]">
@@ -38,13 +42,16 @@ export default function ClimatizacionInfo() {
                 {title}
               </h2>
 
-              <p className="text-white/90 mb-6 leading-relaxed">
-                {renderInline(desc1)}
-              </p>
-
-              <p className="text-white/90 leading-relaxed">
-                {renderInline(desc2)}
-              </p>
+              {descriptions.map((desc, i) => (
+                <p
+                  key={`desc-${i}`}
+                  className={`text-white/90 leading-relaxed ${
+                    i < descriptions.length - 1 ? "mb-6" : ""
+                  }`}
+                >
+                  {renderInline(desc)}
+                </p>
+              ))}
             </div>
           </FadeIn>
         </div>
