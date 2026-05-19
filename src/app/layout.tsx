@@ -5,6 +5,8 @@ import { SiteContentProvider } from "@/context/SiteContentContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import AvatarChat from "@/components/AvatarChat";
+import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 const titilliumWeb = Titillium_Web({
   variable: "--font-titillium",
@@ -122,6 +124,20 @@ export default async function RootLayout({
             <AvatarChat />
           </SiteContentProvider>
         </NextIntlClientProvider>
+        <Analytics />
+        {/* Google Analytics 4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-8KDGNVC38B"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-8KDGNVC38B');
+          `}
+        </Script>
       </body>
     </html>
   );
