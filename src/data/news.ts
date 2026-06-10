@@ -12,6 +12,25 @@ export interface NewsArticle {
 // Default news articles - used as fallback
 export const newsArticles: NewsArticle[] = [
   {
+    slug: "nuevo-salon-de-ventas",
+    title: "Inauguramos nuestro nuevo salón de ventas",
+    excerpt: "Lo invitamos a conocer nuestro nuevo salón de ventas, donde podrá ver en persona las distintas alternativas de climatización para su proyecto.",
+    content: `Tenemos el agrado de invitarlo a vivir la experiencia de nuestro nuevo salón de ventas.
+
+Allí usted va a poder ver, conocer y comparar las distintas alternativas de climatización que ofrecemos, no solo para elegir la mejor maquinaria para su sistema o requerimiento, sino también la que mejor se acomode al presupuesto que tenga pensado invertir en cada proyecto.
+
+**¿Qué va a encontrar en el salón?**
+- Equipos en exhibición de nuestras principales líneas: enfriadores evaporativos, ventilación industrial y calefactores radiantes.
+- Asesoramiento personalizado para evaluar la solución que mejor se adapta a su empresa.
+- Análisis presupuestario adaptado a cada proyecto.
+
+Lo esperamos para mostrarle, en persona, por qué cada proyecto de MEC es único y hecho a la medida de cada cliente.`,
+    image: "/images/placeholder-salon-ventas.jpg",
+    date: "2026-06-10",
+    category: "Empresa",
+    author: "Equipo Comercial MECSA",
+  },
+  {
     slug: "nuevo-proyecto-climatizacion-bodega-mendoza",
     title: "Nuevo proyecto de climatización en bodega de Mendoza",
     excerpt: "Completamos la instalación de un sistema integral de enfriamiento evaporativo para una de las bodegas más importantes de la región.",
