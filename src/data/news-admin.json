@@ -1,5 +1,15 @@
 [
   {
+    "slug": "nuevo-salon-de-ventas",
+    "title": "Inauguramos nuestro nuevo salón de ventas",
+    "excerpt": "Lo invitamos a conocer nuestro nuevo salón de ventas, donde podrá ver en persona las distintas alternativas de climatización para su proyecto.",
+    "content": "Tenemos el agrado de invitarlo a vivir la experiencia de nuestro nuevo salón de ventas.\n\nAllí usted va a poder ver, conocer y comparar las distintas alternativas de climatización que ofrecemos, no solo para elegir la mejor maquinaria para su sistema o requerimiento, sino también la que mejor se acomode al presupuesto que tenga pensado invertir en cada proyecto.\n\n**¿Qué va a encontrar en el salón?**\n- Equipos en exhibición de nuestras principales líneas: enfriadores evaporativos, ventilación industrial y calefactores radiantes.\n- Asesoramiento personalizado para evaluar la solución que mejor se adapta a su empresa.\n- Análisis presupuestario adaptado a cada proyecto.\n\nLo esperamos para mostrarle, en persona, por qué cada proyecto de MEC es único y hecho a la medida de cada cliente.",
+    "image": "/images/placeholder-salon-ventas.jpg",
+    "date": "2026-06-10",
+    "category": "Empresa",
+    "author": "Equipo Comercial MECSA"
+  },
+  {
     "slug": "proyecto-enfriamiento-arcor-san-juan",
     "title": "Instalación de enfriadores evaporativos en planta Arcor — San Juan",
     "excerpt": "Completamos una nueva etapa de trabajo en la planta de Arcor en San Juan, incorporando equipos MECOOL de acero inoxidable para el control térmico de sus líneas de producción.",

@@ -4,13 +4,19 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import { FadeIn } from "@/components/ScrollAnimations";
 import NoticiasClient from "./NoticiasClient";
 import { getTranslations } from "next-intl/server";
+import fs from "fs/promises";
+import path from "path";
+import { newsArticles } from "@/data/news";
 
 async function getNews() {
   try {
-    const { newsArticles } = await import("@/data/news");
+    const file = path.join(process.cwd(), "src/data/news-admin.json");
+    const data = await fs.readFile(file, "utf-8");
+    const parsed = JSON.parse(data);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     return newsArticles;
   } catch {
-    return [];
+    return newsArticles;
   }
 }
 
