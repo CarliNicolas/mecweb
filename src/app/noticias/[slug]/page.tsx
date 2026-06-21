@@ -4,24 +4,9 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import NewsArticleClient from "./NewsArticleClient";
 import { notFound } from "next/navigation";
-import fs from "fs/promises";
-import path from "path";
-import { newsArticles } from "@/data/news";
+import { getAllNews } from "@/lib/news-server";
 
-async function getAllNews() {
-  try {
-    const file = path.join(process.cwd(), "src/data/news-admin.json");
-    const data = await fs.readFile(file, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return newsArticles;
-  }
-}
-
-export async function generateStaticParams() {
-  const articles = await getAllNews();
-  return articles.map((a: { slug: string }) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
