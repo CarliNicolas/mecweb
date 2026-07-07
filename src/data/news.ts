@@ -51,26 +51,6 @@ Este proyecto representa un hito importante en nuestro compromiso con la sustent
     author: "Equipo MECSA",
   },
   {
-    slug: "certificacion-iso-9001-renovada",
-    title: "Renovamos nuestra certificación ISO 9001:2015",
-    excerpt: "MECSA renueva su compromiso con la calidad al obtener nuevamente la certificación ISO 9001:2015 para todos sus procesos.",
-    content: `Con gran orgullo comunicamos que hemos renovado exitosamente nuestra certificación ISO 9001:2015, reafirmando nuestro compromiso con los más altos estándares de calidad.
-
-Esta certificación abarca todos nuestros procesos, desde el diseño y fabricación de equipos hasta la instalación y servicio post-venta.
-
-**Alcance de la certificación:**
-- Diseño de sistemas de climatización
-- Fabricación de enfriadores evaporativos
-- Instalación y puesta en marcha
-- Servicio técnico y mantenimiento
-
-Agradecemos a todo nuestro equipo por su dedicación y esfuerzo continuo en mantener la excelencia en cada proyecto que realizamos.`,
-    image: "/images/gallery2.jpeg",
-    date: "2024-11-28",
-    category: "Empresa",
-    author: "Dirección MECSA",
-  },
-  {
     slug: "participacion-expo-industrial-2024",
     title: "MECSA presente en Expo Industrial 2024",
     excerpt: "Participamos de la feria industrial más importante del país presentando nuestras últimas innovaciones en climatización sustentable.",
@@ -112,27 +92,6 @@ Contáctenos para una evaluación gratuita de sus necesidades de climatización.
     date: "2024-10-22",
     category: "Técnico",
     author: "Ing. Carlos Rodríguez",
-  },
-  {
-    slug: "ampliacion-planta-produccion",
-    title: "Ampliamos nuestra planta de producción",
-    excerpt: "Inauguramos la ampliación de nuestra planta de fabricación en Mendoza, duplicando nuestra capacidad productiva.",
-    content: `Nos complace anunciar la inauguración de la ampliación de nuestra planta de fabricación ubicada en Guaymallén, Mendoza.
-
-Esta inversión estratégica nos permite duplicar nuestra capacidad de producción para atender la creciente demanda de equipos de climatización en toda Argentina y países limítrofes.
-
-**Mejoras implementadas:**
-- 2,000 m² adicionales de área de producción
-- Nueva línea de fabricación automatizada
-- Laboratorio de pruebas y control de calidad
-- Almacén de materia prima climatizado
-- Oficinas administrativas renovadas
-
-Con esta ampliación, reafirmamos nuestro compromiso de seguir siendo líderes en la fabricación de sistemas de climatización industrial en Argentina.`,
-    image: "/images/gallery6.jpeg",
-    date: "2024-09-30",
-    category: "Empresa",
-    author: "Dirección MECSA",
   },
   {
     slug: "capacitacion-tecnicos-instaladores",
