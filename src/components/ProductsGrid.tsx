@@ -1,51 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Cloud, Flame, Wind, Filter, Settings, Thermometer,
-  Zap, Shield, Droplets, Fan, ArrowRight, LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { renderInline } from "@/lib/inline-markdown";
 import { useTranslations, useLocale } from "next-intl";
 
-const iconMap: Record<string, LucideIcon> = {
-  Cloud, Flame, Wind, Filter, Settings,
-  Thermometer, Zap, Shield, Droplets, Fan,
+const DEFAULT_IMAGE_BY_ID: Record<string, string> = {
+  "enfriadores-evaporativos": "/images/enfriador.jpeg",
+  "calefactores-radiantes": "/images/gallery2.jpeg",
+  "ventilacion-industrial": "/images/ventilacion.jpeg",
+  "filtracion-de-aire": "/images/gallery3.jpeg",
+  "control-y-automatizacion": "/images/gallery4.jpeg",
 };
 
-const CARD_STYLES = [
-  {
-    bg: "bg-gradient-to-br from-[#ac493f] to-[#7a2f28]",
-    icon: "bg-white/20 text-white",
-    text: "text-white",
-    sub: "text-white/75",
-    link: "text-white border-white/40 hover:border-white",
-    badge: "text-white/30",
-    line: "bg-white/40",
-    featured: true,
-  },
-  {
-    bg: "bg-white border border-gray-100",
-    icon: "bg-[var(--mecsa-bg)] text-[var(--mecsa-primary)]",
-    text: "text-[var(--mecsa-text)]",
-    sub: "text-[var(--mecsa-text-light)]",
-    link: "text-[var(--mecsa-primary)] border-[var(--mecsa-primary)]/30 hover:border-[var(--mecsa-primary)]",
-    badge: "text-gray-200",
-    line: "bg-[var(--mecsa-primary)]",
-    featured: false,
-  },
+const esDefaultProducts = [
+  { id: "enfriadores-evaporativos", title: "Enfriadores Evaporativos", description: "Consuma hasta un 80% menos de energía eléctrica con nuestro sistema de enfriadores evaporativos de alta eficiencia.", image: "/images/enfriador.jpeg" },
+  { id: "calefactores-radiantes", title: "Calefactores Radiantes", description: "Nuestros tubos radiantes PIROMEC son aparatos autónomos de combustión a gas natural o G.L.P de gran eficiencia.", image: "/images/gallery2.jpeg" },
+  { id: "ventilacion-industrial", title: "Ventilación Industrial", description: "Sistemas de ventilación para usos comerciales, industriales y agrícolas; soluciones para cada necesidad.", image: "/images/ventilacion.jpeg" },
+  { id: "filtracion-de-aire", title: "Filtración de Aire", description: "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, recolección de polvos y humedad.", image: "/images/gallery3.jpeg" },
+  { id: "control-y-automatizacion", title: "Control y Automatización", description: "Los mejores controles de monitoreo, automatización y control para la climatización de su empresa.", image: "/images/gallery4.jpeg" },
 ];
 
-const esDefaultProducts = [
-  { id: "enfriadores-evaporativos", icon: "Cloud", title: "Enfriadores Evaporativos", description: "Consuma hasta un 80% menos de energía eléctrica con nuestro sistema de enfriadores evaporativos de alta eficiencia." },
-  { id: "calefactores-radiantes", icon: "Flame", title: "Calefactores Radiantes", description: "Nuestros tubos radiantes PIROMEC son aparatos autónomos de combustión a gas natural o G.L.P de gran eficiencia." },
-  { id: "ventilacion-industrial", icon: "Wind", title: "Ventilación Industrial", description: "Sistemas de ventilación para usos comerciales, industriales y agrícolas; soluciones para cada necesidad." },
-  { id: "filtracion-de-aire", icon: "Filter", title: "Filtración de Aire", description: "Filtros absolutos, tratamiento de gases, equipos de flujo laminar, recolección de polvos y humedad." },
-  { id: "control-y-automatizacion", icon: "Settings", title: "Control y Automatización", description: "Los mejores controles de monitoreo, automatización y control para la climatización de su empresa." },
-];
+function isExternal(url: string) {
+  return url.startsWith("http://") || url.startsWith("https://");
+}
 
 export default function ProductsGrid() {
   const { content } = useSiteContent();
@@ -57,11 +39,11 @@ export default function ProductsGrid() {
   const sectionSubtitle = isEs ? (content.productsSection?.subtitle || t("ourServices")) : t("ourServices");
 
   const translatedProducts = [
-    { id: "enfriadores-evaporativos", icon: "Cloud", title: t("evaporativeCoolers"), description: t("evaporativeCoolersDesc") },
-    { id: "calefactores-radiantes", icon: "Flame", title: t("radiantHeaters"), description: t("radiantHeatersDesc") },
-    { id: "ventilacion-industrial", icon: "Wind", title: t("industrialVentilation"), description: t("industrialVentilationDesc") },
-    { id: "filtracion-de-aire", icon: "Filter", title: t("airFiltration"), description: t("airFiltrationDesc") },
-    { id: "control-y-automatizacion", icon: "Settings", title: t("controlAutomation"), description: t("controlAutomationDesc") },
+    { id: "enfriadores-evaporativos", title: t("evaporativeCoolers"), description: t("evaporativeCoolersDesc"), image: "/images/enfriador.jpeg" },
+    { id: "calefactores-radiantes", title: t("radiantHeaters"), description: t("radiantHeatersDesc"), image: "/images/gallery2.jpeg" },
+    { id: "ventilacion-industrial", title: t("industrialVentilation"), description: t("industrialVentilationDesc"), image: "/images/ventilacion.jpeg" },
+    { id: "filtracion-de-aire", title: t("airFiltration"), description: t("airFiltrationDesc"), image: "/images/gallery3.jpeg" },
+    { id: "control-y-automatizacion", title: t("controlAutomation"), description: t("controlAutomationDesc"), image: "/images/gallery4.jpeg" },
   ];
 
   const products = isEs
@@ -69,15 +51,10 @@ export default function ProductsGrid() {
     : translatedProducts;
 
   return (
-    <section id="productos" className="py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg)] relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-[var(--mecsa-primary)] opacity-[0.04] rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[var(--mecsa-primary)] opacity-[0.04] rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-7xl mx-auto relative">
+    <section id="productos" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg)]">
+      <div className="max-w-7xl mx-auto">
         <FadeIn>
-          <div className="text-center mb-14">
+          <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[var(--mecsa-primary)]/20 text-[var(--mecsa-primary)] text-xs font-bold tracking-widest uppercase rounded-full mb-5 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[var(--mecsa-primary)] inline-block" />
               {sectionSubtitle}
@@ -96,35 +73,49 @@ export default function ProductsGrid() {
           }`}
           staggerDelay={0.08}
         >
-          {products.map((product, index) => {
-            const IconComponent = iconMap[product.icon] || Cloud;
-            const style = index === 0 ? CARD_STYLES[0] : CARD_STYLES[1];
+          {products.map((product) => {
+            type ProductWithImage = typeof product & { image?: string };
+            const p = product as ProductWithImage;
+            const productImage = p.image || DEFAULT_IMAGE_BY_ID[product.id] || "/images/gallery1.jpeg";
 
             return (
               <StaggerItem key={product.id}>
-                <div className={`group relative flex flex-col h-full rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden ${style.bg}`}>
-                  <span className={`absolute top-4 right-5 text-5xl font-black leading-none select-none ${style.badge} transition-opacity`}>
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div className={`relative z-10 w-14 h-14 rounded-2xl ${style.icon} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300 shadow-sm`}>
-                    <IconComponent className="w-6 h-6" strokeWidth={1.5} />
+                <article className="group relative flex flex-col h-full rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-neutral-100">
+                    {isExternal(productImage) ? (
+                      <img
+                        src={productImage}
+                        alt={product.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <Image
+                        src={productImage}
+                        alt={product.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
-                  <h3 className={`relative z-10 font-semibold text-base mb-3 leading-snug ${style.text}`}
-                    style={{ fontFamily: "var(--font-titillium)" }}>
-                    {product.title}
-                  </h3>
-                  <p className={`relative z-10 text-sm leading-relaxed flex-1 mb-6 ${style.sub}`}>
-                    {renderInline(product.description)}
-                  </p>
-                  <Link
-                    href={`/productos/${product.id}`}
-                    className={`relative z-10 inline-flex items-center gap-2 text-sm font-semibold border-b pb-0.5 w-fit transition-all duration-200 ${style.link}`}
-                  >
-                    <span>{t("viewMore")}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <div className={`absolute bottom-0 left-0 right-0 h-[3px] ${style.line} scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`} />
-                </div>
+                  <div className="flex flex-col flex-1 p-5">
+                    <h3 className="font-semibold text-base mb-2 leading-snug text-[var(--mecsa-text)]"
+                      style={{ fontFamily: "var(--font-titillium)" }}>
+                      {product.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed flex-1 mb-5 text-[var(--mecsa-text-light)]">
+                      {renderInline(product.description)}
+                    </p>
+                    <Link
+                      href={`/productos/${product.id}`}
+                      className="inline-flex items-center gap-2 text-sm font-semibold w-fit text-[var(--mecsa-primary)] border-b border-[var(--mecsa-primary)]/30 pb-0.5 hover:border-[var(--mecsa-primary)] transition-colors duration-200"
+                    >
+                      <span>{t("viewMore")}</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </article>
               </StaggerItem>
             );
           })}

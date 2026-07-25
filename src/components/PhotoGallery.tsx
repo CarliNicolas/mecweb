@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
@@ -30,11 +30,70 @@ export default function PhotoGallery() {
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
-  const openLightbox = (index: number) => { setCurrentImage(index); setLightboxOpen(true); };
-  const closeLightbox = () => setLightboxOpen(false);
-  const nextImage = () => setCurrentImage((prev) => (prev + 1) % galleryImages.length);
-  const prevImage = () => setCurrentImage((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  const closeLightbox = useCallback(() => setLightboxOpen(false), []);
+  const nextImage = useCallback(
+    () => setCurrentImage((prev) => (prev + 1) % galleryImages.length),
+    [galleryImages.length]
+  );
+  const prevImage = useCallback(
+    () => setCurrentImage((prev) => (prev - 1 + galleryImages.length) % galleryImages.length),
+    [galleryImages.length]
+  );
+
+  const openLightbox = (index: number) => {
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    setCurrentImage(index);
+    setLightboxOpen(true);
+  };
+
+  // Keyboard: Esc close, arrow keys navigate, focus trap
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeBtnRef.current?.focus();
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeLightbox();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        nextImage();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prevImage();
+      } else if (e.key === "Tab") {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+        const focusable = dialog.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = originalOverflow;
+      previousFocusRef.current?.focus?.();
+    };
+  }, [lightboxOpen, closeLightbox, nextImage, prevImage]);
 
   return (
     <section id="galeria" className="py-20 px-4 sm:px-6 lg:px-8">
@@ -44,8 +103,9 @@ export default function PhotoGallery() {
             <button
               type="button"
               key={`${image.src}-${index}`}
-              className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group"
+              className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--mecsa-primary)]"
               onClick={() => openLightbox(index)}
+              aria-label={`Abrir imagen ${index + 1}: ${image.alt || "Proyecto MEC"}`}
             >
               {isExternal(image.src) ? (
                 <img src={image.src} alt={image.alt || "Proyecto MEC"}
@@ -70,18 +130,24 @@ export default function PhotoGallery() {
       </div>
 
       {lightboxOpen && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-          onClick={closeLightbox}>
-          <button type="button" onClick={closeLightbox} aria-label={t("close")}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Imagen ${currentImage + 1} de ${galleryImages.length}: ${galleryImages[currentImage].alt || "Proyecto MEC"}`}
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
+          onClick={closeLightbox}
+        >
+          <button ref={closeBtnRef} type="button" onClick={closeLightbox} aria-label={t("close")}
+            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10 w-11 h-11 flex items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-white">
             <X className="w-8 h-8" />
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); prevImage(); }} aria-label={t("prev")}
-            className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10">
+            className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10 w-11 h-11 flex items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-white">
             <ChevronLeft className="w-10 h-10" />
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); nextImage(); }} aria-label={t("next")}
-            className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10">
+            className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10 w-11 h-11 flex items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-white">
             <ChevronRight className="w-10 h-10" />
           </button>
           <div className="relative max-w-4xl max-h-[80vh] w-full flex items-center justify-center"

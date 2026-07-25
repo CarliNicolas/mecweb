@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
 import { renderInline } from "@/lib/inline-markdown";
@@ -18,6 +18,9 @@ export default function HeroCarousel() {
   const locale = useLocale();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const translatedSlides = [
     {
@@ -46,13 +49,27 @@ export default function HeroCarousel() {
       : translatedSlides;
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || reducedMotion) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    timerRef.current = setInterval(() => {
       setIsAnimating(true);
       setCurrentSlide((prev) => (prev + 1) % slides.length);
       setTimeout(() => setIsAnimating(false), 800);
     }, 6000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [slides.length, isPaused, reducedMotion]);
 
   const nextSlide = () => {
     if (isAnimating) return;
@@ -68,22 +85,31 @@ export default function HeroCarousel() {
     setTimeout(() => setIsAnimating(false), 800);
   };
 
+  const kenBurns = !reducedMotion;
+
   return (
-    <section className="relative h-[480px] sm:h-[580px] md:h-[700px] overflow-hidden bg-neutral-900">
+    <section
+      aria-roledescription="carrusel"
+      aria-label={t("carouselLabel") || "Presentación de servicios"}
+      className="relative h-[480px] sm:h-[580px] md:h-[700px] overflow-hidden bg-neutral-900"
+    >
       {slides.map((slide, index) => (
         <div
           key={`slide-${index}`}
           className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentSlide ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
+          aria-hidden={index !== currentSlide}
         >
           <div className="absolute inset-0 overflow-hidden">
             {isExternalUrl(slide.image) ? (
               <img
                 src={slide.image}
                 alt={`${slide.title} ${slide.titleHighlight}`}
-                className={`w-full h-full object-cover transition-transform duration-[8000ms] ease-out ${
-                  index === currentSlide ? "scale-110" : "scale-100"
+                className={`w-full h-full object-cover ${
+                  kenBurns
+                    ? `transition-transform duration-[8000ms] ease-out ${index === currentSlide ? "scale-110" : "scale-100"}`
+                    : ""
                 }`}
               />
             ) : (
@@ -93,8 +119,10 @@ export default function HeroCarousel() {
                 fill
                 priority={index === 0}
                 sizes="100vw"
-                className={`object-cover transition-transform duration-[8000ms] ease-out ${
-                  index === currentSlide ? "scale-110" : "scale-100"
+                className={`object-cover ${
+                  kenBurns
+                    ? `transition-transform duration-[8000ms] ease-out ${index === currentSlide ? "scale-110" : "scale-100"}`
+                    : ""
                 }`}
               />
             )}
@@ -134,15 +162,29 @@ export default function HeroCarousel() {
         <ChevronRight className="w-6 h-6" />
       </button>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-20">
-        {slides.map((_, index) => (
-          <button key={`dot-${index}`} type="button" onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? "bg-[var(--mecsa-primary)] scale-125" : "bg-white/50"
-            }`}
-            aria-label={`${t("goToSlide")} ${index + 1}`}
-          />
-        ))}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20">
+        <div className="flex space-x-3">
+          {slides.map((_, index) => (
+            <button key={`dot-${index}`} type="button" onClick={() => setCurrentSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentSlide ? "bg-[var(--mecsa-primary)] scale-125" : "bg-white/50"
+              }`}
+              aria-label={`${t("goToSlide")} ${index + 1}`}
+              aria-current={index === currentSlide}
+            />
+          ))}
+        </div>
+        {!reducedMotion && (
+          <button
+            type="button"
+            onClick={() => setIsPaused((p) => !p)}
+            aria-label={isPaused ? "Reanudar carrusel" : "Pausar carrusel"}
+            aria-pressed={isPaused}
+            className="ml-2 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          >
+            {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
+          </button>
+        )}
       </div>
     </section>
   );

@@ -5,11 +5,11 @@ import CompanyIntro from "@/components/CompanyIntro";
 import Fabricantes from "@/components/Fabricantes";
 import ProductsGrid from "@/components/ProductsGrid";
 import SectorsGrid from "@/components/SectorsGrid";
-import SocialIcons from "@/components/SocialIcons";
 import ClimatizacionInfo from "@/components/ClimatizacionInfo";
 import PhotoGallery from "@/components/PhotoGallery";
 import ClientesSection from "@/components/ClientesSection";
 import NewsPreview from "@/components/NewsPreview";
+import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
@@ -41,14 +41,14 @@ export default function Home() {
       <div className="pt-20">
         <HeroCarousel />
         <CompanyIntro />
+        <ClientesSection />
         <Fabricantes />
         <ProductsGrid />
         <SectorsGrid />
-        <SocialIcons />
         <ClimatizacionInfo />
-        <ClientesSection />
         <PhotoGallery />
         <NewsPreview />
+        <ContactCTA />
         <Footer />
       </div>
 
