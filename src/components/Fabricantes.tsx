@@ -59,8 +59,8 @@ export default function Fabricantes() {
               ))}
 
               <Link href={fab.buttonLink || "/#galeria"} className="mecsa-btn flex items-center gap-2 group inline-flex">
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 <span>{btnText}</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </FadeIn>

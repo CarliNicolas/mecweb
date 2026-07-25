@@ -48,10 +48,10 @@ export default function PhotoGallery() {
               onClick={() => openLightbox(index)}
             >
               {isExternal(image.src) ? (
-                <img src={image.src} alt={image.alt}
+                <img src={image.src} alt={image.alt || "Proyecto MEC"}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
               ) : (
-                <Image src={image.src} alt={image.alt} fill sizes="(max-width: 768px) 50vw, 25vw"
+                <Image src={image.src} alt={image.alt || "Proyecto MEC"} fill sizes="(max-width: 768px) 50vw, 25vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-110" />
               )}
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
@@ -87,11 +87,11 @@ export default function PhotoGallery() {
           <div className="relative max-w-4xl max-h-[80vh] w-full flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}>
             {isExternal(galleryImages[currentImage].src) ? (
-              <img src={galleryImages[currentImage].src} alt={galleryImages[currentImage].alt}
+              <img src={galleryImages[currentImage].src} alt={galleryImages[currentImage].alt || "Proyecto MEC"}
                 className="max-w-full max-h-[80vh] object-contain rounded-lg" />
             ) : (
               <div className="relative w-full h-[80vh]">
-                <Image src={galleryImages[currentImage].src} alt={galleryImages[currentImage].alt}
+                <Image src={galleryImages[currentImage].src} alt={galleryImages[currentImage].alt || "Proyecto MEC"}
                   fill sizes="90vw" className="object-contain" />
               </div>
             )}
