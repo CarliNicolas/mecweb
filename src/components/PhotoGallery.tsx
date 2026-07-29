@@ -96,7 +96,7 @@ export default function PhotoGallery() {
   }, [lightboxOpen, closeLightbox, nextImage, prevImage]);
 
   return (
-    <section id="galeria" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section id="galeria" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {galleryImages.map((image, index) => (

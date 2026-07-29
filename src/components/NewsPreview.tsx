@@ -41,7 +41,7 @@ export default function NewsPreview() {
   if (!isLoading && news.length === 0) return null;
 
   return (
-    <section id="noticias" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="noticias" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
         <FadeIn>
           <div className="text-center mb-12">

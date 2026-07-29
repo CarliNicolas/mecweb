@@ -26,7 +26,8 @@
     "learnMore": "Learn More",
     "prevSlide": "Previous slide",
     "nextSlide": "Next slide",
-    "goToSlide": "Go to slide"
+    "goToSlide": "Go to slide",
+    "carouselLabel": "Services showcase"
   },
   "company": {
     "title1": "Get to know our company.",

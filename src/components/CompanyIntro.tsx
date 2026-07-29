@@ -28,7 +28,7 @@ export default function CompanyIntro() {
     : [t("description1"), t("description2")];
 
   return (
-    <section id="empresa" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <section id="empresa" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <FadeIn direction="left">

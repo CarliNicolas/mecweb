@@ -26,7 +26,8 @@
     "learnMore": "Saiba Mais",
     "prevSlide": "Slide anterior",
     "nextSlide": "Próximo slide",
-    "goToSlide": "Ir ao slide"
+    "goToSlide": "Ir ao slide",
+    "carouselLabel": "Apresentação de serviços"
   },
   "company": {
     "title1": "Conheça nossa empresa.",

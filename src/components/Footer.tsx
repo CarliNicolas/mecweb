@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Facebook, Twitter, Instagram, ArrowUp } from "lucide-react";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations } from "next-intl";
 
@@ -20,7 +20,6 @@ export default function Footer() {
   const t = useTranslations("footer");
   const social = content.socialMedia as { facebook: string; twitter: string; instagram?: string };
   const footer = content.footer;
-  const info = content.companyInfo;
 
   const socialLinks = [
     { href: social.facebook, Icon: Facebook, label: "Facebook" },
@@ -28,72 +27,29 @@ export default function Footer() {
     { href: social.instagram || "", Icon: Instagram, label: "Instagram" },
   ].filter((s) => isRealSocialUrl(s.href));
 
-  const phoneHref = `tel:${(info.phone || "").replace(/\s/g, "")}`;
-  const emailHref = `mailto:${info.email || "info@mecsa.com.ar"}`;
-
   return (
     <footer className="bg-[var(--mecsa-bg)] border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid gap-10 md:grid-cols-3 mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+        <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-start mb-8">
           <div>
-            <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--mecsa-primary)] mb-4">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--mecsa-primary)] mb-2">
               Emprendimientos MEC S.A.
-            </h3>
-            <ul className="space-y-3 text-sm text-[var(--mecsa-text)]">
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[var(--mecsa-primary)]" strokeWidth={2} />
-                <span>{info.address || "Godoy Cruz 562, San José, Guaymallén, Mendoza"}</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 mt-0.5 shrink-0 text-[var(--mecsa-primary)]" strokeWidth={2} />
-                <span>Lunes a viernes · 8:00 – 17:00 h</span>
-              </li>
-            </ul>
+            </p>
+            <p className="text-sm text-[var(--mecsa-text-light)] mb-4 max-w-md">
+              Fabricantes de sistemas de climatización industrial en Mendoza. Proyectos a medida desde hace más de 26 años.
+            </p>
+            <a
+              href="#contacto-cta"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--mecsa-primary)] hover:underline"
+            >
+              <ArrowUp className="w-3.5 h-3.5" strokeWidth={2.5} />
+              <span>Ver contacto y horarios</span>
+            </a>
           </div>
 
-          <div>
-            <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--mecsa-primary)] mb-4">
-              Contacto
-            </h3>
-            <ul className="space-y-3 text-sm">
-              <li>
-                <a href={phoneHref} className="flex items-center gap-2.5 text-[var(--mecsa-text)] hover:text-[var(--mecsa-primary)] transition-colors">
-                  <Phone className="w-4 h-4 shrink-0 text-[var(--mecsa-primary)]" strokeWidth={2} />
-                  <span>{info.phone || "+54 261 517-3763"}</span>
-                </a>
-              </li>
-              <li>
-                <a href={emailHref} className="flex items-center gap-2.5 text-[var(--mecsa-text)] hover:text-[var(--mecsa-primary)] transition-colors break-all">
-                  <Mail className="w-4 h-4 shrink-0 text-[var(--mecsa-primary)]" strokeWidth={2} />
-                  <span>{info.email || "info@mecsa.com.ar"}</span>
-                </a>
-              </li>
-              {socialLinks.length > 0 && (
-                <li className="flex gap-3 pt-2">
-                  {socialLinks.map(({ href, Icon, label }) => (
-                    <a
-                      key={label}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-full border border-[var(--mecsa-text-light)]/40 flex items-center justify-center text-[var(--mecsa-text-light)] hover:border-[var(--mecsa-primary)] hover:text-[var(--mecsa-primary)] transition-colors"
-                      aria-label={label}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </a>
-                  ))}
-                </li>
-              )}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-xs font-semibold tracking-[0.25em] uppercase text-[var(--mecsa-primary)] mb-4">
-              Navegación
-            </h3>
-            <ul className="space-y-2.5 text-sm">
+          <nav aria-label="Footer">
+            <ul className="grid grid-cols-2 gap-x-8 gap-y-2 text-sm">
               {[
-                { href: "/", label: "Home" },
                 { href: "/#empresa", label: "La Empresa" },
                 { href: "/#productos", label: "Productos" },
                 { href: "/#galeria", label: "Proyectos" },
@@ -108,12 +64,12 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
         </div>
 
-        <div className="pt-6 border-t border-gray-200 text-center text-xs text-[var(--mecsa-text-light)]">
-          <p>
-            © {new Date().getFullYear()} {footer.text || `Emprendimientos MEC S.A ® - ${info.address}`}
+        <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-gray-200">
+          <p className="text-xs text-[var(--mecsa-text-light)]">
+            © {new Date().getFullYear()} Emprendimientos MEC S.A. ®
             {footer.designCredit && (
               <>
                 {" "}· {t("design")} ©:{" "}
@@ -128,6 +84,22 @@ export default function Footer() {
               </>
             )}
           </p>
+          {socialLinks.length > 0 && (
+            <div className="flex gap-2.5">
+              {socialLinks.map(({ href, Icon, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full border border-[var(--mecsa-text-light)]/40 flex items-center justify-center text-[var(--mecsa-text-light)] hover:border-[var(--mecsa-primary)] hover:text-[var(--mecsa-primary)] transition-colors"
+                  aria-label={label}
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </footer>
