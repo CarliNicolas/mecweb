@@ -28,7 +28,7 @@ export default function ClimatizacionInfo() {
   const thumbnail = `https://img.youtube.com/vi/${YOUTUBE_ID}/hqdefault.jpg`;
 
   return (
-    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#c9a9a2]">
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg)]">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <FadeIn direction="left">
@@ -65,14 +65,14 @@ export default function ClimatizacionInfo() {
 
           <FadeIn direction="right" delay={0.2}>
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-white mb-5 sm:mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-light text-[var(--mecsa-text)] mb-5 sm:mb-6">
                 {title}
               </h2>
 
               {descriptions.map((desc, i) => (
                 <p
                   key={`desc-${i}`}
-                  className={`text-white/90 leading-relaxed ${
+                  className={`text-[var(--mecsa-text-light)] leading-relaxed ${
                     i < descriptions.length - 1 ? "mb-6" : ""
                   }`}
                 >

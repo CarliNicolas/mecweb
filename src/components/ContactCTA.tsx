@@ -15,7 +15,7 @@ export default function ContactCTA() {
   const phoneHref = `tel:${(info.phone || "").replace(/\s/g, "")}`;
 
   return (
-    <section id="contacto-cta" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-primary)] text-white">
+    <section id="contacto-cta" className="scroll-mt-24 py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-primary)] text-white">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <FadeIn direction="left">

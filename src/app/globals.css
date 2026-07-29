@@ -92,6 +92,12 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fixed-header offset for anchor navigation */
+:target,
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

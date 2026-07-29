@@ -55,7 +55,6 @@ export default function Footer() {
                 { href: "/#galeria", label: "Proyectos" },
                 { href: "/noticias", label: "Noticias" },
                 { href: "/contacto", label: "Contacto" },
-                { href: "/cotizar", label: "Cotizá tu Proyecto" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-[var(--mecsa-text)] hover:text-[var(--mecsa-primary)] transition-colors">
