@@ -24,6 +24,7 @@ export interface ProductModel {
   specs?: ProductModelSpec[];
   available?: boolean;
   visible?: boolean;
+  category?: string;
 }
 
 interface Product {

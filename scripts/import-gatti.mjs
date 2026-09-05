@@ -37,6 +37,16 @@ function slugFromHref(href) {
   return decodeURIComponent(href.replace(/\/$/, "").split("/").pop());
 }
 
+function categoryFromName(name) {
+  const s = name.toLowerCase();
+  if (/cortina de aire/.test(s)) return "Cortinas de aire";
+  if (/axial/.test(s)) return "Extractores axiales";
+  if (/centr[ií]fug/.test(s)) return "Extractores centrífugos";
+  if (/circulador|ventilador/.test(s)) return "Ventiladores y circuladores";
+  if (/conducto/.test(s)) return "Extractores de conducto";
+  return "Otros extractores industriales";
+}
+
 function specsFromName(name) {
   const specs = [];
   const dia = name.match(/(\d{2,4})\s*(?:mm|cm)\b/i) || name.match(/(\d{2,4})\s*Ø/i) || name.match(/Ø\s*(\d{2,4})/i);
@@ -85,12 +95,14 @@ async function main() {
         name: c.name,
         image: `/images/gatti/${filename}`,
         specs: specsFromName(c.name),
+        category: categoryFromName(c.name),
         available: true,
+        visible: true,
       });
       process.stdout.write(".");
     } catch (e) {
       console.log(`\n  ⚠ no se pudo bajar ${c.img}: ${e.message}`);
-      models.push({ id: slug, name: c.name, specs: specsFromName(c.name), available: true });
+      models.push({ id: slug, name: c.name, specs: specsFromName(c.name), category: categoryFromName(c.name), available: true, visible: true });
     }
   }
   console.log(`\n\nModelos armados: ${models.length}`);

@@ -86,6 +86,7 @@ interface ProductModel {
   specs?: ProductModelSpec[];
   available?: boolean;
   visible?: boolean;
+  category?: string;
 }
 
 interface ProductLike {
@@ -419,6 +420,19 @@ function ProductEditor({
                           placeholder="eva-3000"
                           onChange={(e) => updateModel(mi, { id: e.target.value })} />
                       </div>
+                    </div>
+
+                    <div className={FC}>
+                      <label className={LC}>Categoría (para el filtro en la página)</label>
+                      <input type="text" value={model.category || ""} className={IC}
+                        placeholder="Ej: Extractores axiales"
+                        list={`cats-${product.id}`}
+                        onChange={(e) => updateModel(mi, { category: e.target.value })} />
+                      <datalist id={`cats-${product.id}`}>
+                        {[...new Set(models.map((mm) => mm.category).filter(Boolean))].map((c) => (
+                          <option key={c} value={c as string} />
+                        ))}
+                      </datalist>
                     </div>
 
                     <div className={FC}>

@@ -6,7 +6,7 @@ import { FadeIn, StaggerChildren, StaggerItem } from "@/components/ScrollAnimati
 import { Check, ChevronRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { renderInline } from "@/lib/inline-markdown";
-import ModelCard from "@/components/ModelCard";
+import ModelCatalog from "@/components/ModelCatalog";
 import { useSiteContent, type ProductModel } from "@/context/SiteContentContext";
 
 interface Product {
@@ -139,16 +139,7 @@ export default function ProductDetailClient({
                 Elegí el modelo que se ajuste a tu proyecto y consultá disponibilidad por WhatsApp.
               </p>
             </FadeIn>
-            <StaggerChildren
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-              staggerDelay={0.1}
-            >
-              {product.models.map((model) => (
-                <StaggerItem key={model.id}>
-                  <ModelCard model={model} lineTitle={product.title} />
-                </StaggerItem>
-              ))}
-            </StaggerChildren>
+            <ModelCatalog models={product.models} lineTitle={product.title} />
           </div>
         </section>
       )}
