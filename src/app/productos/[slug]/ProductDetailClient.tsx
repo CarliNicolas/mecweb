@@ -77,6 +77,21 @@ export default function ProductDetailClient({
         </div>
       </section>
 
+      {/* Models Section (primero) */}
+      {storeEnabled && product.models.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg,#f7f7f7)]">
+          <div className="max-w-7xl mx-auto">
+            <FadeIn>
+              <h2 className="mecsa-section-title text-center mb-3">Modelos</h2>
+              <p className="text-center text-[var(--mecsa-text-light)] mb-12 max-w-2xl mx-auto">
+                Elegí el modelo que se ajuste a tu proyecto y consultá disponibilidad por WhatsApp.
+              </p>
+            </FadeIn>
+            <ModelCatalog models={product.models} lineTitle={product.title} />
+          </div>
+        </section>
+      )}
+
       {/* Content Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -128,21 +143,6 @@ export default function ProductDetailClient({
           </div>
         </div>
       </section>
-
-      {/* Models Section */}
-      {storeEnabled && product.models.length > 0 && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg,#f7f7f7)]">
-          <div className="max-w-7xl mx-auto">
-            <FadeIn>
-              <h2 className="mecsa-section-title text-center mb-3">Modelos</h2>
-              <p className="text-center text-[var(--mecsa-text-light)] mb-12 max-w-2xl mx-auto">
-                Elegí el modelo que se ajuste a tu proyecto y consultá disponibilidad por WhatsApp.
-              </p>
-            </FadeIn>
-            <ModelCatalog models={product.models} lineTitle={product.title} />
-          </div>
-        </section>
-      )}
 
       {/* Gallery Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
