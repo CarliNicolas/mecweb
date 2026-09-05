@@ -46,9 +46,14 @@ export default function ProductsGrid() {
     { id: "control-y-automatizacion", title: t("controlAutomation"), description: t("controlAutomationDesc"), image: "/images/gallery4.jpeg" },
   ];
 
-  const products = isEs
+  // Líneas desactivadas desde el admin (hidden) no se muestran en el sitio.
+  const hiddenIds = new Set(
+    content.products.filter((p) => (p as { hidden?: boolean }).hidden).map((p) => p.id),
+  );
+  const products = (isEs
     ? (content.products.length > 0 ? content.products : esDefaultProducts)
-    : translatedProducts;
+    : translatedProducts
+  ).filter((p) => !hiddenIds.has(p.id));
 
   return (
     <section id="productos" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg)]">

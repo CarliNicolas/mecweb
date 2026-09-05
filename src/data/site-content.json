@@ -69,7 +69,11 @@
         "Horticultura de Precisión: Regulación de temperatura y humedad en invernaderos y cultivos bajo cubierta."
       ],
       "image": "/images/enfriador.jpeg",
-      "gallery": ["/images/gallery1.jpeg", "/images/gallery5.jpeg", "/images/gallery3.jpeg"]
+      "gallery": [
+        "/images/gallery1.jpeg",
+        "/images/gallery5.jpeg",
+        "/images/gallery3.jpeg"
+      ]
     },
     {
       "id": "calefactores-radiantes",
@@ -89,7 +93,11 @@
         "Apto para industria, logística, talleres y hogares con techos altos."
       ],
       "image": "/images/gallery2.jpeg",
-      "gallery": ["/images/gallery2.jpeg", "/images/gallery4.jpeg", "/images/gallery8.jpeg"]
+      "gallery": [
+        "/images/gallery2.jpeg",
+        "/images/gallery4.jpeg",
+        "/images/gallery8.jpeg"
+      ]
     },
     {
       "id": "ventilacion-industrial",
@@ -105,7 +113,660 @@
         "Garantía Técnica: Proyectos desarrollados bajo normas internacionales de calidad de aire."
       ],
       "image": "/images/ventilacion.jpeg",
-      "gallery": ["/images/gallery1.jpeg", "/images/gallery2.jpeg", "/images/gallery6.jpeg"]
+      "gallery": [
+        "/images/gallery1.jpeg",
+        "/images/gallery2.jpeg",
+        "/images/gallery6.jpeg"
+      ],
+      "models": [
+        {
+          "id": "cortina-de-aire-1500-mm-frio-solo-con-control-remoto-2-vel",
+          "name": "Cortina De Aire 1500 Mm Frío Solo Con Control Remoto 2 Vel Color Blanco",
+          "image": "/images/gatti/cortina-de-aire-1500-mm-frio-solo-con-control-remoto-2-vel.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "1500 Mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "cortina-de-aire-2000-mm-frio-solo-c-control-remoto-2-vel",
+          "name": "Cortina De Aire 2000 Mm Frío Solo C/ Control Remoto / 2 Vel.",
+          "image": "/images/gatti/cortina-de-aire-2000-mm-frio-solo-c-control-remoto-2-vel.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "2000 Mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "cortina-de-aire-gatti-ventilacion-120cm-frio-control-remoto-2-velocidades-blanca",
+          "name": "Cortina de Aire Gatti Ventilación 120cm Frío Control Remoto 2 Velocidades Blanca",
+          "image": "/images/gatti/cortina-de-aire-gatti-ventilacion-120cm-frio-control-remoto-2-velocidades-blanca.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "120cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "cortina-de-aire-gatti-ventilacion-fm-3009-90cm-frio-2-velocidades-control-remoto",
+          "name": "Cortina de Aire GATTI VENTILACIÓN FM 3009 90cm Frío 2 Velocidades Control Remoto",
+          "image": "/images/gatti/cortina-de-aire-gatti-ventilacion-fm-3009-90cm-frio-2-velocidades-control-remoto.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "90cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "cortina-de-aire-gatti-ventilacion-fm-3015-frio-150-cm-control-remoto-2-ve",
+          "name": "Cortina de Aire GATTI VENTILACIÓN FM 3015 Frío 150 cm Control Remoto 2 Ve",
+          "image": "/images/gatti/cortina-de-aire-gatti-ventilacion-fm-3015-frio-150-cm-control-remoto-2-ve.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "150 cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-centrifugo-120-o-025-hp-3000-rpm-trifasico-gatti",
+          "name": "Extractor Centrifugo 120 Ø 0,25 Hp 3000 Rpm Trifasico Gatti",
+          "image": "/images/gatti/extractor-centrifugo-120-o-025-hp-3000-rpm-trifasico-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "120 Ø"
+            },
+            {
+              "label": "Velocidad",
+              "value": "3000 RPM"
+            },
+            {
+              "label": "Potencia",
+              "value": "0,25 HP"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifasico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-centrifugo-200-o-1500-rpm-trifasico-033-hp-gatti",
+          "name": "Extractor Centrífugo 200 Ø 1500 Rpm Trifásico 0,33 Hp Gatti",
+          "image": "/images/gatti/extractor-centrifugo-200-o-1500-rpm-trifasico-033-hp-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "200 Ø"
+            },
+            {
+              "label": "Velocidad",
+              "value": "1500 RPM"
+            },
+            {
+              "label": "Potencia",
+              "value": "0,33 HP"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-centrifugo-245-o-1500-rpm-trifasico-033-hp-gatti",
+          "name": "Extractor Centrifugo 245 Ø 1500 Rpm Trifásico 0,33 Hp Gatti",
+          "image": "/images/gatti/extractor-centrifugo-245-o-1500-rpm-trifasico-033-hp-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "245 Ø"
+            },
+            {
+              "label": "Velocidad",
+              "value": "1500 RPM"
+            },
+            {
+              "label": "Potencia",
+              "value": "0,33 HP"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-centrifugo-250-o-1500-rpm-trifasico-075-hp-gatti",
+          "name": "Extractor Centrifugo 250 Ø 1500 Rpm Trifásico 0,75 Hp Gatti",
+          "image": "/images/gatti/extractor-centrifugo-250-o-1500-rpm-trifasico-075-hp-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "250 Ø"
+            },
+            {
+              "label": "Velocidad",
+              "value": "1500 RPM"
+            },
+            {
+              "label": "Potencia",
+              "value": "0,75 HP"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-centrifugo-330-o-900rpm-trifasico-1-hp-gatti",
+          "name": "Extractor Centrifugo 330 Ø 900rpm Trifásico 1 Hp Gatti",
+          "image": "/images/gatti/extractor-centrifugo-330-o-900rpm-trifasico-1-hp-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "330 Ø"
+            },
+            {
+              "label": "Velocidad",
+              "value": "900 RPM"
+            },
+            {
+              "label": "Potencia",
+              "value": "1 HP"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-35-cm-p-pared-aro-plastico-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 35 Cm P/ Pared Aro Plástico Gatti Ventilación Monofásica",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-35-cm-p-pared-aro-plastico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "35 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Monofásica"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-35-cm-para-pared-trifasico-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 35 Cm Para Pared Trifasico Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-35-cm-para-pared-trifasico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "35 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifasico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-35cm-pared-aro-plastico-t",
+          "name": "Extractor De Aire Axial Industrial 35cm Pared Aro Plástico T",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-35cm-pared-aro-plastico-t.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "35cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-45-cm-p-pared-aro-plastico-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 45 Cm P/ Pared Aro Plástico Gatti Ventilación – – Monofásica",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-45-cm-p-pared-aro-plastico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "45 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Monofásica"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-45-cm-p-pared-gatti-vent",
+          "name": "Extractor De Aire Axial Industrial 45 Cm P/ Pared Gatti Vent Monofasica",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-45-cm-p-pared-gatti-vent.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "45 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Monofasica"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-45-cm-para-conducto-trifasico-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 45 Cm Para Conducto Trifasico Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-45-cm-para-conducto-trifasico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "45 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifasico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-45-cm-para-pared-aro-plastico-trifasico-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 45 Cm Para Pared Aro Plástico Trifásico Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-45-cm-para-pared-aro-plastico-trifasico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "45 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-55-cm-p-pared-gatti-vent",
+          "name": "Extractor De Aire Axial Industrial 55 Cm P/ Pared Gatti Vent",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-55-cm-p-pared-gatti-vent.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "55 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-55-cm-p-pared-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 55 Cm P/ Pared Gatti Ventilación Monofasica",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-55-cm-p-pared-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "55 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Monofasica"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-55-cm-para-conducto-gatti",
+          "name": "Extractor De Aire Axial Industrial 55 Cm Para Conducto Gatti – Trifásico",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-55-cm-para-conducto-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "55 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-axial-industrial-65-cm-p-pared-gatti-ventilacion",
+          "name": "Extractor De Aire Axial Industrial 65 Cm P/ Pared Gatti Ventilación Trifásico",
+          "image": "/images/gatti/extractor-de-aire-axial-industrial-65-cm-p-pared-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "65 Cm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-entre-conducto-chapa-10-25-cm-gatti-ventilacion",
+          "name": "Extractor De Aire Entre Conducto Chapa 10 (25 Cm) Gatti Ventilacion Gris",
+          "image": "/images/gatti/extractor-de-aire-entre-conducto-chapa-10-25-cm-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "25 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-entre-conducto-chapa-4-10-cm-gatti-vent",
+          "name": "Extractor De Aire Entre Conducto Chapa 4 (10 Cm) Gatti Vent – Gris",
+          "image": "/images/gatti/extractor-de-aire-entre-conducto-chapa-4-10-cm-gatti-vent.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "10 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-entre-conducto-chapa-6-15-cm-gatti-ventilacion",
+          "name": "Extractor De Aire Entre Conducto Chapa 6 (15 Cm) Gatti Ventilacion",
+          "image": "/images/gatti/extractor-de-aire-entre-conducto-chapa-6-15-cm-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "15 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-entre-conducto-chapa-8-20-cm-gatti-ventilacion",
+          "name": "Extractor De Aire Entre Conducto Chapa 8 (20 Cm) Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-entre-conducto-chapa-8-20-cm-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "20 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-gatti-campanita-250-gris-1600m³-h-alta-temperatura-25cm",
+          "name": "Extractor de Aire Gatti Campanita 250 Gris 1600m³/h Alta Temperatura 25cm",
+          "image": "/images/gatti/extractor-de-aire-gatti-campanita-250-gris-1600m³-h-alta-temperatura-25cm.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "25cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-industrial-metalico-con-dimmer-300mm-o-daxxis",
+          "name": "Extractor De Aire Industrial Metalico Con Dimmer 300mm Ø – Daxxis",
+          "image": "/images/gatti/extractor-de-aire-industrial-metalico-con-dimmer-300mm-o-daxxis.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "300mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-industrial-metalico-con-dimmer-350mm-o-daxis",
+          "name": "Extractor De Aire Industrial Metalico Con Dimmer 350mm Ø – Daxis",
+          "image": "/images/gatti/extractor-de-aire-industrial-metalico-con-dimmer-350mm-o-daxis.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "350mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-industrial-metalico-para-pared-450-mm-venteurope-gale",
+          "name": "Extractor De Aire Industrial Metálico Para Pared 450 Mm Venteurope – GALE",
+          "image": "/images/gatti/extractor-de-aire-industrial-metalico-para-pared-450-mm-venteurope-gale.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "450 Mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-industrial-tubular-con-carcasa-insonorizada-150-mm-o",
+          "name": "Extractor De Aire industrial Tubular Con Carcasa Insonorizada 150 Mm Ø",
+          "image": "/images/gatti/extractor-de-aire-industrial-tubular-con-carcasa-insonorizada-150-mm-o.jpg",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "150 Mm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-para-cielorrasso-25-cm-gatti-ventilacion",
+          "name": "Extractor De Aire Para Cielorrasso 25 Cm Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-para-cielorrasso-25-cm-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "25 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-de-aire-para-cielorrasso-30-cm-gatti-ventilacion",
+          "name": "Extractor De Aire Para Cielorrasso 30 Cm Gatti Ventilación",
+          "image": "/images/gatti/extractor-de-aire-para-cielorrasso-30-cm-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "30 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-industrial-avicola-trifasico-900-mm-gatti-vent",
+          "name": "Extractor Industrial Avícola Trifásico 900 Mm Gatti Vent.",
+          "image": "/images/gatti/extractor-industrial-avicola-trifasico-900-mm-gatti-vent.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "900 Mm"
+            },
+            {
+              "label": "Alimentación",
+              "value": "Trifásico"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-semi-industrial-40-cm-o-para-pared-motor-czerweny",
+          "name": "Extractor Semi Industrial 40 Cm Ø Para Pared Motor Czerweny",
+          "image": "/images/gatti/extractor-semi-industrial-40-cm-o-para-pared-motor-czerweny.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "40 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-semi-industrial-gatti-20-cm-para-pared-motor-weg",
+          "name": "Extractor Semi Industrial Gatti 20 Cm Para Pared Motor Weg",
+          "image": "/images/gatti/extractor-semi-industrial-gatti-20-cm-para-pared-motor-weg.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "20 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-tubular-plastico-a-rulemanes-2-velocidades-10-cm",
+          "name": "Extractor Tubular Plástico A Rulemanes 2 Velocidades 10 Cm",
+          "image": "/images/gatti/extractor-tubular-plastico-a-rulemanes-2-velocidades-10-cm.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "10 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "extractor-tubular-plastico-a-rulemanes-2-velocidades-15-cm-gris",
+          "name": "Extractor Tubular Plástico A Rulemanes 2 Velocidades 15 Cm Gris",
+          "image": "/images/gatti/extractor-tubular-plastico-a-rulemanes-2-velocidades-15-cm-gris.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "15 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "venteurope-quiet-100-corriente-domestica-2-velocidades",
+          "name": "VentEurope QUIET 100 Corriente doméstica – 2 Velocidades",
+          "image": "/images/gatti/venteurope-quiet-100-corriente-domestica-2-velocidades.jpg",
+          "specs": [],
+          "available": true
+        },
+        {
+          "id": "ventilador-centrifugo-industrial-solplador-extractor-15-cm",
+          "name": "Ventilador Centrífugo Industrial Solplador/extractor 15 Cm Color de la estructura Negro Color de las aspas Plateado",
+          "image": "/images/gatti/ventilador-centrifugo-industrial-solplador-extractor-15-cm.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "15 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-centrifugo-industrial-solplador-extractor-20-cm",
+          "name": "Ventilador Centrífugo Industrial Solplador/extractor 20 Cm – 20 Cm – Negro – Plateado – Metal",
+          "image": "/images/gatti/ventilador-centrifugo-industrial-solplador-extractor-20-cm.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "20 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-circulador-de-pared-20-50-cm-nacional-pala-reja-metalica-3-velocidades-gatti-ventilacion",
+          "name": "Ventilador Circulador De Pared 20 (50 Cm) Nacional Pala + Reja Metálica / 3 Velocidades – Gatti Ventilación",
+          "image": "/images/gatti/ventilador-circulador-de-pared-20-50-cm-nacional-pala-reja-metalica-3-velocidades-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "50 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-circulador-de-pie-20-50-cm-nacional-metal-gatti",
+          "name": "Ventilador Circulador De Pie 20 (50 Cm) Nacional Metal Gatti 50/60 Hz Gris Gris 4",
+          "image": "/images/gatti/ventilador-circulador-de-pie-20-50-cm-nacional-metal-gatti.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "50 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-de-pared-industrial-72-cm-30-3-vel-economico-gatti-ventilacion",
+          "name": "Ventilador De Pared Industrial 72 Cm 30 3 Vel. Económico Gatti Ventilación",
+          "image": "/images/gatti/ventilador-de-pared-industrial-72-cm-30-3-vel-economico-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "72 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-de-pie-industrial-30-nacional-gatti-ventilacion",
+          "name": "Ventilador De Pie Industrial 30 Nacional Gatti Ventilacion – 79 Cm – 50 Hz – Negro – Negro – Pvc – 3",
+          "image": "/images/gatti/ventilador-de-pie-industrial-30-nacional-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "79 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-industrial-de-pared-69-cm-30-3-velocidades-gris-aluminio-69-cm-80-hz-gris-gatti-ventilcion",
+          "name": "Ventilador Industrial De Pared 69 Cm 30 3 Velocidades Gris Aluminio 69 Cm 80 Hz Gris Gatti Ventilción",
+          "image": "/images/gatti/ventilador-industrial-de-pared-69-cm-30-3-velocidades-gris-aluminio-69-cm-80-hz-gris-gatti-ventilcion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "69 Cm"
+            }
+          ],
+          "available": true
+        },
+        {
+          "id": "ventilador-industrial-de-pie-30-pulgadas-69-cm-3-velocidades-gatti-ventilacion",
+          "name": "Ventilador Industrial De Pie 30 Pulgadas 69 Cm 3 Velocidades Gatti Ventilación",
+          "image": "/images/gatti/ventilador-industrial-de-pie-30-pulgadas-69-cm-3-velocidades-gatti-ventilacion.webp",
+          "specs": [
+            {
+              "label": "Diámetro",
+              "value": "69 Cm"
+            }
+          ],
+          "available": true
+        }
+      ]
     },
     {
       "id": "filtracion-de-aire",
@@ -122,7 +783,11 @@
         "Garantía de Proceso: Seguridad operativa para laboratorios, farmacéuticas y electrónica."
       ],
       "image": "/images/gallery3.jpeg",
-      "gallery": ["/images/gallery3.jpeg", "/images/gallery7.jpeg", "/images/gallery1.jpeg"]
+      "gallery": [
+        "/images/gallery3.jpeg",
+        "/images/gallery7.jpeg",
+        "/images/gallery1.jpeg"
+      ]
     },
     {
       "id": "control-y-automatizacion",
@@ -138,7 +803,11 @@
         "Inteligencia de Datos: Reportes de consumo y métricas de desempeño para la toma de decisiones."
       ],
       "image": "/images/gallery4.jpeg",
-      "gallery": ["/images/gallery4.jpeg", "/images/gallery6.jpeg", "/images/gallery8.jpeg"]
+      "gallery": [
+        "/images/gallery4.jpeg",
+        "/images/gallery6.jpeg",
+        "/images/gallery8.jpeg"
+      ]
     }
   ],
   "sectors": {
@@ -231,9 +900,22 @@
     "subtitle": "Nuestros Productos y Servicios"
   },
   "clientes": [
-    "Arcor", "Unilever", "Drean Mabe", "Plastiandino", "BolsaFilm",
-    "Carin", "Zummy", "Mansur", "Oscar David", "Peñaflor",
-    "Carnes La Cuyana", "Fundación Instituto Leloir", "Lácteos Maitia",
-    "Finca Rocío", "Marata", "Agrinet", "Proemio"
+    "Arcor",
+    "Unilever",
+    "Drean Mabe",
+    "Plastiandino",
+    "BolsaFilm",
+    "Carin",
+    "Zummy",
+    "Mansur",
+    "Oscar David",
+    "Peñaflor",
+    "Carnes La Cuyana",
+    "Fundación Instituto Leloir",
+    "Lácteos Maitia",
+    "Finca Rocío",
+    "Marata",
+    "Agrinet",
+    "Proemio"
   ]
 }

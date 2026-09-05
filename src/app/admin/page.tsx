@@ -8,7 +8,7 @@ import {
   MessageSquare, Facebook, Twitter, Instagram, AlertCircle, CheckCircle,
   Newspaper, Plus, Edit, Trash2, X, Calendar, User, Home, Building2,
   Package, Grid3X3, Thermometer, Images, PhoneCall, Eye, Clock, ChevronDown,
-  Upload, Bot, Sparkles,
+  ChevronUp, Upload, Bot, Sparkles, Power,
 } from "lucide-react";
 
 // ─── Descriptions List Editor ───────────────────────────────────────────────
@@ -76,6 +76,18 @@ function DescriptionsEditor({
 
 // ─── Product Detail Editor (expandable per-product card) ───────────────────
 
+interface ProductModelSpec { label: string; value: string; }
+interface ProductModel {
+  id: string;
+  name: string;
+  shortDescription?: string;
+  image?: string;
+  gallery?: string[];
+  specs?: ProductModelSpec[];
+  available?: boolean;
+  visible?: boolean;
+}
+
 interface ProductLike {
   id: string;
   title: string;
@@ -86,6 +98,8 @@ interface ProductLike {
   features?: string[];
   image?: string;
   gallery?: string[];
+  models?: ProductModel[];
+  hidden?: boolean;
 }
 
 function ProductEditor({
@@ -102,7 +116,7 @@ function ProductEditor({
   index: number;
   product: ProductLike;
   onRemove: () => void;
-  onUpdate: (field: keyof ProductLike, value: string | string[]) => void;
+  onUpdate: (field: keyof ProductLike, value: string | string[] | boolean | ProductModel[]) => void;
   CARD: string;
   FC: string;
   IC: string;
@@ -110,16 +124,59 @@ function ProductEditor({
   ADDBTN: string;
 }) {
   const [open, setOpen] = useState(false);
+  const [modelFilter, setModelFilter] = useState("");
   const features = product.features ?? [];
   const gallery = product.gallery ?? [];
+  const models = product.models ?? [];
+
+  const updateModel = (mi: number, patch: Partial<ProductModel>) => {
+    const next = models.map((m, x) => (x === mi ? { ...m, ...patch } : m));
+    onUpdate("models", next);
+  };
+  const addModel = () => {
+    onUpdate("models", [
+      { id: `modelo-${Date.now()}`, name: "", available: true, visible: true, specs: [] },
+      ...models,
+    ]);
+  };
+  const removeModel = (mi: number) => {
+    onUpdate("models", models.filter((_, x) => x !== mi));
+  };
+  const moveModel = (mi: number, dir: -1 | 1) => {
+    const j = mi + dir;
+    if (j < 0 || j >= models.length) return;
+    const next = [...models];
+    [next[mi], next[j]] = [next[j], next[mi]];
+    onUpdate("models", next);
+  };
+
+  const visibleCount = models.filter((m) => m.visible !== false).length;
+  const q = modelFilter.trim().toLowerCase();
+  const shownModels = q
+    ? models.map((m, i) => ({ m, i })).filter(({ m }) => m.name.toLowerCase().includes(q))
+    : models.map((m, i) => ({ m, i }));
 
   return (
     <div className={CARD}>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-medium text-gray-700">
+      <div className="flex justify-between items-center mb-4 gap-3">
+        <h3 className="font-medium text-gray-700 flex-1 min-w-0 truncate">
           Producto {index + 1}
           {product.title ? ` — ${product.title}` : ""}
+          {product.hidden && <span className="ml-2 text-xs text-amber-600">(línea desactivada)</span>}
         </h3>
+        <label
+          className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg cursor-pointer transition-colors ${product.hidden ? "bg-gray-100 text-gray-500" : "bg-green-50 text-green-700"}`}
+          title="Desactivá para ocultar toda la línea del sitio (home y su página)"
+        >
+          <Power className="w-3.5 h-3.5" />
+          <input
+            type="checkbox"
+            className="sr-only"
+            checked={!product.hidden}
+            onChange={(e) => onUpdate("hidden", !e.target.checked)}
+          />
+          {product.hidden ? "Línea desactivada" : "Línea activa"}
+        </label>
         <button
           type="button"
           onClick={onRemove}
@@ -282,6 +339,168 @@ function ProductEditor({
                 </div>
               ))}
             </div>
+
+            {/* Models list */}
+            <div className="space-y-3 border-t pt-4">
+              <div className="flex justify-between items-center">
+                <label className={LC}>
+                  Modelos ({models.length} · {visibleCount} visibles)
+                </label>
+                <button type="button" onClick={addModel} className={ADDBTN}>
+                  <Plus className="w-4 h-4" /> Agregar modelo
+                </button>
+              </div>
+              {models.length > 5 && (
+                <input
+                  type="text"
+                  value={modelFilter}
+                  onChange={(e) => setModelFilter(e.target.value)}
+                  placeholder="Buscar modelo por nombre…"
+                  className={IC}
+                />
+              )}
+              {models.length === 0 && (
+                <p className="text-xs text-gray-400">No hay modelos aún.</p>
+              )}
+              {q && shownModels.length === 0 && (
+                <p className="text-xs text-gray-400">Ningún modelo coincide con "{modelFilter}".</p>
+              )}
+              {shownModels.map(({ m: model, i: mi }) => {
+                const specs = model.specs ?? [];
+                const isVisible = model.visible !== false;
+                return (
+                  <div
+                    key={mi}
+                    className={`rounded-lg border p-3 space-y-3 ${isVisible ? "border-gray-200 bg-gray-50/50" : "border-gray-300 bg-gray-100 opacity-70"}`}
+                  >
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-sm font-medium text-gray-600 flex-1 min-w-0 truncate">
+                        Modelo {mi + 1}{model.name ? ` — ${model.name}` : ""}
+                        {!isVisible && <span className="ml-2 text-xs text-amber-600">(oculto)</span>}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => moveModel(mi, -1)}
+                        disabled={mi === 0 || !!q}
+                        title="Subir"
+                        className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-30"
+                      >
+                        <ChevronUp className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveModel(mi, 1)}
+                        disabled={mi === models.length - 1 || !!q}
+                        title="Bajar"
+                        className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-200 rounded-lg transition-colors disabled:opacity-30"
+                      >
+                        <ChevronDown className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeModel(mi)}
+                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        title="Quitar modelo"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-3">
+                      <div className={FC}>
+                        <label className={LC}>Nombre</label>
+                        <input type="text" value={model.name} className={IC}
+                          placeholder="Enfriador EVA-3000"
+                          onChange={(e) => updateModel(mi, { name: e.target.value })} />
+                      </div>
+                      <div className={FC}>
+                        <label className={LC}>ID (slug)</label>
+                        <input type="text" value={model.id} className={IC}
+                          placeholder="eva-3000"
+                          onChange={(e) => updateModel(mi, { id: e.target.value })} />
+                      </div>
+                    </div>
+
+                    <div className={FC}>
+                      <label className={LC}>Descripción corta</label>
+                      <textarea value={model.shortDescription || ""} rows={2} className={IC}
+                        placeholder="Compacto para locales comerciales de hasta 40 m²."
+                        onChange={(e) => updateModel(mi, { shortDescription: e.target.value })} />
+                    </div>
+
+                    <div className={FC}>
+                      <label className={LC}>Imagen</label>
+                      <ImageInput
+                        value={model.image || ""}
+                        placeholder="/images/enfriador.jpeg"
+                        className={IC}
+                        onChange={(v) => updateModel(mi, { image: v })}
+                      />
+                      {model.image && (
+                        <img src={model.image} alt="" className="mt-2 h-20 w-full object-cover rounded" />
+                      )}
+                    </div>
+
+                    <div className="flex flex-wrap gap-x-6 gap-y-2">
+                      <label className="flex items-center gap-2 text-sm text-gray-600">
+                        <input
+                          type="checkbox"
+                          checked={model.visible !== false}
+                          onChange={(e) => updateModel(mi, { visible: e.target.checked })}
+                        />
+                        Mostrar en el sitio (destildá para ocultarlo sin borrarlo)
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-gray-600">
+                        <input
+                          type="checkbox"
+                          checked={model.available !== false}
+                          onChange={(e) => updateModel(mi, { available: e.target.checked })}
+                        />
+                        Disponible (destildá para mostrar "A pedido")
+                      </label>
+                    </div>
+
+                    {/* Specs */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <label className={LC}>Ficha técnica</label>
+                        <button
+                          type="button"
+                          onClick={() => updateModel(mi, { specs: [...specs, { label: "", value: "" }] })}
+                          className={ADDBTN}
+                        >
+                          <Plus className="w-4 h-4" /> Agregar dato
+                        </button>
+                      </div>
+                      {specs.map((spec, si) => (
+                        <div key={si} className="flex gap-2 items-center">
+                          <input type="text" value={spec.label} className={IC}
+                            placeholder="Caudal de aire"
+                            onChange={(e) => {
+                              const next = specs.map((s, x) => (x === si ? { ...s, label: e.target.value } : s));
+                              updateModel(mi, { specs: next });
+                            }} />
+                          <input type="text" value={spec.value} className={IC}
+                            placeholder="3.000 m³/h"
+                            onChange={(e) => {
+                              const next = specs.map((s, x) => (x === si ? { ...s, value: e.target.value } : s));
+                              updateModel(mi, { specs: next });
+                            }} />
+                          <button
+                            type="button"
+                            onClick={() => updateModel(mi, { specs: specs.filter((_, x) => x !== si) })}
+                            className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                            title="Quitar dato"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
@@ -344,10 +563,13 @@ interface Product {
   features?: string[];
   image?: string;
   gallery?: string[];
+  models?: ProductModel[];
+  hidden?: boolean;
 }
 interface SectorItem { title: string; description: string; image: string; link: string; }
 interface GalleryImage { src: string; alt: string; }
 interface SiteContent {
+  storeEnabled?: boolean;
   companyInfo: { phone: string; email: string; address: string; whatsapp: string; };
   socialMedia: { facebook: string; twitter: string; instagram: string; };
   heroSlides: HeroSlide[];
@@ -642,7 +864,7 @@ export default function AdminPage() {
       `🗑️ Producto ${i + 1} eliminado`, "productos"
     );
   };
-  const updateProduct = (i: number, field: keyof Product, value: string | string[]) => {
+  const updateProduct = (i: number, field: keyof Product, value: string | string[] | boolean | ProductModel[]) => {
     setContent((prev) => {
       const products = [...prev.products];
       products[i] = { ...products[i], [field]: value };
@@ -960,6 +1182,35 @@ export default function AdminPage() {
 
             {/* ── PRODUCTOS ────────────────────────────────────────── */}
             {activeTab === "productos" && (<>
+              {/* Interruptor global de la tienda / catálogo */}
+              <div className={`${CARD} flex flex-wrap items-center justify-between gap-4 border-2 ${content.storeEnabled === false ? "border-amber-300 bg-amber-50" : "border-green-200 bg-green-50/50"}`}>
+                <div className="flex items-start gap-3">
+                  <Power className={`w-6 h-6 mt-0.5 ${content.storeEnabled === false ? "text-amber-500" : "text-green-600"}`} />
+                  <div>
+                    <h2 className="font-semibold text-gray-800">
+                      Tienda {content.storeEnabled === false ? "DESACTIVADA" : "activa"}
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Interruptor general. Al desactivarla se ocultan de todo el sitio los catálogos de modelos y los botones "Consultar disponibilidad por WhatsApp". Las páginas de producto siguen visibles.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setContent(
+                    (prev) => ({ ...prev, storeEnabled: (prev as unknown as { storeEnabled?: boolean }).storeEnabled === false }),
+                    (content.storeEnabled === false ? "✅ Tienda activada" : "🚫 Tienda desactivada"),
+                    "productos",
+                  )}
+                  className={`relative inline-flex h-8 w-14 shrink-0 items-center rounded-full transition-colors ${content.storeEnabled === false ? "bg-gray-300" : "bg-green-500"}`}
+                  role="switch"
+                  aria-checked={content.storeEnabled !== false}
+                  title="Activar / desactivar toda la tienda"
+                >
+                  <span className={`inline-block h-6 w-6 transform rounded-full bg-white shadow transition-transform ${content.storeEnabled === false ? "translate-x-1" : "translate-x-7"}`} />
+                </button>
+              </div>
+
               <div className={CARD + " space-y-4"}>
                 <h2 className="font-semibold text-gray-800">Títulos de la sección</h2>
                 <div className="grid md:grid-cols-2 gap-4">

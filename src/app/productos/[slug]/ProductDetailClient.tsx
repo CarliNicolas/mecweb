@@ -6,6 +6,8 @@ import { FadeIn, StaggerChildren, StaggerItem } from "@/components/ScrollAnimati
 import { Check, ChevronRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { renderInline } from "@/lib/inline-markdown";
+import ModelCard from "@/components/ModelCard";
+import { useSiteContent, type ProductModel } from "@/context/SiteContentContext";
 
 interface Product {
   title: string;
@@ -15,6 +17,8 @@ interface Product {
   features: string[];
   image: string;
   gallery: string[];
+  models: ProductModel[];
+  hidden?: boolean;
 }
 
 interface ProductDetailClientProps {
@@ -29,11 +33,13 @@ export default function ProductDetailClient({
   allProducts,
 }: ProductDetailClientProps) {
   const t = useTranslations("common");
+  const { content } = useSiteContent();
+  const storeEnabled = content.storeEnabled !== false;
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
   const otherProducts = Object.entries(allProducts)
-    .filter(([key]) => key !== slug)
+    .filter(([key, p]) => key !== slug && !p.hidden)
     .slice(0, 4);
 
   return (
@@ -122,6 +128,30 @@ export default function ProductDetailClient({
           </div>
         </div>
       </section>
+
+      {/* Models Section */}
+      {storeEnabled && product.models.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[var(--mecsa-bg,#f7f7f7)]">
+          <div className="max-w-7xl mx-auto">
+            <FadeIn>
+              <h2 className="mecsa-section-title text-center mb-3">Modelos</h2>
+              <p className="text-center text-[var(--mecsa-text-light)] mb-12 max-w-2xl mx-auto">
+                Elegí el modelo que se ajuste a tu proyecto y consultá disponibilidad por WhatsApp.
+              </p>
+            </FadeIn>
+            <StaggerChildren
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              staggerDelay={0.1}
+            >
+              {product.models.map((model) => (
+                <StaggerItem key={model.id}>
+                  <ModelCard model={model} lineTitle={product.title} />
+                </StaggerItem>
+              ))}
+            </StaggerChildren>
+          </div>
+        </section>
+      )}
 
       {/* Gallery Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">

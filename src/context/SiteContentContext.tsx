@@ -10,6 +10,22 @@ interface HeroSlide {
   image: string;
 }
 
+export interface ProductModelSpec {
+  label: string;
+  value: string;
+}
+
+export interface ProductModel {
+  id: string;
+  name: string;
+  shortDescription?: string;
+  image?: string;
+  gallery?: string[];
+  specs?: ProductModelSpec[];
+  available?: boolean;
+  visible?: boolean;
+}
+
 interface Product {
   id: string;
   title: string;
@@ -20,6 +36,8 @@ interface Product {
   features?: string[];
   image?: string;
   gallery?: string[];
+  models?: ProductModel[];
+  hidden?: boolean;
 }
 
 interface SectorItem {
@@ -35,6 +53,8 @@ interface GalleryImage {
 }
 
 export interface SiteContent {
+  // Interruptor global del catálogo/tienda (undefined = activada).
+  storeEnabled?: boolean;
   companyInfo: {
     phone: string;
     email: string;

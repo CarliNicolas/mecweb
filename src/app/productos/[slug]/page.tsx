@@ -5,6 +5,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ProductDetailClient from "./ProductDetailClient";
 import { notFound } from "next/navigation";
 import { getSiteContent } from "@/lib/site-content-server";
+import type { ProductModel } from "@/context/SiteContentContext";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,8 @@ interface ProductData {
   image?: string;
   gallery?: string[];
   icon?: string;
+  models?: ProductModel[];
+  hidden?: boolean;
 }
 
 interface DetailProduct {
@@ -28,6 +31,8 @@ interface DetailProduct {
   features: string[];
   image: string;
   gallery: string[];
+  models: ProductModel[];
+  hidden: boolean;
 }
 
 // Fallback content for products that exist in admin but don't yet have
@@ -77,6 +82,8 @@ function toDetailProduct(p: ProductData): DetailProduct {
     gallery: Array.isArray(p.gallery) && p.gallery.length > 0
       ? p.gallery
       : (p.image ? [p.image] : []),
+    models: (Array.isArray(p.models) ? p.models : []).filter((m) => m.visible !== false),
+    hidden: p.hidden === true,
   };
 }
 
@@ -124,7 +131,7 @@ export default async function ProductPage({
   const products = await loadProducts();
   const product = products[slug];
 
-  if (!product) notFound();
+  if (!product || product.hidden) notFound();
 
   return (
     <main className="min-h-screen">
