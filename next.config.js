@@ -5,6 +5,17 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   allowedDevOrigins: ["*.preview.same-app.com"],
+  // El dominio sin www redirige al principal (como hacía Vercel)
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "mecsa.com.ar" }],
+        destination: "https://www.mecsa.com.ar/:path*",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     // unoptimized: false — now we use real optimization
     remotePatterns: [
