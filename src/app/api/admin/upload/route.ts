@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/auth";
-import fs from "fs/promises";
-import path from "path";
+import { writeObject } from "@/lib/storage";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
 const MAX_SIZE = 8 * 1024 * 1024; // 8 MB
@@ -28,17 +27,6 @@ export async function POST(request: NextRequest) {
 
   const arrayBuffer = await file.arrayBuffer();
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const { put } = await import("@vercel/blob");
-    await put(`images/${key}`, Buffer.from(arrayBuffer), {
-      access: "private",
-      contentType: file.type,
-    });
-    return NextResponse.json({ url: `/api/images/${key}` });
-  }
-
-  const uploadsDir = path.join(process.cwd(), "public/uploads");
-  await fs.mkdir(uploadsDir, { recursive: true });
-  await fs.writeFile(path.join(uploadsDir, key), Buffer.from(arrayBuffer));
-  return NextResponse.json({ url: `/uploads/${key}` });
+  await writeObject(`images/${key}`, arrayBuffer, file.type);
+  return NextResponse.json({ url: `/api/images/${key}` });
 }

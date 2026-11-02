@@ -5,6 +5,8 @@ import CotizadorForm from "./CotizadorForm";
 import { getCotizadorConfig } from "@/lib/cotizador-config";
 import defaultConfig from "@/data/cotizador-config.json";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Cotizá tu Proyecto | MEC",
   description:

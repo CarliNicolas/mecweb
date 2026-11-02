@@ -20,3 +20,6 @@ const nextConfig = {
 };
 
 module.exports = withNextIntl(nextConfig);
+
+// Bindings de Cloudflare (R2, Images) disponibles en `next dev`
+import("@opennextjs/cloudflare").then((m) => m.initOpenNextCloudflareForDev());

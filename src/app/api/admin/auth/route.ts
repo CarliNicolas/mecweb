@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
 
-const JWT_SECRET = process.env.JWT_SECRET || "mecsa-dev-secret-change-in-prod";
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "mecsa-dev-secret-change-in-prod"
+);
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "mecsa2024";
 
@@ -35,11 +37,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
     }
 
-    const token = jwt.sign(
-      { username, role: "admin" },
-      JWT_SECRET,
-      { expiresIn: "8h" }
-    );
+    const token = await new SignJWT({ username, role: "admin" })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("8h")
+      .sign(JWT_SECRET);
 
     const response = NextResponse.json({ success: true });
 
@@ -67,7 +69,7 @@ export async function GET(request: NextRequest) {
   const token = request.cookies.get("mecsa_admin_token")?.value;
   if (!token) return NextResponse.json({ authenticated: false }, { status: 401 });
   try {
-    jwt.verify(token, JWT_SECRET);
+    await jwtVerify(token, JWT_SECRET);
     return NextResponse.json({ authenticated: true });
   } catch {
     return NextResponse.json({ authenticated: false }, { status: 401 });

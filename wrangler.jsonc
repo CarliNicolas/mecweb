@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mecsa-web",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-15",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    { "binding": "WORKER_SELF_REFERENCE", "service": "mecsa-web" }
+  ],
+  "kv_namespaces": [
+    // Datos editables del admin (site-content, news, configs) + imágenes subidas
+    { "binding": "MEC_STORAGE", "id": "2b508f1bfadf40c689e45521caf27f11" }
+  ],
+  "images": { "binding": "IMAGES" },
+  "vars": {
+    "ADMIN_USERNAME": "admin",
+    "NEXT_PUBLIC_SITE_URL": "https://www.mecsa.com.ar"
+  },
+  "observability": { "enabled": true }
+}

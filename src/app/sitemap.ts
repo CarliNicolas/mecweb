@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
-import fs from "fs/promises";
-import path from "path";
-import { newsArticles } from "@/data/news";
+import { getAllNews } from "@/lib/news-server";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mecweb.vercel.app";
+export const dynamic = "force-dynamic";
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mecsa.com.ar";
 
 const PRODUCT_SLUGS = [
   "enfriadores-evaporativos",
@@ -13,18 +13,8 @@ const PRODUCT_SLUGS = [
   "control-y-automatizacion",
 ];
 
-async function getNewsSlugs(): Promise<{ slug: string; date: string }[]> {
-  try {
-    const file = path.join(process.cwd(), "src/data/news-admin.json");
-    const data = await fs.readFile(file, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return newsArticles;
-  }
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const news = await getNewsSlugs();
+  const news = await getAllNews();
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE,               lastModified: new Date(), changeFrequency: "weekly",  priority: 1.0 },

@@ -5,7 +5,6 @@ import { SiteContentProvider } from "@/context/SiteContentContext";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import AvatarChat from "@/components/AvatarChat";
-import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 
 const titilliumWeb = Titillium_Web({
@@ -20,7 +19,7 @@ const oxygen = Oxygen({
   weight: ["300", "400", "700"],
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://mecweb.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.mecsa.com.ar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -124,7 +123,6 @@ export default async function RootLayout({
             <AvatarChat />
           </SiteContentProvider>
         </NextIntlClientProvider>
-        <Analytics />
         {/* Google Analytics 4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-8KDGNVC38B"
