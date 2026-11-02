@@ -16,6 +16,8 @@
     { "binding": "MEC_STORAGE", "id": "2b508f1bfadf40c689e45521caf27f11" }
   ],
   "images": { "binding": "IMAGES" },
+  // IA de respaldo para el chat si no hay GEMINI_API_KEY
+  "ai": { "binding": "AI" },
   "vars": {
     "ADMIN_USERNAME": "admin",
     "NEXT_PUBLIC_SITE_URL": "https://www.mecsa.com.ar"
