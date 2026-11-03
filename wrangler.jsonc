@@ -5,7 +5,8 @@
   "compatibility_date": "2026-10-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "routes": [
-    { "pattern": "www.mecsa.com.ar", "custom_domain": true }
+    { "pattern": "www.mecsa.com.ar", "custom_domain": true },
+    { "pattern": "mecsa.com.ar", "custom_domain": true }
   ],
   "assets": {
     "directory": ".open-next/assets",
