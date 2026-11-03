@@ -17,7 +17,8 @@ const nextConfig = {
     ];
   },
   images: {
-    // unoptimized: false — now we use real optimization
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
     remotePatterns: [
       { protocol: "https", hostname: "source.unsplash.com", pathname: "/**" },
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
