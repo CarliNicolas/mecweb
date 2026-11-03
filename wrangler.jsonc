@@ -3,6 +3,8 @@
   "name": "mecsa-web",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-10-15",
+  // Versiones de prueba con URL propia (ramas de GitHub, uploads sin publicar)
+  "preview_urls": true,
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "routes": [
     { "pattern": "www.mecsa.com.ar", "custom_domain": true },
@@ -20,6 +22,12 @@
     { "binding": "MEC_STORAGE", "id": "2b508f1bfadf40c689e45521caf27f11" }
   ],
   "images": { "binding": "IMAGES" },
+  // Límites por IP (Workers Rate Limiting, gratis). Período: 10 o 60 s.
+  "ratelimits": [
+    { "name": "LOGIN_LIMITER", "namespace_id": "4101", "simple": { "limit": 5, "period": 60 } },
+    { "name": "CHAT_LIMITER", "namespace_id": "4102", "simple": { "limit": 12, "period": 60 } },
+    { "name": "CONTACT_LIMITER", "namespace_id": "4103", "simple": { "limit": 4, "period": 60 } }
+  ],
   // IA de respaldo para el chat si no hay GEMINI_API_KEY
   "ai": { "binding": "AI" },
   "vars": {

@@ -6,6 +6,7 @@ import { Calendar, ArrowRight, ChevronRight } from "lucide-react";
 import { FadeIn, StaggerChildren, StaggerItem } from "./ScrollAnimations";
 import { NewsCardSkeleton } from "./Skeleton";
 import { useTranslations, useLocale } from "next-intl";
+import { responsiveImage } from "@/lib/responsive-image";
 
 interface NewsArticle {
   slug: string; title: string; excerpt: string;
@@ -63,7 +64,7 @@ export default function NewsPreview() {
                 <Link href={`/noticias/${article.slug}`}
                   className="group block bg-[var(--mecsa-bg)] rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
                   <div className="relative aspect-[16/10] overflow-hidden">
-                    <img src={article.image} alt={article.title}
+                    <img {...responsiveImage(article.image, "(max-width: 768px) 100vw, 33vw", 828)} alt={article.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 bg-[var(--mecsa-primary)] text-white text-xs font-semibold rounded-full">

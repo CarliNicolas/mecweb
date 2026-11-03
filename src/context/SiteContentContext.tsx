@@ -222,9 +222,17 @@ const SiteContentContext = createContext<SiteContentContextType>({
   refetch: () => {},
 });
 
-export function SiteContentProvider({ children }: { children: ReactNode }) {
-  const [content, setContent] = useState<SiteContent>(defaultContent);
-  const [isLoading, setIsLoading] = useState(true);
+export function SiteContentProvider({
+  children,
+  initialContent,
+}: {
+  children: ReactNode;
+  // Contenido ya leído en el servidor: evita el parpadeo de los defaults y el
+  // pedido extra a /api/site-content en cada carga.
+  initialContent?: SiteContent | null;
+}) {
+  const [content, setContent] = useState<SiteContent>(initialContent ?? defaultContent);
+  const [isLoading, setIsLoading] = useState(!initialContent);
 
   const fetchContent = async () => {
     try {
@@ -241,7 +249,8 @@ export function SiteContentProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    fetchContent();
+    if (!initialContent) fetchContent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

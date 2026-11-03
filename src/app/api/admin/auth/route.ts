@@ -1,56 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
+import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, signAdminToken, verifyAdminToken } from "@/lib/admin-token";
+import { isRateLimited, tooManyRequests } from "@/lib/rate-limit";
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "mecsa-dev-secret-change-in-prod"
-);
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "mecsa2024";
 
-const COOKIE_NAME = "mecsa_admin_token";
-const COOKIE_MAX_AGE = 60 * 60 * 8; // 8 horas
+// Comparación en tiempo constante (no revela por timing cuántos caracteres coinciden)
+function safeEqual(a: string, b: string): boolean {
+  const x = new TextEncoder().encode(a);
+  const y = new TextEncoder().encode(b);
+  let diff = x.length ^ y.length;
+  for (let i = 0; i < Math.max(x.length, y.length); i++) diff |= (x[i] ?? 0) ^ (y[i] ?? 0);
+  return diff === 0;
+}
 
 export async function POST(request: NextRequest) {
+  if (await isRateLimited("LOGIN_LIMITER", request)) return tooManyRequests();
   try {
-    const { username, password } = await request.json();
+    const { username, password } = (await request.json()) as { username?: unknown; password?: unknown };
 
-    if (!username || !password) {
+    if (typeof username !== "string" || typeof password !== "string" || !username || !password || password.length > 200) {
       return NextResponse.json(
         { error: "Usuario y contraseña requeridos" },
         { status: 400 }
       );
     }
 
-    if (username !== ADMIN_USERNAME) {
+    const passwordValid = ADMIN_PASSWORD.startsWith("$2")
+      ? await bcrypt.compare(password, ADMIN_PASSWORD)
+      : safeEqual(password, ADMIN_PASSWORD);
+
+    if (!safeEqual(username, ADMIN_USERNAME) || !passwordValid) {
       return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
     }
 
-    let passwordValid = false;
-    if (ADMIN_PASSWORD.startsWith("$2")) {
-      passwordValid = await bcrypt.compare(password, ADMIN_PASSWORD);
-    } else {
-      passwordValid = password === ADMIN_PASSWORD;
-    }
-
-    if (!passwordValid) {
-      return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
-    }
-
-    const token = await new SignJWT({ username, role: "admin" })
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setExpirationTime("8h")
-      .sign(JWT_SECRET);
+    const token = await signAdminToken(username);
 
     const response = NextResponse.json({ success: true });
 
-    response.cookies.set(COOKIE_NAME, token, {
+    response.cookies.set(ADMIN_COOKIE, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: "strict",
       path: "/",
-      maxAge: COOKIE_MAX_AGE,
+      maxAge: ADMIN_SESSION_SECONDS,
     });
 
     return response;
@@ -61,17 +55,11 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE() {
   const response = NextResponse.json({ success: true });
-  response.cookies.delete("mecsa_admin_token");
+  response.cookies.delete(ADMIN_COOKIE);
   return response;
 }
 
 export async function GET(request: NextRequest) {
-  const token = request.cookies.get("mecsa_admin_token")?.value;
-  if (!token) return NextResponse.json({ authenticated: false }, { status: 401 });
-  try {
-    await jwtVerify(token, JWT_SECRET);
-    return NextResponse.json({ authenticated: true });
-  } catch {
-    return NextResponse.json({ authenticated: false }, { status: 401 });
-  }
+  const ok = await verifyAdminToken(request.cookies.get(ADMIN_COOKIE)?.value);
+  return NextResponse.json({ authenticated: ok }, { status: ok ? 200 : 401 });
 }

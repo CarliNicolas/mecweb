@@ -76,7 +76,7 @@ export default function Footer() {
                   href={footer.designUrl || "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--mecsa-primary)] hover:underline"
+                  className="text-[var(--mecsa-primary)] underline underline-offset-2 hover:no-underline"
                 >
                   {footer.designCredit}
                 </a>

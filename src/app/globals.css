@@ -1,12 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Oxygen:wght@300;400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-titillium: 'Titillium Web', sans-serif;
-  --font-oxygen: 'Oxygen', sans-serif;
   --mecsa-primary: #ac493f;
   --mecsa-primary-dark: #8a3b33;
   --mecsa-bg: #f8f1f0;
@@ -14,6 +10,9 @@
   --mecsa-text: #4d4844;
   --mecsa-text-light: #6b6560;
   --mecsa-gold: #a78b55;
+  /* Movimiento: resorte críticamente amortiguado (sin rebote) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --press-duration: 100ms;
 }
 
 @layer base {
@@ -28,6 +27,26 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-titillium);
   }
+
+  /* Tracking según tamaño: los títulos grandes se cierran, el texto chico queda neutro */
+  h1, h2 {
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+  }
+  h3 {
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  /* El feedback del toque es el propio estado :active, sin el flash gris de iOS */
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--mecsa-primary);
+    outline-offset: 2px;
+  }
 }
 
 @layer components {
@@ -39,6 +58,20 @@
   .mecsa-btn-outline {
     @apply px-8 py-3 border-2 border-[var(--mecsa-primary)] text-[var(--mecsa-primary)] font-semibold tracking-wider uppercase text-sm rounded-sm;
     @apply hover:bg-[var(--mecsa-primary)] hover:text-white transition-colors duration-300;
+  }
+
+  /* Respuesta al presionar: instantánea, en el pointer-down, no al soltar */
+  .mecsa-btn,
+  .mecsa-btn-outline,
+  .press {
+    transition-property: color, background-color, border-color, transform;
+    transition-duration: 300ms, 300ms, 300ms, var(--press-duration);
+    transition-timing-function: var(--ease-out);
+  }
+  .mecsa-btn:active,
+  .mecsa-btn-outline:active,
+  .press:active {
+    transform: scale(0.97);
   }
 
   .mecsa-heading {
@@ -146,4 +179,26 @@ section[id] {
     scroll-behavior: auto !important;
   }
   .animate-marquee { animation: none !important; }
+}
+
+/* Menos transparencia: superficies sólidas en vez de vidrio */
+@media (prefers-reduced-transparency: reduce) {
+  .backdrop-blur-sm,
+  .backdrop-blur {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  header.fixed {
+    background-color: #fff !important;
+  }
+}
+
+/* Más contraste: texto secundario más oscuro y bordes definidos */
+@media (prefers-contrast: more) {
+  :root {
+    --mecsa-text-light: #3a3633;
+  }
+  header.fixed {
+    border-bottom: 1px solid var(--mecsa-text);
+  }
 }

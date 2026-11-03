@@ -1,9 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isRateLimited, tooManyRequests } from "@/lib/rate-limit";
+
+const LIMITS = { nombre: 120, email: 200, telefono: 40, asunto: 60, mensaje: 5000 };
+
+// Los datos del formulario van dentro de un mail HTML: se escapan siempre.
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
+}
 
 export async function POST(request: NextRequest) {
+  if (await isRateLimited("CONTACT_LIMITER", request)) return tooManyRequests();
   try {
-    const body = await request.json();
-    const { nombre, email, telefono, asunto, mensaje } = body;
+    const raw = (await request.json()) as Record<string, unknown>;
+    const field = (k: keyof typeof LIMITS) => (typeof raw[k] === "string" ? (raw[k] as string).trim() : "");
+    const fields = {
+      nombre: field("nombre"), email: field("email"), telefono: field("telefono"),
+      asunto: field("asunto"), mensaje: field("mensaje"),
+    };
+    const tooLong = (Object.keys(LIMITS) as (keyof typeof LIMITS)[]).some((k) => fields[k].length > LIMITS[k]);
+    if (tooLong || (fields.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email))) {
+      return NextResponse.json({ error: "Datos inválidos" }, { status: 400 });
+    }
+    const nombre = escapeHtml(fields.nombre);
+    const email = fields.email; // validado arriba; se escapa al insertarlo en el HTML
+    const telefono = escapeHtml(fields.telefono);
+    const asunto = fields.asunto;
+    const mensaje = escapeHtml(fields.mensaje);
 
     // Validate required fields
     if (!nombre || !email || !asunto || !mensaje) {
@@ -23,17 +45,13 @@ export async function POST(request: NextRequest) {
       otro: "Otro",
     };
 
-    const subjectText = subjectMap[asunto] || asunto;
+    const subjectPlain = (subjectMap[asunto] || asunto).replace(/[\r\n]+/g, " ");
+    const subjectText = escapeHtml(subjectPlain);
 
     // Check if Resend API key is configured
     if (!process.env.RESEND_API_KEY) {
-      console.log("Contact form submission (no Resend API key configured):", {
-        nombre,
-        email,
-        telefono,
-        asunto: subjectText,
-        mensaje,
-      });
+      // Sin datos personales en los logs
+      console.warn("Contact form submission received but RESEND_API_KEY is not configured: message not delivered");
 
       return NextResponse.json({
         success: true,
@@ -49,8 +67,8 @@ export async function POST(request: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: "MECSA Contact Form <onboarding@resend.dev>",
       to: [process.env.CONTACT_EMAIL || "info@mecsa.com.ar"],
-      replyTo: email,
-      subject: `[MECSA Web] Consulta: ${subjectText}`,
+      replyTo: email || undefined,
+      subject: `[MECSA Web] Consulta: ${subjectPlain}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background-color: #ac493f; padding: 20px; text-align: center;">
@@ -67,7 +85,7 @@ export async function POST(request: NextRequest) {
               </tr>
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #ddd; font-weight: bold;">Email:</td>
-                <td style="padding: 10px 0; border-bottom: 1px solid #ddd;"><a href="mailto:${email}">${email}</a></td>
+                <td style="padding: 10px 0; border-bottom: 1px solid #ddd;"><a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></td>
               </tr>
               <tr>
                 <td style="padding: 10px 0; border-bottom: 1px solid #ddd; font-weight: bold;">Teléfono:</td>

@@ -9,6 +9,12 @@ export default {
   ],
   theme: {
     extend: {
+      // Curva por defecto de todas las transiciones: desaceleración tipo resorte
+      // críticamente amortiguado (arranca rápido y se asienta sin rebote).
+      transitionTimingFunction: {
+        DEFAULT: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        out: 'cubic-bezier(0.22, 1, 0.36, 1)',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

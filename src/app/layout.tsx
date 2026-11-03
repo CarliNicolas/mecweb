@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Titillium_Web, Oxygen } from "next/font/google";
 import "./globals.css";
-import { SiteContentProvider } from "@/context/SiteContentContext";
+import { SiteContentProvider, type SiteContent } from "@/context/SiteContentContext";
+import { getSiteContent } from "@/lib/site-content-server";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import AvatarChat from "@/components/AvatarChat";
@@ -77,6 +78,7 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const siteContent = (await getSiteContent()) as SiteContent | null;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -118,7 +120,7 @@ export default async function RootLayout({
       <body className={`${titilliumWeb.variable} ${oxygen.variable} antialiased`}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <SiteContentProvider>
+          <SiteContentProvider initialContent={siteContent}>
             {children}
             <AvatarChat />
           </SiteContentProvider>

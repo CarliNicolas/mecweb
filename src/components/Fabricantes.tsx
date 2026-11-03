@@ -6,6 +6,7 @@ import { FadeIn } from "./ScrollAnimations";
 import { useSiteContent } from "@/context/SiteContentContext";
 import { useTranslations, useLocale } from "next-intl";
 import { renderInline, resolveDescriptions } from "@/lib/inline-markdown";
+import { responsiveImage } from "@/lib/responsive-image";
 
 export default function Fabricantes() {
   const { content } = useSiteContent();
@@ -32,7 +33,7 @@ export default function Fabricantes() {
           <FadeIn direction="left">
             <div className="relative">
               <img
-                src={fab.image || "/images/ingenieros.png"}
+                {...responsiveImage(fab.image || "/images/ingenieros.png", "(max-width: 1024px) 90vw, 448px", 1200)}
                 alt={title}
                 className="w-full h-auto max-w-md mx-auto"
               />

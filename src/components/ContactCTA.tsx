@@ -39,7 +39,7 @@ export default function ContactCTA() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 bg-white text-[var(--mecsa-text)] px-6 py-5 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 group"
+                className="press flex items-center gap-4 bg-white text-[var(--mecsa-text)] px-6 py-5 rounded-lg shadow-lg hover:shadow-xl group"
               >
                 <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shrink-0">
                   <MessageCircle className="w-6 h-6" strokeWidth={2} />
@@ -54,7 +54,7 @@ export default function ContactCTA() {
 
               <a
                 href={phoneHref}
-                className="flex items-center gap-4 bg-white/10 border border-white/25 hover:bg-white/15 px-6 py-5 rounded-lg transition-colors"
+                className="press flex items-center gap-4 bg-white/10 border border-white/25 hover:bg-white/15 px-6 py-5 rounded-lg"
               >
                 <span className="flex items-center justify-center w-12 h-12 rounded-full bg-white/15 shrink-0">
                   <Phone className="w-5 h-5" strokeWidth={2} />

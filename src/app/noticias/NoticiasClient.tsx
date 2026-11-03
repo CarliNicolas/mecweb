@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Calendar, User, ArrowRight, Search, Filter } from "lucide-react";
 import { StaggerChildren, StaggerItem } from "@/components/ScrollAnimations";
 import { useTranslations, useLocale } from "next-intl";
+import { responsiveImage } from "@/lib/responsive-image";
 
 interface NewsArticle {
   slug: string;
@@ -110,7 +111,7 @@ export default function NoticiasClient({ initialArticles }: { initialArticles: N
                   >
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <img
-                        src={article.image}
+                        {...responsiveImage(article.image, "(max-width: 768px) 100vw, 33vw", 828)}
                         alt={article.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />

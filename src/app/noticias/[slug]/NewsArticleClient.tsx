@@ -17,6 +17,7 @@ import {
 import { useState } from "react";
 import type { NewsArticle } from "@/data/news";
 import { renderInline } from "@/lib/inline-markdown";
+import { responsiveImage } from "@/lib/responsive-image";
 
 interface NewsArticleClientProps {
   article: NewsArticle;
@@ -69,7 +70,9 @@ export default function NewsArticleClient({
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={article.image}
+            {...responsiveImage(article.image, "100vw")}
+            loading="eager"
+            fetchPriority="high"
             alt={article.title}
             className="w-full h-full object-cover"
           />
@@ -276,7 +279,7 @@ export default function NewsArticleClient({
                     {/* Image */}
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <img
-                        src={related.image}
+                        {...responsiveImage(related.image, "(max-width: 768px) 100vw, 33vw", 828)}
                         alt={related.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />

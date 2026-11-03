@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { renderInline } from "@/lib/inline-markdown";
 import ModelCatalog from "@/components/ModelCatalog";
 import { useSiteContent, type ProductModel } from "@/context/SiteContentContext";
+import { responsiveImage } from "@/lib/responsive-image";
 
 interface Product {
   title: string;
@@ -37,6 +38,8 @@ export default function ProductDetailClient({
   const storeEnabled = content.storeEnabled !== false;
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
+  // Huecos vacíos cargados desde el admin no se muestran como foto rota
+  const gallery = product.gallery.filter(Boolean);
 
   const otherProducts = Object.entries(allProducts)
     .filter(([key, p]) => key !== slug && !p.hidden)
@@ -48,7 +51,9 @@ export default function ProductDetailClient({
       <section className="relative h-[400px] md:h-[500px] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src={product.image}
+            {...responsiveImage(product.image, "100vw")}
+            loading="eager"
+            fetchPriority="high"
             alt={product.title}
             className="w-full h-full object-cover"
           />
@@ -151,7 +156,7 @@ export default function ProductDetailClient({
             <h2 className="mecsa-section-title text-center mb-12">{t("gallery")}</h2>
           </FadeIn>
           <StaggerChildren className="grid md:grid-cols-3 gap-6" staggerDelay={0.15}>
-            {product.gallery.map((image, index) => (
+            {gallery.map((image, index) => (
               <StaggerItem key={`gallery-${index}`}>
                 <button
                   type="button"
@@ -162,7 +167,7 @@ export default function ProductDetailClient({
                   className="relative aspect-[4/3] overflow-hidden rounded-lg cursor-pointer group w-full"
                 >
                   <img
-                    src={image}
+                    {...responsiveImage(image, "(max-width: 768px) 50vw, 33vw", 828)}
                     alt={`${product.title} - ${index + 1}`}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
@@ -189,7 +194,7 @@ export default function ProductDetailClient({
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
-                      src={otherProduct.image}
+                      {...responsiveImage(otherProduct.image, "(max-width: 768px) 50vw, 25vw", 640)}
                       alt={otherProduct.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -222,14 +227,14 @@ export default function ProductDetailClient({
 
           <div className="relative max-w-4xl max-h-[80vh] w-full flex items-center justify-center">
             <img
-              src={product.gallery[currentImage]}
+              {...responsiveImage(gallery[currentImage], "90vw")}
               alt={`${product.title} - ${currentImage + 1}`}
               className="max-w-full max-h-[80vh] object-contain"
             />
           </div>
 
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white">
-            {currentImage + 1} / {product.gallery.length}
+            {currentImage + 1} / {gallery.length}
           </div>
         </div>
       )}

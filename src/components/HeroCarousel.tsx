@@ -87,11 +87,36 @@ export default function HeroCarousel() {
 
   const kenBurns = !reducedMotion;
 
+  // Swipe: se proyecta a dónde llevaría la inercia del gesto (como el scroll de
+  // iOS) y se decide con eso, no solo con la distancia recorrida al soltar.
+  const swipe = useRef<{ x: number; t: number } | null>(null);
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") return;
+    swipe.current = { x: e.clientX, t: e.timeStamp };
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    const s = swipe.current;
+    swipe.current = null;
+    if (!s) return;
+    const dx = e.clientX - s.x;
+    const dt = Math.max(e.timeStamp - s.t, 1);
+    const velocity = (dx / dt) * 1000; // px/s
+    const decel = 0.998;
+    const projected = dx + ((velocity / 1000) * decel) / (1 - decel);
+    if (Math.abs(projected) < 80) return;
+    setIsPaused(true); // el usuario tomó el control: no seguir rotando solo
+    if (projected < 0) nextSlide();
+    else prevSlide();
+  };
+
   return (
     <section
       aria-roledescription="carrusel"
       aria-label={t("carouselLabel") || "Presentación de servicios"}
-      className="relative h-[480px] sm:h-[580px] md:h-[700px] overflow-hidden bg-neutral-900"
+      className="relative h-[480px] sm:h-[580px] md:h-[700px] overflow-hidden bg-neutral-900 touch-pan-y"
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerCancel={() => { swipe.current = null; }}
     >
       {slides.map((slide, index) => (
         <div
@@ -100,6 +125,8 @@ export default function HeroCarousel() {
             index === currentSlide ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
           aria-hidden={index !== currentSlide}
+          // Los slides ocultos no reciben foco (el link "Saber más" no se tabula de más)
+          {...(index !== currentSlide ? ({ inert: "" } as Record<string, string>) : {})}
         >
           <div className="absolute inset-0 overflow-hidden">
             {isExternalUrl(slide.image) ? (
@@ -144,7 +171,7 @@ export default function HeroCarousel() {
                   </span>
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">{renderInline(slide.subtitle)}</p>
-                <Link href="#empresa" className="mecsa-btn inline-block">
+                <Link href="#empresa" className="mecsa-btn inline-block" tabIndex={index === currentSlide ? 0 : -1}>
                   {t("learnMore")}
                 </Link>
               </div>
@@ -154,11 +181,11 @@ export default function HeroCarousel() {
       ))}
 
       <button onClick={prevSlide} type="button" aria-label={t("prevSlide")}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20">
+        className="press absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 z-20">
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button onClick={nextSlide} type="button" aria-label={t("nextSlide")}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors z-20">
+        className="press absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 z-20">
         <ChevronRight className="w-6 h-6" />
       </button>
 
