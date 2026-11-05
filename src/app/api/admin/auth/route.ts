@@ -4,7 +4,8 @@ import { ADMIN_COOKIE, ADMIN_SESSION_SECONDS, signAdminToken, verifyAdminToken }
 import { isRateLimited, tooManyRequests } from "@/lib/rate-limit";
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "mecsa2024";
+// Sin ADMIN_PASSWORD configurado el login queda cerrado (no hay clave por defecto).
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
 
 // Comparación en tiempo constante (no revela por timing cuántos caracteres coinciden)
 function safeEqual(a: string, b: string): boolean {
@@ -25,6 +26,10 @@ export async function POST(request: NextRequest) {
         { error: "Usuario y contraseña requeridos" },
         { status: 400 }
       );
+    }
+
+    if (!ADMIN_PASSWORD) {
+      return NextResponse.json({ error: "Acceso al admin no configurado" }, { status: 503 });
     }
 
     const passwordValid = ADMIN_PASSWORD.startsWith("$2")
